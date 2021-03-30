@@ -1,0 +1,8 @@
+*node_modules*
+dist
+cdk.out
+coverage
+.nyc_output
+spec/test
+runTestSuite.sh
+bin/insert-data.ts
