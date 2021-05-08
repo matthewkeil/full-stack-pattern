@@ -6,11 +6,13 @@ export const getHostedZoneIdForDomain = async ({
   region,
   rootDomain
 }: {
-  profile: string;
+  profile?: string;
   region?: string;
   rootDomain: string;
 }): Promise<string | undefined> => {
-  config.credentials = new SharedIniFileCredentials({ profile });
+  if (profile) {
+    config.credentials = new SharedIniFileCredentials({ profile });
+  }
   const route53 = new Route53({ region });
   const hostedZone = await route53.listHostedZonesByName({ DNSName: rootDomain }).promise();
   const { Id } =

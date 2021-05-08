@@ -8,6 +8,8 @@ import { CoreConstructProps } from '../stacks/core/CoreConstruct';
 import { CoreNestedStack } from '../stacks/core/CoreNestedStack';
 import { ServerlessNestedStack } from '../stacks/serverless/ServerlessNestedStack';
 import { ServerlessConstructProps } from '../stacks/serverless/ServerlessConstruct';
+import { getCertArnForDomain } from '../../lib/aws/certificateManager';
+import { getHostedZoneIdForDomain } from '../../lib/aws/route53';
 
 export interface FullStackProps extends BaseNestedStackProps {
   prefix: string;
@@ -25,26 +27,6 @@ export interface FullStackProps extends BaseNestedStackProps {
     callBackPath?: string;
   };
 }
-
-// export interface FullStackProps extends Omit<FullStackBranchProps, "core"> {
-//   core: CoreStackProps;
-// }
-
-// export class FullStack extends Construct {
-//   constructor(scope: Construct, id: string, props: FullStackProps) {
-//     super(scope, id, props);
-//     const { prefix, core } = props;
-
-//     const buildHzOrCert = !coreProps.hostedZoneId || !props.coreProps.certificateArn;
-//     const coreStack = new CoreStack(this, "Core", {
-//       ...core,
-//       prefix,
-//       removalPolicy: buildHzOrCert ? RemovalPolicy.RETAIN : RemovalPolicy.DESTROY
-//     });
-
-//     const branchStack = new FullStackBranch(this, 'Branch', {})
-//   }
-// }
 
 export class FullStack extends BaseNestedStack {
   constructor(scope: Construct, id: string, props: FullStackProps) {
@@ -109,6 +91,33 @@ export class FullStack extends BaseNestedStack {
       cors: {
         ...(backendProps.cors ?? {}),
         allowOrigins: urls.concat(backendProps.cors?.allowOrigins ?? [])
+      }
+    });
+  }
+
+  async create(scope: Construct, id: string, props: FullStackProps): Promise<FullStack> {
+    const certificateArn =
+      props.core.certificateArn ??
+      (await getCertArnForDomain({
+        profile: props.profile,
+        domain: props.core.rootDomain,
+        region: props.env.region
+      }));
+
+    const hostedZoneId =
+      props.core.hostedZoneId ??
+      (await getHostedZoneIdForDomain({
+        profile: props.profile,
+        rootDomain: props.core.rootDomain,
+        region: props.env.region
+      }));
+
+    return new FullStack(scope, 'AsyncFullStack', {
+      ...props,
+      core: {
+        ...props.core,
+        hostedZoneId,
+        certificateArn
       }
     });
   }
