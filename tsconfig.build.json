@@ -1,6 +1,6 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["./lib/**/*", "./src/**/*"],
+  "include": ["./lib/**/*", "./src/**/*", "./index.ts"],
   "exclude": [
     "./no_compile/**/*",
     "./node_modules/**/*",

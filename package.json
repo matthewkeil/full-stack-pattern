@@ -1,9 +1,14 @@
 {
   "name": "nomad-cdk",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "license": "MIT",
   "author": "Matthew Keil",
   "description": "A set of useful constructs, stacks, applications and patterns to help ease your journey with cdk",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "cdk": "cdk",
     "ts": "ts-node",
