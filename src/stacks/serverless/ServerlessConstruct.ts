@@ -1,4 +1,4 @@
-import { Construct, CustomResource, Environment } from '@aws-cdk/core';
+import { Construct, CustomResource, Duration, Environment } from '@aws-cdk/core';
 import { Function as Lambda } from '@aws-cdk/aws-lambda';
 import { Role, ServicePrincipal } from '@aws-cdk/aws-iam';
 import { Lambdas, LambdasProps, LambdaProps } from '../../constructs/Lambdas';
@@ -41,6 +41,7 @@ export class ServerlessConstruct extends BaseConstruct {
     const serviceToken: LambdaProps = {
       functionName: SERVICE_TOKEN_NAME,
       handler: 'index.handler',
+      timeout: Duration.seconds(15),
       codePath: resolve(__dirname, '..', '..', '..', 'providers', 'configFileProvider'),
       role: serviceTokenRole
     };
@@ -56,12 +57,9 @@ export class ServerlessConstruct extends BaseConstruct {
     this.serviceToken = this.lambdas.resources[SERVICE_TOKEN_NAME]?.lambda;
     if (this.lambdas.apiConfig) {
       this.api = new Api(this, 'Api', {
+        ...props,
         lambdas: this.lambdas,
-        prefix: this.prefix,
         userPool: props.auth?.userPool,
-        cors: {
-          allowOrigins: ['http://localhost:4000']
-        }
       });
     }
 
