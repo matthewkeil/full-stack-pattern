@@ -1,4 +1,10 @@
-import { AssetCode, Function as Lambda, FunctionProps, IEventSource } from '@aws-cdk/aws-lambda';
+import {
+  AssetCode,
+  Function as Lambda,
+  FunctionProps,
+  IEventSource,
+  Runtime
+} from '@aws-cdk/aws-lambda';
 import { LogGroup, LogGroupProps } from '@aws-cdk/aws-logs';
 import { IRole, Role, Policy, PolicyStatement, Effect, ServicePrincipal } from '@aws-cdk/aws-iam';
 import { BaseConstruct, BaseConstructProps } from './BaseConstruct';
@@ -68,11 +74,13 @@ export class Lambdas extends BaseConstruct {
         logGroupName: `/aws/lambda/${functionName}`,
         retention: props.retention ?? this.props.retention,
         encryptionKey: props.encryptionKey ?? this.props.encryptionKey,
+        /* eslint-disable indent */
         removalPolicy: removalPolicy
           ? removalPolicy
           : this.prod
-            ? RemovalPolicy.RETAIN
-            : RemovalPolicy.DESTROY
+          ? RemovalPolicy.RETAIN
+          : RemovalPolicy.DESTROY
+        /* eslint-enable indent */
       }
     );
 
@@ -87,10 +95,7 @@ export class Lambdas extends BaseConstruct {
     if (!code) {
       throw new Error(`no code provided for ${props.functionName}`);
     }
-    const runtime = props.runtime ?? this.props.runtime;
-    if (!runtime) {
-      throw new Error(`no runtime provided for ${props.functionName}`);
-    }
+    const runtime = props.runtime ?? this.props.runtime ?? Runtime.NODEJS_14_X;
     const lambda = new Lambda(this, `${toPascal(props.functionName)}Lambda`, {
       ...this.props,
       ...props,
@@ -122,12 +127,14 @@ export class Lambdas extends BaseConstruct {
           );
         }
 
+        /* eslint-disable indent */
         props.tables.length === 1
           ? lambda.addEnvironment('TABLE_NAME', this.tables[name].tableName)
           : lambda.addEnvironment(
-            `${toUpperSnake(this.tables[name].tableName)}_TABLE_NAME`,
-            this.tables[name].tableName
-          );
+              `${toUpperSnake(this.tables[name].tableName)}_TABLE_NAME`,
+              this.tables[name].tableName
+            );
+        /* eslint-enable indent */
 
         if (typeof nameOrDetail === 'string') {
           this.tables[name].grantReadWriteData(lambda);

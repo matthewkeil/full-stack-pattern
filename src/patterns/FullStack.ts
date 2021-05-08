@@ -14,7 +14,7 @@ export interface FullStackProps extends BaseNestedStackProps {
   env: Required<Environment>;
   stage: string;
   profile?: string;
-  devPort?: string;
+  devPort?: number | string;
   rootDomain: string;
   core?: Omit<CoreNestedStackProps, 'prefix' | 'rootDomain'>;
   frontend: Omit<
@@ -25,8 +25,8 @@ export interface FullStackProps extends BaseNestedStackProps {
     cors?: Partial<ServerlessNestedStackProps['cors']>;
   };
   auth?: Omit<CognitoNestedStackProps, 'prefix'> & {
-    logoutPath?: string;
-    callBackPath?: string;
+    loginCallbackPath?: string;
+    logoutCallbackPath?: string;
   };
 }
 
@@ -76,10 +76,10 @@ export class FullStack extends BaseNestedStack {
         oAuth: {
           ...(authProps?.userPoolClient?.oAuth ?? {}),
           callbackUrls: urls
-            .map(url => url + authProps?.callBackPath ?? '')
+            .map(url => url + authProps?.loginCallbackPath ?? '')
             .concat(authProps?.userPoolClient?.oAuth?.callbackUrls ?? []),
           logoutUrls: urls
-            .map(url => url + authProps?.logoutPath ?? '')
+            .map(url => url + authProps?.logoutCallbackPath ?? '')
             .concat(authProps?.userPoolClient?.oAuth?.logoutUrls ?? [])
         }
       }
