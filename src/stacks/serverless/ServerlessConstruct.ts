@@ -14,10 +14,11 @@ import { resolve } from 'path';
 const SERVICE_TOKEN_NAME = 'custom-resource';
 export interface ServerlessConstructProps
   extends BaseConstructProps,
-    TablesProps,
+    Omit<TablesProps, 'tables'>,
     Omit<LambdasProps, 'tables'>,
     Omit<ApiProps, 'lambdas' | 'userPool'> {
   frontend: CDNStack | CDNNestedStack;
+  tables?: TablesProps['tables'];
   auth?: CognitoStack | CognitoNestedStack;
   configFile?: object;
   env: Required<Environment>;
@@ -45,7 +46,7 @@ export class ServerlessConstruct extends BaseConstruct {
     };
 
     if (props.tables) {
-      this.tables = new Tables(this, 'Tables', props);
+      this.tables = new Tables(this, 'Tables', (props as unknown) as TablesProps);
     }
     this.lambdas = new Lambdas(this, 'Lambdas', {
       ...props,

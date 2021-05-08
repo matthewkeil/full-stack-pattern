@@ -16,12 +16,12 @@ export interface FullStackProps extends BaseNestedStackProps {
   profile?: string;
   devPort?: string;
   rootDomain: string;
-  core: Omit<CoreNestedStackProps, 'prefix' | 'rootDomain'>;
+  core?: Omit<CoreNestedStackProps, 'prefix' | 'rootDomain'>;
   frontend: Omit<
     CDNNestedStackProps,
     'prefix' | 'stage' | 'rootDomain' | 'certificate' | 'hostedZone'
   >;
-  backend: Omit<ServerlessNestedStackProps, 'cors' | 'prefix' | 'auth' | 'frontend'> & {
+  backend: Omit<ServerlessNestedStackProps, 'cors' | 'prefix' | 'auth' | 'frontend' | 'env'> & {
     cors?: Partial<ServerlessNestedStackProps['cors']>;
   };
   auth?: Omit<CognitoNestedStackProps, 'prefix'> & {
@@ -44,7 +44,7 @@ export class FullStack extends BaseNestedStack {
       backend: backendProps
     } = props;
 
-    const buildHzOrCert = !coreProps.hostedZoneId || !coreProps.certificateArn;
+    const buildHzOrCert = !coreProps?.hostedZoneId || !coreProps?.certificateArn;
     const coreStack = new CoreNestedStack(this, 'Core', {
       ...coreProps,
       rootDomain,
@@ -100,7 +100,7 @@ export class FullStack extends BaseNestedStack {
 
   static async create(scope: Construct, id: string, props: FullStackProps): Promise<FullStack> {
     const certificateArn =
-      props.core.certificateArn ??
+      props.core?.certificateArn ??
       (await getCertArnForDomain({
         profile: props.profile,
         domain: props.rootDomain,
@@ -108,7 +108,7 @@ export class FullStack extends BaseNestedStack {
       }));
 
     const hostedZoneId =
-      props.core.hostedZoneId ??
+      props.core?.hostedZoneId ??
       (await getHostedZoneIdForDomain({
         profile: props.profile,
         rootDomain: props.rootDomain,
