@@ -5,43 +5,25 @@ module.exports = {
   },
   root: true,
   extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/eslint-recommended',
-    'plugin:@typescript-eslint/recommended',
-    'prettier/@typescript-eslint'
+    "plugin:@typescript-eslint/recommended", // Uses the recommended rules from the @typescript-eslint/eslint-plugin
+    "prettier"
   ],
   globals: {
-    Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly'
+    Atomics: "readonly",
+    SharedArrayBuffer: "readonly"
   },
-  parser: '@typescript-eslint/parser',
+  parser: "@typescript-eslint/parser",
   parserOptions: {
-    ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
-    sourceType: 'module' // Allows for the use of imports
+    ecmaVersion: 2018,
+    sourceType: "module"
   },
-  plugins: ['@typescript-eslint'],
+  plugins: ["@typescript-eslint"],
   rules: {
-    'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': [
-      'error',
-      {
-        vars: 'all',
-        args: 'after-used',
-        ignoreRestSiblings: false
-      }
-    ],
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/interface-name-prefix': 'off',
-    '@typescript-eslint/no-empty-function': 'off',
-    '@typescript-eslint/no-inferrable-types': 'off',
-    curly: 'error',
-    indent: ['error', 2, { SwitchCase: 1 }],
-    quotes: ['error', 'single'],
-    semi: ['error', 'always'],
-    'no-cond-assign': ['error', 'always'],
-    'init-declarations': 'off',
-    'no-inline-comments': 'off',
-    eqeqeq: 'warn',
-    'comma-dangle': 'error'
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    curly: "error",
+    indent: ["error", 2, { SwitchCase: 1 }],
+    quotes: ["error", "single"],
+    semi: ["error", "always"]
   }
 };

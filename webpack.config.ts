@@ -1,16 +1,19 @@
 import { resolve } from 'path';
 import { Configuration } from 'webpack';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const TerserPlugin = require('terser-webpack-plugin');
+
 const config: Configuration = {
   mode: 'production',
   target: 'node',
   devtool: 'eval-source-map',
   entry: {
-    handler: resolve(__dirname, 'src', 'handler.ts')
+    configFileProvider: resolve(__dirname, 'providers', 'configFileProvider', 'index.ts')
   },
   output: {
-    path: resolve(__dirname, 'dist'),
-    filename: 'index.js',
+    path: resolve(__dirname, 'dist', 'lib', 'providers'),
+    filename: '[name]/index.js',
     libraryTarget: 'commonjs'
   },
   resolve: {
@@ -27,12 +30,16 @@ const config: Configuration = {
           {
             loader: 'ts-loader',
             options: {
-              configFile: 'tsconfig.webpack.json'
+              configFile: 'tsconfig.build.json'
             }
           }
         ]
       }
     ]
+  },
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin()]
   }
 };
 

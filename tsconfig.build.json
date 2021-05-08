@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["./lib/**/*", "./src/**/*"],
+  "exclude": [
+    "./no_compile/**/*",
+    "./node_modules/**/*",
+    "./cdk.out/**/*",
+    "./dist/**/*",
+    "./webpack.config.ts",
+    "./config.ts"
+  ],
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "."
+  }
+}

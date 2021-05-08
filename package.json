@@ -1,49 +1,63 @@
 {
-  "name": "cdk-constructs",
-  "version": "0.0.1",
-  "description": "",
-  "main": "dist/index.js",
-  "directories": {
-    "lib": "lib"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/matthewkeil/cdk-constructs.git"
-  },
-  "author": "Matthew Keil",
+  "name": "nomad-cdk",
+  "version": "0.0.0",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/matthewkeil/cdk-constructs/issues"
+  "author": "Matthew Keil",
+  "description": "A set of useful constructs, stacks, applications and patterns to help ease your journey with cdk",
+  "scripts": {
+    "cdk": "cdk",
+    "ts": "ts-node",
+    "ts-node": "ts-node",
+    "lint": "eslint --fix --ext .ts .",
+    "build:ts": "tsc --project tsconfig.build.json",
+    "build:providers": "webpack",
+    "build": "cross-env-shell \"rm -rf dist && npm run build:ts && npm run build:providers\""
   },
-  "homepage": "https://github.com/matthewkeil/cdk-constructs#readme",
   "devDependencies": {
-    "@aws-cdk/aws-apigateway": "^1.95.1",
-    "@aws-cdk/aws-certificatemanager": "^1.95.1",
-    "@aws-cdk/aws-cloudfront": "^1.95.1",
-    "@aws-cdk/aws-cloudfront-origins": "^1.95.1",
-    "@aws-cdk/aws-codebuild": "^1.95.1",
-    "@aws-cdk/aws-codecommit": "^1.95.1",
-    "@aws-cdk/aws-codepipeline": "^1.95.1",
-    "@aws-cdk/aws-codepipeline-actions": "^1.95.1",
-    "@aws-cdk/aws-cognito": "^1.95.1",
-    "@aws-cdk/aws-dynamodb": "^1.95.1",
-    "@aws-cdk/aws-ec2": "^1.95.1",
-    "@aws-cdk/aws-iam": "^1.95.1",
-    "@aws-cdk/aws-kms": "^1.95.1",
-    "@aws-cdk/aws-lambda": "^1.95.1",
-    "@aws-cdk/aws-lambda-event-sources": "^1.95.1",
-    "@aws-cdk/aws-lambda-nodejs": "^1.95.1",
-    "@aws-cdk/aws-logs": "^1.95.1",
-    "@aws-cdk/aws-route53": "^1.95.1",
-    "@aws-cdk/aws-route53-targets": "^1.95.1",
-    "@aws-cdk/aws-s3": "^1.95.1",
-    "@aws-cdk/aws-s3-deployment": "^1.95.1",
-    "@aws-cdk/aws-sns": "^1.95.1",
-    "@aws-cdk/core": "^1.95.1",
-    "@aws-cdk/custom-resources": "^1.95.1",
-    "aws-cdk": "^1.95.1"
+    "@aws-cdk/aws-apigateway": "1.101.0",
+    "@aws-cdk/aws-certificatemanager": "1.101.0",
+    "@aws-cdk/aws-cloudfront": "1.101.0",
+    "@aws-cdk/aws-cloudfront-origins": "1.101.0",
+    "@aws-cdk/aws-cognito": "1.101.0",
+    "@aws-cdk/aws-dynamodb": "1.101.0",
+    "@aws-cdk/aws-lambda": "1.101.0",
+    "@aws-cdk/aws-lambda-event-sources": "1.101.0",
+    "@aws-cdk/aws-logs": "1.101.0",
+    "@aws-cdk/aws-route53": "1.101.0",
+    "@aws-cdk/aws-route53-targets": "1.101.0",
+    "@aws-cdk/aws-s3": "1.101.0",
+    "@aws-cdk/aws-s3-deployment": "1.101.0",
+    "@aws-cdk/core": "1.101.0",
+    "@types/jest": "^24.0.19",
+    "@types/node": "^15.0.1",
+    "@types/webpack": "^5.28.0",
+    "@typescript-eslint/eslint-plugin": "^2.34.0",
+    "@typescript-eslint/parser": "^2.34.0",
+    "aws-cdk": "1.101.0",
+    "aws-sdk": "^2.773.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "lint-staged": "^9.5.0",
+    "prettier": "^1.19.1",
+    "prettier-eslint": "^12.0.0",
+    "terser-webpack-plugin": "^5.1.1",
+    "ts-loader": "^9.1.2",
+    "ts-node": "^9.0.0",
+    "typescript": "~3.9.3",
+    "webpack": "^5.36.2",
+    "webpack-cli": "^4.7.0"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,vue,ts,tsx}": [
+      "git add"
+    ]
+  },
+  "dependencies": {
+    "custom-resource-provider": "0.0.5"
   }
 }
