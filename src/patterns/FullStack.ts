@@ -15,9 +15,13 @@ export interface FullStackProps extends BaseNestedStackProps {
   stage: string;
   profile?: string;
   devPort?: string;
-  core: Omit<CoreNestedStackProps, 'prefix'>;
-  frontend: Omit<CDNNestedStackProps, 'prefix' | 'stage'>;
-  backend: Omit<ServerlessNestedStackProps, 'cors' | 'prefix'> & {
+  rootDomain: string;
+  core: Omit<CoreNestedStackProps, 'prefix' | 'rootDomain'>;
+  frontend: Omit<
+    CDNNestedStackProps,
+    'prefix' | 'stage' | 'rootDomain' | 'certificate' | 'hostedZone'
+  >;
+  backend: Omit<ServerlessNestedStackProps, 'cors' | 'prefix' | 'auth' | 'frontend'> & {
     cors?: Partial<ServerlessNestedStackProps['cors']>;
   };
   auth?: Omit<CognitoNestedStackProps, 'prefix'> & {
@@ -33,6 +37,7 @@ export class FullStack extends BaseNestedStack {
       env,
       stage,
       devPort,
+      rootDomain,
       core: coreProps,
       auth: authProps,
       frontend: frontendProps,
@@ -42,6 +47,7 @@ export class FullStack extends BaseNestedStack {
     const buildHzOrCert = !coreProps.hostedZoneId || !coreProps.certificateArn;
     const coreStack = new CoreNestedStack(this, 'Core', {
       ...coreProps,
+      rootDomain,
       prefix: this.prefix,
       removalPolicy: buildHzOrCert ? RemovalPolicy.RETAIN : RemovalPolicy.DESTROY
     });
@@ -52,7 +58,7 @@ export class FullStack extends BaseNestedStack {
       stage,
       certificate: coreStack.certificate,
       hostedZone: coreStack.hostedZone,
-      rootDomain: coreProps.rootDomain
+      rootDomain
     });
 
     const devAddress = `http://localhost:${devPort ?? 4200}`;
@@ -97,7 +103,7 @@ export class FullStack extends BaseNestedStack {
       props.core.certificateArn ??
       (await getCertArnForDomain({
         profile: props.profile,
-        domain: props.core.rootDomain,
+        domain: props.rootDomain,
         region: props.env.region
       }));
 
@@ -105,7 +111,7 @@ export class FullStack extends BaseNestedStack {
       props.core.hostedZoneId ??
       (await getHostedZoneIdForDomain({
         profile: props.profile,
-        rootDomain: props.core.rootDomain,
+        rootDomain: props.rootDomain,
         region: props.env.region
       }));
 
