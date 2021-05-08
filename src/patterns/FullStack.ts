@@ -95,7 +95,7 @@ export class FullStack extends BaseNestedStack {
     });
   }
 
-  async create(scope: Construct, id: string, props: FullStackProps): Promise<FullStack> {
+  static async create(scope: Construct, id: string, props: FullStackProps): Promise<FullStack> {
     const certificateArn =
       props.core.certificateArn ??
       (await getCertArnForDomain({
