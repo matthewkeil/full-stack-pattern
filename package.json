@@ -1,6 +1,6 @@
 {
   "name": "nomad-cdk",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "license": "MIT",
   "author": "Matthew Keil",
   "description": "A set of useful constructs, stacks, applications and patterns to help ease your journey with cdk",
