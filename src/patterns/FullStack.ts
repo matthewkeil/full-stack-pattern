@@ -1,5 +1,5 @@
 import { Construct, Environment, RemovalPolicy } from '@aws-cdk/core';
-import { BaseNestedStack, BaseNestedStackProps } from '../stacks/BaseStack';
+import { BaseStack, BaseStackProps } from '../stacks/BaseStack';
 import { CDNNestedStack, CDNNestedStackProps } from '../stacks/cdn/CDNNestedStack';
 import { CognitoNestedStack, CognitoNestedStackProps } from '../stacks/cognito/CognitoNestedStack';
 import { CoreNestedStack, CoreNestedStackProps } from '../stacks/core/CoreNestedStack';
@@ -10,7 +10,7 @@ import {
 import { getCertArnForDomain } from '../../lib/aws/certificateManager';
 import { getHostedZoneIdForDomain } from '../../lib/aws/route53';
 
-export interface FullStackProps extends BaseNestedStackProps {
+export interface FullStackProps extends BaseStackProps {
   env: Required<Environment>;
   stage: string;
   profile?: string;
@@ -30,7 +30,7 @@ export interface FullStackProps extends BaseNestedStackProps {
   };
 }
 
-export class FullStack extends BaseNestedStack {
+export class FullStack extends BaseStack {
   constructor(scope: Construct, id: string, props: FullStackProps) {
     super(scope, id, props);
     const {
