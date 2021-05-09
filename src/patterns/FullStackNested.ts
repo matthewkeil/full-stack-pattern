@@ -1,17 +1,15 @@
-import { Construct, Environment, RemovalPolicy } from '@aws-cdk/core';
-import { BaseStack, BaseStackProps } from '../stacks/BaseStack';
-import { CDNNestedStack, CDNNestedStackProps } from '../stacks/cdn/CDNNestedStack';
-import { CognitoNestedStack, CognitoNestedStackProps } from '../stacks/cognito/CognitoNestedStack';
-import { CoreNestedStack, CoreNestedStackProps } from '../stacks/core/CoreNestedStack';
-import {
-  ServerlessNestedStackProps,
-  ServerlessNestedStack
-} from '../stacks/serverless/ServerlessNestedStack';
+import { Construct, Environment } from '@aws-cdk/core';
+import { BaseStackProps } from '../stacks/BaseStack';
+import { CDNStack, CDNStackProps } from '../stacks/cdn/CDNStack';
+import { CognitoStack, CognitoStackProps } from '../stacks/cognito/CognitoStack';
+import { CoreStack, CoreStackProps } from '../stacks/core/CoreStack';
+import { ServerlessStackProps, ServerlessStack } from '../stacks/serverless/ServerlessStack';
 import { getCertArnForDomain } from '../../lib/aws/certificateManager';
 import { getHostedZoneIdForDomain } from '../../lib/aws/route53';
 import { CDNConstruct } from '../stacks/cdn/CDNConstruct';
 import { bucketExists } from '../../lib/aws/s3';
 import { listTableNames } from '../../lib/aws/dynamodb';
+import { BaseConstruct } from '../constructs/BaseConstruct';
 
 export interface FullStackProps extends BaseStackProps {
   env: Required<Environment>;
@@ -19,21 +17,18 @@ export interface FullStackProps extends BaseStackProps {
   profile?: string;
   devPort?: number | string;
   rootDomain: string;
-  core?: Omit<CoreNestedStackProps, 'prefix' | 'rootDomain'>;
-  frontend: Omit<
-    CDNNestedStackProps,
-    'prefix' | 'stage' | 'rootDomain' | 'certificate' | 'hostedZone'
-  >;
-  backend: Omit<ServerlessNestedStackProps, 'cors' | 'prefix' | 'auth' | 'frontend' | 'env'> & {
-    cors?: Partial<ServerlessNestedStackProps['cors']>;
+  core?: Omit<CoreStackProps, 'prefix' | 'rootDomain'>;
+  frontend: Omit<CDNStackProps, 'prefix' | 'stage' | 'rootDomain' | 'certificate' | 'hostedZone'>;
+  backend: Omit<ServerlessStackProps, 'cors' | 'prefix' | 'auth' | 'frontend' | 'env'> & {
+    cors?: Partial<ServerlessStackProps['cors']>;
   };
-  auth?: Omit<CognitoNestedStackProps, 'prefix'> & {
+  auth?: Omit<CognitoStackProps, 'prefix'> & {
     loginCallbackPath?: string;
     logoutCallbackPath?: string;
   };
 }
 
-export class FullStack extends BaseStack {
+export class FullStack extends BaseConstruct {
   constructor(scope: Construct, id: string, props: FullStackProps) {
     super(scope, id, props);
     const {
@@ -47,16 +42,16 @@ export class FullStack extends BaseStack {
       backend: backendProps
     } = props;
 
-    const buildHzOrCert = !coreProps?.hostedZoneId || !coreProps?.certificateArn;
-    const coreStack = new CoreNestedStack(this, 'Core', {
+    const coreStack = new CoreStack(this, 'Core', {
       ...coreProps,
+      env,
       rootDomain,
-      prefix: this.prefix,
-      removalPolicy: buildHzOrCert ? RemovalPolicy.RETAIN : RemovalPolicy.DESTROY
+      prefix: this.prefix
     });
 
-    const frontendStack = new CDNNestedStack(this, 'Frontend', {
+    const frontendStack = new CDNStack(this, 'Frontend', {
       ...frontendProps,
+      env,
       prefix: this.prefix,
       stage,
       certificate: coreStack.certificate,
@@ -66,8 +61,9 @@ export class FullStack extends BaseStack {
 
     const devAddress = `http://localhost:${devPort ?? 4200}`;
     const urls = (frontendStack.urls ?? []).map(url => `https://${url}`).concat(devAddress);
-    const authStack = new CognitoNestedStack(this, 'Auth', {
+    const authStack = new CognitoStack(this, 'Auth', {
       ...authProps,
+      env,
       prefix: this.prefix,
       groups: authProps?.groups ?? [
         {
@@ -88,7 +84,7 @@ export class FullStack extends BaseStack {
       }
     });
 
-    new ServerlessNestedStack(this, 'Backend', {
+    new ServerlessStack(this, 'Backend', {
       ...backendProps,
       env,
       prefix: this.prefix,

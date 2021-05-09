@@ -1,6 +1,7 @@
 import {
   BillingMode,
   Table,
+  ITable,
   Attribute as BaseAttribute,
   AttributeType as BaseAttributeType,
   TableProps as BaseTableProps,
@@ -41,11 +42,12 @@ const omittedTableProps = [
 type OmittedTableProps = typeof omittedTableProps[number];
 export interface TablesProps extends BaseConstructProps, Omit<TableProps, OmittedTableProps> {
   tables: TableProps[];
+  existingTables?: string[];
 }
 
 export class Tables extends BaseConstruct {
-  public tables: { [tableName: string]: Table } = {};
-  constructor(scope: Construct, id: string, props: TablesProps) {
+  public tables: { [tableName: string]: ITable } = {};
+  constructor(scope: Construct, id: string, private props: TablesProps) {
     super(scope, id, props);
     for (const table of props.tables) {
       const _table = this.buildTable({
@@ -67,16 +69,21 @@ export class Tables extends BaseConstruct {
   }
 
   buildTable(props: TableProps) {
-    const table = new Table(this, `${toPascal(props.tableName)}Table`, {
+    const logicalId = `${toPascal(props.tableName)}Table`;
+    const tableName = `${this.prefix}-${toKebab(props.tableName)}`;
+    if (this.props.existingTables?.find(existing => tableName === existing)) {
+      return Table.fromTableName(this, logicalId, tableName);
+    }
+    const table = new Table(this, logicalId, {
       ...props,
-      tableName: `${this.prefix}-${toKebab(props.tableName)}`,
+      tableName,
       partitionKey: this.convertAttribute(props.partitionKey),
       sortKey: props.sortKey ? this.convertAttribute(props.sortKey) : undefined,
       removalPolicy: props.removalPolicy
         ? props.removalPolicy
         : this.prod
-          ? RemovalPolicy.RETAIN
-          : RemovalPolicy.DESTROY
+        ? RemovalPolicy.RETAIN
+        : RemovalPolicy.DESTROY
     });
 
     if (props.localSecondaryIndexes?.length) {
@@ -127,8 +134,8 @@ export class Tables extends BaseConstruct {
         attributeType === 'string'
           ? BaseAttributeType.STRING
           : attributeType === 'number'
-            ? BaseAttributeType.NUMBER
-            : BaseAttributeType.BINARY
+          ? BaseAttributeType.NUMBER
+          : BaseAttributeType.BINARY
     };
   }
 }

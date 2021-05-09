@@ -13,4 +13,4 @@ export * from './src/stacks/core/CoreNestedStack';
 export * from './src/stacks/serverless/ServerlessConstruct';
 export * from './src/stacks/serverless/ServerlessStack';
 export * from './src/stacks/serverless/ServerlessNestedStack';
-export * from './src/patterns/FullStack';
+export * from './src/patterns/FullStackNested';
