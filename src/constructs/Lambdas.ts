@@ -3,6 +3,8 @@ import {
   Function as Lambda,
   FunctionProps,
   IEventSource,
+  LayerVersion,
+  LayerVersionProps,
   Runtime
 } from '@aws-cdk/aws-lambda';
 import { LogGroup, LogGroupProps } from '@aws-cdk/aws-logs';
@@ -10,7 +12,7 @@ import { IRole, Role, Policy, PolicyStatement, Effect, ServicePrincipal } from '
 import { BaseConstruct, BaseConstructProps } from './BaseConstruct';
 import { Construct, RemovalPolicy } from '@aws-cdk/core';
 import { Tables } from './Tables';
-import { toPascal, toUpperSnake } from '../../lib/changeCase';
+import { toKebab, toPascal, toUpperSnake } from '../../lib/changeCase';
 import { ApiConfig, ApiEvent, isApiEvent } from './Api';
 
 interface TableDetail {
@@ -18,13 +20,16 @@ interface TableDetail {
   read?: boolean;
   write?: boolean;
 }
+
+type LambdaLayer = string | LayerVersionProps;
 export interface LambdaProps
-  extends Omit<FunctionProps, 'code' | 'runtime' | 'events'>,
+  extends Omit<FunctionProps, 'code' | 'runtime' | 'events' | 'layers'>,
     LogGroupProps {
   functionName: string;
   policyStatements?: PolicyStatement[];
   tables?: (string | TableDetail)[];
   codePath?: string;
+  layers?: LambdaLayer[];
   runtime?: FunctionProps['runtime'];
   canInvoke?: IRole[];
   events?: (ApiEvent | IEventSource)[];
@@ -52,12 +57,16 @@ export class Lambdas extends BaseConstruct {
   public apiConfig?: { [functionName: string]: ApiConfig };
   private tables?: Tables['tables'];
   private code?: AssetCode;
+  private layers?: LayerVersion[];
 
   constructor(scope: Construct, id: string, private props: LambdasProps) {
     super(scope, id, props);
     this.tables = props.tables?.tables;
     if (props.codePath) {
       this.code = new AssetCode(props.codePath);
+    }
+    if (props.layers?.length) {
+      this.layers = props.layers.map(this.mapToLayerVersion);
     }
     for (const lambda of props.lambdas) {
       this.buildResources(lambda);
@@ -103,14 +112,13 @@ export class Lambdas extends BaseConstruct {
       code,
       role,
       functionName,
-      events: undefined
+      events: undefined,
+      layers: undefined
     });
 
-    const layers = props.layers ?? this.props.layers ?? [];
+    const layers = props.layers?.map(this.mapToLayerVersion) ?? this.layers ?? [];
     for (const layer of layers) {
-      if (layer?.compatibleRuntimes?.filter(rt => rt.runtimeEquals(runtime))) {
-        lambda.addLayers(layer);
-      }
+      lambda.addLayers(layer);
     }
 
     lambda.node.addDependency(role);
@@ -234,4 +242,13 @@ export class Lambdas extends BaseConstruct {
 
     return _role;
   }
+
+  private mapToLayerVersion = (layer: LambdaLayer, index: number) => {
+    const id = `${toPascal(this.prefix)}Layer${index}`;
+    const layerProps: LayerVersionProps =
+      typeof layer === 'string'
+        ? { layerVersionName: toKebab(id), code: new AssetCode(layer) }
+        : layer;
+    return new LayerVersion(this, id, layerProps);
+  };
 }
