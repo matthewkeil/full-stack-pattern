@@ -9,6 +9,8 @@ import {
 } from '../stacks/serverless/ServerlessNestedStack';
 import { getCertArnForDomain } from '../../lib/aws/certificateManager';
 import { getHostedZoneIdForDomain } from '../../lib/aws/route53';
+import { CDNConstruct } from '../stacks/cdn/CDNConstruct';
+import { bucketExists } from '../../lib/aws/s3';
 
 export interface FullStackProps extends BaseStackProps {
   env: Required<Environment>;
@@ -99,7 +101,10 @@ export class FullStack extends BaseStack {
   }
 
   static async create(scope: Construct, id: string, props: FullStackProps): Promise<FullStack> {
-    const certificateArn =
+    const core: FullStackProps['core'] = {
+      ...props.core
+    };
+    core.certificateArn =
       props.core?.certificateArn ??
       (await getCertArnForDomain({
         profile: props.profile,
@@ -107,7 +112,7 @@ export class FullStack extends BaseStack {
         region: props.env.region
       }));
 
-    const hostedZoneId =
+    core.hostedZoneId =
       props.core?.hostedZoneId ??
       (await getHostedZoneIdForDomain({
         profile: props.profile,
@@ -115,13 +120,18 @@ export class FullStack extends BaseStack {
         region: props.env.region
       }));
 
+    const frontend: FullStackProps['frontend'] = {
+      ...props.frontend
+    };
+    const bucketName = CDNConstruct.GET_BUCKET_NAME(props);
+    if (await bucketExists({ profile: props.profile, region: props.env.region, bucketName })) {
+      frontend.bucketExists = true;
+    }
+
     return new FullStack(scope, 'FullStackConstruct', {
       ...props,
-      core: {
-        ...props.core,
-        hostedZoneId,
-        certificateArn
-      }
+      core,
+      frontend
     });
   }
 }

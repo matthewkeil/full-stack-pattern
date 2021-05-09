@@ -1,7 +1,7 @@
 import { Construct, RemovalPolicy } from '@aws-cdk/core';
 import { BucketDeployment, Source } from '@aws-cdk/aws-s3-deployment';
 import { CloudFrontWebDistribution, OriginAccessIdentity } from '@aws-cdk/aws-cloudfront';
-import { BlockPublicAccess, Bucket, BucketEncryption } from '@aws-cdk/aws-s3';
+import { BlockPublicAccess, Bucket, IBucket, BucketEncryption } from '@aws-cdk/aws-s3';
 import { ICertificate } from '@aws-cdk/aws-certificatemanager';
 import { ARecord, IHostedZone, RecordTarget } from '@aws-cdk/aws-route53';
 import { CloudFrontTarget } from '@aws-cdk/aws-route53-targets';
@@ -14,25 +14,38 @@ export interface CDNConstructProps extends BaseConstructProps {
   certificate?: ICertificate;
   rootDomain?: string;
   stage?: string;
+  bucketName?: string;
+  bucketExists?: boolean;
   buildWwwSubdomain?: boolean;
 }
 
 export class CDNConstruct extends BaseConstruct {
-  public bucket: Bucket;
+  public static GET_BUCKET_NAME = ({
+    bucketName,
+    prefix
+  }: {
+    bucketName?: string;
+    prefix: string;
+  }) => bucketName ?? toKebab(`${prefix}-frontend`);
+
+  public bucket: IBucket;
   public distribution: CloudFrontWebDistribution;
   public urls?: string[];
 
-  constructor(scope: Construct, id: string, props: CDNConstructProps) {
+  constructor(scope: Construct, id: string, private props: CDNConstructProps) {
     super(scope, id, props);
 
-    this.bucket = new Bucket(this, 'Bucket', {
-      bucketName: toKebab(`${this.prefix}-frontend`),
-      versioned: true,
-      encryption: BucketEncryption.S3_MANAGED,
-      blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
-      autoDeleteObjects: !this.prod,
-      removalPolicy: this.prod ? RemovalPolicy.RETAIN : RemovalPolicy.DESTROY
-    });
+    const bucketName = CDNConstruct.GET_BUCKET_NAME(props);
+    this.bucket = this.props.bucketExists
+      ? Bucket.fromBucketName(this, 'Bucket', bucketName)
+      : new Bucket(this, 'Bucket', {
+          bucketName,
+          versioned: true,
+          encryption: BucketEncryption.S3_MANAGED,
+          blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
+          autoDeleteObjects: !this.prod,
+          removalPolicy: this.prod ? RemovalPolicy.RETAIN : RemovalPolicy.DESTROY
+        });
 
     if (props.rootDomain && props.stage) {
       this.urls = this.buildUrls({
@@ -45,13 +58,13 @@ export class CDNConstruct extends BaseConstruct {
     this.distribution = new CloudFrontWebDistribution(this, 'Distribution', {
       viewerCertificate: this.urls
         ? {
-          aliases: this.urls,
-          props: {
-            acmCertificateArn: props.certificate?.certificateArn,
-            sslSupportMethod: 'sni-only',
-            minimumProtocolVersion: 'TLSv1.2_2018'
+            aliases: this.urls,
+            props: {
+              acmCertificateArn: props.certificate?.certificateArn,
+              sslSupportMethod: 'sni-only',
+              minimumProtocolVersion: 'TLSv1.2_2018'
+            }
           }
-        }
         : undefined,
       originConfigs: [
         {
