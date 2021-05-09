@@ -1,3 +1,4 @@
+export * from './lib/changeCase';
 export * from './src/constructs/Api';
 export * from './src/constructs/Lambdas';
 export * from './src/constructs/Tables';
@@ -15,3 +16,4 @@ export * from './src/stacks/serverless/ServerlessStack';
 export * from './src/stacks/serverless/ServerlessNestedStack';
 export * from './src/patterns/FullStack';
 export * from './src/patterns/FullStackNested';
+

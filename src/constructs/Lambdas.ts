@@ -7,7 +7,7 @@ import {
   LayerVersionProps,
   Runtime
 } from '@aws-cdk/aws-lambda';
-import { LogGroup, LogGroupProps } from '@aws-cdk/aws-logs';
+import { ILogGroup, LogGroup, LogGroupProps } from '@aws-cdk/aws-logs';
 import { IRole, Role, Policy, PolicyStatement, Effect, ServicePrincipal } from '@aws-cdk/aws-iam';
 import { BaseConstruct, BaseConstructProps } from './BaseConstruct';
 import { Construct, RemovalPolicy } from '@aws-cdk/core';
@@ -47,10 +47,11 @@ type OmittedLambdaProps = typeof omittedLambdaProps[number];
 export interface LambdasProps extends BaseConstructProps, Omit<LambdaProps, OmittedLambdaProps> {
   lambdas: LambdaProps[];
   tables?: Tables;
+  existingLogGroups?: string[];
 }
 export interface ResourceGroup {
   lambda: Lambda;
-  logGroup: LogGroup;
+  logGroup: ILogGroup;
   role: IRole;
 }
 
@@ -81,13 +82,16 @@ export class Lambdas extends BaseConstruct {
       functionName
     });
 
-    const logGroupRemovalPolicy = props.removalPolicy ?? this.props.removalPolicy;
-    const logGroup = new LogGroup(
-      this,
-      `${toPascal(props.logGroupName ?? props.functionName)}LogGroup`,
-      {
+    const logGroupLogicalId = `${toPascal(props.logGroupName ?? props.functionName)}LogGroup`;
+    const logGroupName = `/aws/lambda/${functionName}`;
+    let logGroup: ILogGroup;
+    if (this.props.existingLogGroups?.find(name => name === logGroupName)) {
+      logGroup = LogGroup.fromLogGroupName(this, logGroupLogicalId, logGroupName);
+    } else {
+      const logGroupRemovalPolicy = props.removalPolicy ?? this.props.removalPolicy;
+      logGroup = new LogGroup(this, logGroupLogicalId, {
         ...mergeProps(this.props, props),
-        logGroupName: `/aws/lambda/${functionName}`,
+        logGroupName,
         retention: props.retention ?? this.props.retention,
         encryptionKey: props.encryptionKey ?? this.props.encryptionKey,
         /* eslint-disable indent */
@@ -97,8 +101,8 @@ export class Lambdas extends BaseConstruct {
           ? RemovalPolicy.RETAIN
           : RemovalPolicy.DESTROY
         /* eslint-enable indent */
-      }
-    );
+      });
+    }
 
     /* eslint-disable indent */
     const code = !props.code
@@ -175,7 +179,7 @@ export class Lambdas extends BaseConstruct {
     role
   }: {
     props: LambdaProps;
-    logGroup: LogGroup;
+    logGroup: ILogGroup;
     lambda: Lambda;
     role: IRole;
   }) {

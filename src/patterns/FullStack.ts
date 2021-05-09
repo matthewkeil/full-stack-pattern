@@ -17,12 +17,12 @@ export interface FullStackProps extends BaseStackProps {
   profile?: string;
   devPort?: number | string;
   rootDomain: string;
-  core?: Omit<CoreStackProps, 'prefix' | 'rootDomain'>;
-  frontend: Omit<CDNStackProps, 'prefix' | 'stage' | 'rootDomain' | 'certificate' | 'hostedZone'>;
+  core?: Omit<CoreStackProps, 'prefix' | 'env'| 'rootDomain'>;
+  frontend: Omit<CDNStackProps, 'prefix' | 'env' | 'stage' | 'rootDomain' | 'certificate' | 'hostedZone'>;
   backend: Omit<ServerlessStackProps, 'cors' | 'prefix' | 'auth' | 'frontend' | 'env'> & {
     cors?: Partial<ServerlessStackProps['cors']>;
   };
-  auth?: Omit<CognitoStackProps, 'prefix'> & {
+  auth?: Omit<CognitoStackProps, 'prefix' | 'env'> & {
     loginCallbackPath?: string;
     logoutCallbackPath?: string;
   };

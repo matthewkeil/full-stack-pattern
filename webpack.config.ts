@@ -12,7 +12,7 @@ const config: Configuration = {
     configFileProvider: resolve(__dirname, 'providers', 'configFileProvider', 'index.ts')
   },
   output: {
-    path: resolve(__dirname, 'dist', 'lib', 'providers'),
+    path: resolve(__dirname, 'dist', 'providers'),
     filename: '[name]/index.js',
     libraryTarget: 'commonjs'
   },
