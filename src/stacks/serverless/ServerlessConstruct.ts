@@ -42,7 +42,7 @@ export class ServerlessConstruct extends BaseConstruct {
       functionName: SERVICE_TOKEN_NAME,
       handler: 'index.handler',
       timeout: Duration.seconds(15),
-      codePath: resolve(__dirname, '..', '..', '..', 'providers', 'configFileProvider'),
+      code: resolve(__dirname, '..', '..', '..', 'providers', 'configFileProvider'),
       role: serviceTokenRole
     };
 
@@ -59,7 +59,7 @@ export class ServerlessConstruct extends BaseConstruct {
       this.api = new Api(this, 'Api', {
         ...props,
         lambdas: this.lambdas,
-        userPool: props.auth?.userPool,
+        userPool: props.auth?.userPool
       });
     }
 

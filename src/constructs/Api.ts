@@ -3,19 +3,24 @@ import {
   Cors,
   CorsOptions as BaseCorsOptions,
   Deployment,
+  DeploymentProps,
   GatewayResponseOptions,
   LambdaIntegration,
+  LambdaIntegrationOptions,
   MethodOptions,
   ResponseType,
   RestApi,
-  Stage
+  RestApiProps,
+  Stage,
+  StageProps
 } from '@aws-cdk/aws-apigateway';
 import { Function as Lambda } from '@aws-cdk/aws-lambda';
-import { Role, ServicePrincipal } from '@aws-cdk/aws-iam';
+import { Role, IRole, ServicePrincipal } from '@aws-cdk/aws-iam';
 import { Construct } from '@aws-cdk/core';
 import { BaseConstruct, BaseConstructProps } from './BaseConstruct';
 import { Lambdas } from './Lambdas';
 import { UserPool } from '@aws-cdk/aws-cognito';
+import { Mutable } from '../../lib/Mutable';
 
 const methods = ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'] as const;
 type Method = typeof methods[number];
@@ -26,6 +31,7 @@ function isMethod(value: any): value is Method {
 export interface ApiEvent {
   method: Method;
   path: string;
+  options?: Mutable<MethodOptions & LambdaIntegrationOptions>;
 }
 export interface ApiConfig extends ApiEvent {
   lambda: Lambda;
@@ -58,8 +64,15 @@ interface CorsOptions extends BaseCorsOptions {
   allowOrigins: string[];
 }
 
-export interface ApiProps extends BaseConstructProps {
+export interface ApiProps
+  extends BaseConstructProps,
+    Omit<RestApiProps, 'defaultCorsPreflightOptions'>,
+    Omit<DeploymentProps, 'api'>,
+    Omit<StageProps, 'deployment'> {
+  // Api service role for lambda execution
   lambdas: Lambdas;
+  stage: string;
+  role?: IRole;
   userPool?: UserPool;
   gatewayResponses?: GatewayResponseOptions[];
   cors: CorsOptions;
@@ -67,35 +80,44 @@ export interface ApiProps extends BaseConstructProps {
 
 export class Api extends BaseConstruct {
   public restApi: RestApi;
-  private serviceRole: Role;
+  private serviceRole: IRole;
   private userPool?: UserPool;
 
   constructor(scope: Construct, id: string, props: ApiProps) {
     super(scope, id, props);
-    this.serviceRole = new Role(this, 'ServiceRole', {
-      roleName: `${this.prefix}-api-execution`,
-      assumedBy: new ServicePrincipal('apigateway.amazonaws.com')
-    });
+    this.serviceRole =
+      props.role ??
+      new Role(this, 'ApiServiceRole', {
+        roleName: `${this.prefix}-api-execution`,
+        assumedBy: new ServicePrincipal('apigateway.amazonaws.com')
+      });
+    const allowHeaders = [
+      ...new Set([
+        ...(props.cors.allowHeaders ?? []),
+        'Authorization',
+        'X-Api-Key',
+        'X-Amz-Date',
+        'X-Amz-Security-Token',
+        'Content-Type'
+      ])
+    ];
     this.restApi = new RestApi(this, 'RestApi', {
+      ...props,
       restApiName: this.prefix,
       defaultCorsPreflightOptions: {
-        statusCode: 200,
-        allowOrigins: props.cors.allowOrigins,
-        allowMethods: props.cors.allowMethods ?? Cors.ALL_METHODS,
-        allowHeaders: [
-          'Authorization',
-          'X-Api-Key',
-          'X-Amz-Date',
-          'X-Amz-Security-Token',
-          'Content-Type'
-        ].concat(props.cors.allowHeaders ?? [])
+        allowHeaders,
+        statusCode: props.cors.statusCode ?? 200,
+        allowOrigins: props.cors.allowOrigins ?? Cors.ALL_ORIGINS,
+        allowMethods: props.cors.allowMethods ?? Cors.ALL_METHODS
       }
     });
     const deployment = new Deployment(this, 'Deployment', {
+      ...props,
       api: this.restApi
     });
     new Stage(this, 'Stage', {
-      stageName: this.prefix,
+      ...props,
+      stageName: props.stage,
       deployment
     });
 
@@ -109,17 +131,16 @@ export class Api extends BaseConstruct {
     this.configureGatewayResponses(props.gatewayResponses);
   }
 
-  addResource({ lambda, method, path }: ApiConfig) {
+  addResource({ lambda, method, path, options = {} }: ApiConfig) {
     const resource = this.restApi.root.resourceForPath(path);
-    let options: MethodOptions | undefined;
     if (this.userPool && method !== 'OPTIONS') {
-      options = {
-        authorizer: new CognitoUserPoolsAuthorizer(this, 'UserPoolAuthorizer', {
+      options.authorizer =
+        options.authorizer ??
+        new CognitoUserPoolsAuthorizer(this, 'UserPoolAuthorizer', {
           cognitoUserPools: [this.userPool]
-        })
-      };
+        });
     }
-    resource.addMethod(method, new LambdaIntegration(lambda), options);
+    resource.addMethod(method, new LambdaIntegration(lambda, options), options);
     lambda.grantInvoke(this.serviceRole);
   }
 

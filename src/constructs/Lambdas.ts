@@ -14,6 +14,7 @@ import { Construct, RemovalPolicy } from '@aws-cdk/core';
 import { Tables } from './Tables';
 import { toKebab, toPascal, toUpperSnake } from '../../lib/changeCase';
 import { ApiConfig, ApiEvent, isApiEvent } from './Api';
+import { mergeProps } from '../../lib/mergeProps';
 
 interface TableDetail {
   tableName: string;
@@ -23,12 +24,13 @@ interface TableDetail {
 
 type LambdaLayer = string | LayerVersionProps;
 export interface LambdaProps
-  extends Omit<FunctionProps, 'code' | 'runtime' | 'events' | 'layers'>,
+  extends Omit<FunctionProps, 'code' | 'runtime' | 'events' | 'layers' | 'role'>,
     LogGroupProps {
   functionName: string;
+  role?: IRole;
   policyStatements?: PolicyStatement[];
   tables?: (string | TableDetail)[];
-  codePath?: string;
+  code?: string | AssetCode;
   layers?: LambdaLayer[];
   runtime?: FunctionProps['runtime'];
   canInvoke?: IRole[];
@@ -57,17 +59,15 @@ export class Lambdas extends BaseConstruct {
   public apiConfig?: { [functionName: string]: ApiConfig };
   private tables?: Tables['tables'];
   private code?: AssetCode;
-  private layers?: LayerVersion[];
+  private layers: LayerVersion[];
 
   constructor(scope: Construct, id: string, private props: LambdasProps) {
     super(scope, id, props);
     this.tables = props.tables?.tables;
-    if (props.codePath) {
-      this.code = new AssetCode(props.codePath);
+    if (props.code) {
+      this.code = typeof props.code === 'string' ? new AssetCode(props.code) : props.code;
     }
-    if (props.layers?.length) {
-      this.layers = props.layers.map(this.mapToLayerVersion);
-    }
+    this.layers = props.layers?.length ? props.layers.map(this.mapToLayerVersion) : [];
     for (const lambda of props.lambdas) {
       this.buildResources(lambda);
     }
@@ -75,17 +75,24 @@ export class Lambdas extends BaseConstruct {
 
   buildResources(props: LambdaProps) {
     const functionName = `${this.prefix}-${props.functionName}`.substr(0, 64);
-    const removalPolicy = props.removalPolicy ?? this.props.removalPolicy;
+    const role = this.buildRole({
+      role: props.role ?? this.props.role,
+      props,
+      functionName
+    });
+
+    const logGroupRemovalPolicy = props.removalPolicy ?? this.props.removalPolicy;
     const logGroup = new LogGroup(
       this,
       `${toPascal(props.logGroupName ?? props.functionName)}LogGroup`,
       {
+        ...mergeProps(this.props, props),
         logGroupName: `/aws/lambda/${functionName}`,
         retention: props.retention ?? this.props.retention,
         encryptionKey: props.encryptionKey ?? this.props.encryptionKey,
         /* eslint-disable indent */
-        removalPolicy: removalPolicy
-          ? removalPolicy
+        removalPolicy: logGroupRemovalPolicy
+          ? logGroupRemovalPolicy
           : this.prod
           ? RemovalPolicy.RETAIN
           : RemovalPolicy.DESTROY
@@ -93,35 +100,109 @@ export class Lambdas extends BaseConstruct {
       }
     );
 
-    const role = this.buildIam({
-      role: props.role ?? this.props.role,
-      props,
-      logGroup,
-      functionName
-    });
-
-    const code = props.codePath ? new AssetCode(props.codePath) : this.code;
+    /* eslint-disable indent */
+    const code = !props.code
+      ? this.code
+      : typeof props.code === 'string'
+      ? new AssetCode(props.code)
+      : props.code;
+    /* eslint-enable indent */
     if (!code) {
-      throw new Error(`no code provided for ${props.functionName}`);
+      throw new Error(`no code provided for function ${props.functionName}`);
     }
-    const runtime = props.runtime ?? this.props.runtime ?? Runtime.NODEJS_14_X;
     const lambda = new Lambda(this, `${toPascal(props.functionName)}Lambda`, {
-      ...this.props,
-      ...props,
-      runtime,
+      ...mergeProps(this.props, props),
       code,
       role,
       functionName,
+      runtime: props.runtime ?? this.props.runtime ?? Runtime.NODEJS_14_X,
       events: undefined,
       layers: undefined
     });
 
-    const layers = props.layers?.map(this.mapToLayerVersion) ?? this.layers ?? [];
+    this.configureFunction({ props, lambda, role, logGroup });
+    this.resources[props.functionName] = {
+      lambda,
+      logGroup,
+      role
+    };
+  }
+
+  private buildRole({
+    functionName,
+    props,
+    role
+  }: {
+    role?: IRole;
+    functionName: string;
+    props: LambdaProps;
+  }): IRole {
+    const truncatedName = functionName.substr(0, 64);
+    const _role =
+      role ??
+      new Role(this, `${toPascal(props.functionName)}Role`, {
+        roleName: truncatedName,
+        assumedBy: new ServicePrincipal('lambda.amazonaws.com')
+      });
+
+    if (props.policyStatements?.length) {
+      props.policyStatements.forEach(statement => _role.addToPrincipalPolicy(statement));
+    }
+
+    if (props.vpc) {
+      _role.addToPrincipalPolicy(
+        new PolicyStatement({
+          effect: Effect.ALLOW,
+          actions: [
+            'ec2:CreateNetworkInterface',
+            'ec2:DescribeNetworkInterfaces',
+            'ec2:DeleteNetworkInterface',
+            'ec2:AssignPrivateIpAddresses',
+            'ec2:UnassignPrivateIpAddresses'
+          ],
+          resources: ['*']
+        })
+      );
+    }
+
+    return _role;
+  }
+
+  private configureFunction({
+    props,
+    logGroup,
+    lambda,
+    role
+  }: {
+    props: LambdaProps;
+    logGroup: LogGroup;
+    lambda: Lambda;
+    role: IRole;
+  }) {
+    logGroup.grantWrite(role);
+    lambda.node.addDependency(role);
+
+    const canInvoke = [...(props.canInvoke || []), ...(this.props.canInvoke || [])];
+    if (canInvoke.length) {
+      for (const invokeRole of canInvoke) {
+        invokeRole.attachInlinePolicy(
+          new Policy(this, toPascal(`${invokeRole.roleName}-${props.functionName}`), {
+            statements: [
+              new PolicyStatement({
+                effect: Effect.ALLOW,
+                actions: ['lambda:InvokeFunction'],
+                resources: [lambda.functionArn]
+              })
+            ]
+          })
+        );
+      }
+    }
+
+    const layers = this.layers.concat(...(props.layers ?? []).map(this.mapToLayerVersion));
     for (const layer of layers) {
       lambda.addLayers(layer);
     }
-
-    lambda.node.addDependency(role);
 
     if (props.tables?.length) {
       if (!this.tables) {
@@ -174,73 +255,6 @@ export class Lambdas extends BaseConstruct {
         lambda.addEventSource(event);
       }
     }
-
-    const canInvoke = [...(props.canInvoke || []), ...(this.props.canInvoke || [])];
-    if (canInvoke.length) {
-      for (const invokeRole of canInvoke) {
-        invokeRole.attachInlinePolicy(
-          new Policy(this, toPascal(`${invokeRole.roleName}-${props.functionName}`), {
-            statements: [
-              new PolicyStatement({
-                effect: Effect.ALLOW,
-                actions: ['lambda:InvokeFunction'],
-                resources: [lambda.functionArn]
-              })
-            ]
-          })
-        );
-      }
-    }
-
-    this.resources[props.functionName] = {
-      lambda,
-      logGroup,
-      role
-    };
-  }
-
-  buildIam({
-    functionName,
-    logGroup,
-    props,
-    role
-  }: {
-    role?: IRole;
-    functionName: string;
-    logGroup: LogGroup;
-    props: LambdaProps;
-  }): IRole {
-    const truncatedName = functionName.substr(0, 64);
-    const _role =
-      role ??
-      new Role(this, `${toPascal(props.functionName)}Role`, {
-        roleName: truncatedName,
-        assumedBy: new ServicePrincipal('lambda.amazonaws.com')
-      });
-
-    logGroup.grantWrite(_role);
-
-    if (props.policyStatements?.length) {
-      props.policyStatements.forEach(statement => _role.addToPrincipalPolicy(statement));
-    }
-
-    if (props.vpc) {
-      _role.addToPrincipalPolicy(
-        new PolicyStatement({
-          effect: Effect.ALLOW,
-          actions: [
-            'ec2:CreateNetworkInterface',
-            'ec2:DescribeNetworkInterfaces',
-            'ec2:DeleteNetworkInterface',
-            'ec2:AssignPrivateIpAddresses',
-            'ec2:UnassignPrivateIpAddresses'
-          ],
-          resources: ['*']
-        })
-      );
-    }
-
-    return _role;
   }
 
   private mapToLayerVersion = (layer: LambdaLayer, index: number) => {
@@ -249,6 +263,6 @@ export class Lambdas extends BaseConstruct {
       typeof layer === 'string'
         ? { layerVersionName: toKebab(id), code: new AssetCode(layer) }
         : layer;
-    return new LayerVersion(this, id, layerProps);
+    return new LayerVersion(this, id, { removalPolicy: RemovalPolicy.DESTROY, ...layerProps });
   };
 }
