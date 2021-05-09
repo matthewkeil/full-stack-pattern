@@ -12,6 +12,7 @@ import { getHostedZoneIdForDomain } from '../../lib/aws/route53';
 import { CDNConstruct } from '../stacks/cdn/CDNConstruct';
 import { bucketExists } from '../../lib/aws/s3';
 import { listTableNames } from '../../lib/aws/dynamodb';
+import { existingLogGroups } from '../../lib/aws/cwLogs';
 
 export interface FullStackNestedProps extends BaseStackProps {
   env: Required<Environment>;
@@ -135,9 +136,11 @@ export class FullStackNested extends BaseStack {
 
     const backend = {
       ...props.backend,
+      existingLogGroups: (await existingLogGroups(props)).concat(
+        props.backend.existingLogGroups ?? []
+      ),
       existingTables: (await listTableNames(props)).concat(props.backend.existingTables ?? [])
     };
-
     return new FullStackNested(scope, 'FullStackNestedConstruct', {
       ...props,
       core,

@@ -10,6 +10,7 @@ import { CDNConstruct } from '../stacks/cdn/CDNConstruct';
 import { bucketExists } from '../../lib/aws/s3';
 import { listTableNames } from '../../lib/aws/dynamodb';
 import { BaseConstruct } from '../constructs/BaseConstruct';
+import { existingLogGroups } from '../../lib/aws/cwLogs';
 
 export interface FullStackProps extends BaseStackProps {
   env: Required<Environment>;
@@ -17,8 +18,11 @@ export interface FullStackProps extends BaseStackProps {
   profile?: string;
   devPort?: number | string;
   rootDomain: string;
-  core?: Omit<CoreStackProps, 'prefix' | 'env'| 'rootDomain'>;
-  frontend: Omit<CDNStackProps, 'prefix' | 'env' | 'stage' | 'rootDomain' | 'certificate' | 'hostedZone'>;
+  core?: Omit<CoreStackProps, 'prefix' | 'env' | 'rootDomain'>;
+  frontend: Omit<
+    CDNStackProps,
+    'prefix' | 'env' | 'stage' | 'rootDomain' | 'certificate' | 'hostedZone'
+  >;
   backend: Omit<ServerlessStackProps, 'cors' | 'prefix' | 'auth' | 'frontend' | 'env'> & {
     cors?: Partial<ServerlessStackProps['cors']>;
   };
@@ -127,6 +131,9 @@ export class FullStack extends BaseConstruct {
 
     const backend = {
       ...props.backend,
+      existingLogGroups: (await existingLogGroups(props)).concat(
+        props.backend.existingLogGroups ?? []
+      ),
       existingTables: (await listTableNames(props)).concat(props.backend.existingTables ?? [])
     };
 
