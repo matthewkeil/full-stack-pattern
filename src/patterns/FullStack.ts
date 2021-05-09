@@ -115,7 +115,7 @@ export class FullStack extends BaseStack {
         region: props.env.region
       }));
 
-    return new FullStack(scope, 'AsyncFullStack', {
+    return new FullStack(scope, 'FullStackConstruct', {
       ...props,
       core: {
         ...props.core,

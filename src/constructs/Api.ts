@@ -2,17 +2,13 @@ import {
   CognitoUserPoolsAuthorizer,
   Cors,
   CorsOptions as BaseCorsOptions,
-  Deployment,
-  DeploymentProps,
   GatewayResponseOptions,
   LambdaIntegration,
   LambdaIntegrationOptions,
   MethodOptions,
   ResponseType,
   RestApi,
-  RestApiProps,
-  Stage,
-  StageProps
+  RestApiProps
 } from '@aws-cdk/aws-apigateway';
 import { Function as Lambda } from '@aws-cdk/aws-lambda';
 import { Role, IRole, ServicePrincipal } from '@aws-cdk/aws-iam';
@@ -66,9 +62,7 @@ interface CorsOptions extends BaseCorsOptions {
 
 export interface ApiProps
   extends BaseConstructProps,
-    Omit<RestApiProps, 'defaultCorsPreflightOptions'>,
-    Omit<DeploymentProps, 'api'>,
-    Omit<StageProps, 'deployment'> {
+    Omit<RestApiProps, 'defaultCorsPreflightOptions'> {
   // Api service role for lambda execution
   lambdas: Lambdas;
   stage: string;
@@ -109,16 +103,11 @@ export class Api extends BaseConstruct {
         statusCode: props.cors.statusCode ?? 200,
         allowOrigins: props.cors.allowOrigins ?? Cors.ALL_ORIGINS,
         allowMethods: props.cors.allowMethods ?? Cors.ALL_METHODS
+      },
+      deployOptions: {
+        ...(props.deployOptions ?? {}),
+        stageName: props.stage
       }
-    });
-    const deployment = new Deployment(this, 'Deployment', {
-      ...props,
-      api: this.restApi
-    });
-    new Stage(this, 'Stage', {
-      ...props,
-      stageName: props.stage,
-      deployment
     });
 
     if (!props.lambdas.apiConfig) {
