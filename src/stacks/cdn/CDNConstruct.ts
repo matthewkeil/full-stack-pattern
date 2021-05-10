@@ -1,7 +1,20 @@
 import { Construct, RemovalPolicy } from '@aws-cdk/core';
 import { BucketDeployment, Source } from '@aws-cdk/aws-s3-deployment';
 import { CloudFrontWebDistribution, OriginAccessIdentity } from '@aws-cdk/aws-cloudfront';
-import { BlockPublicAccess, Bucket, IBucket, BucketEncryption } from '@aws-cdk/aws-s3';
+import {
+  BlockPublicAccess,
+  Bucket,
+  IBucket,
+  BucketEncryption,
+  CfnBucketPolicy
+} from '@aws-cdk/aws-s3';
+import {
+  Effect,
+  Role,
+  CanonicalUserPrincipal,
+  PolicyDocument,
+  PolicyStatement
+} from '@aws-cdk/aws-iam';
 import { ICertificate } from '@aws-cdk/aws-certificatemanager';
 import { ARecord, IHostedZone, RecordTarget } from '@aws-cdk/aws-route53';
 import { CloudFrontTarget } from '@aws-cdk/aws-route53-targets';
@@ -36,19 +49,35 @@ export class CDNConstruct extends BaseConstruct {
     super(scope, id, props);
 
     const bucketName = CDNConstruct.GET_BUCKET_NAME(props);
-    this.bucket = this.props.bucketExists
-      ? Bucket.fromBucketName(this, 'Bucket', bucketName)
-      : new Bucket(this, 'Bucket', {
-          bucketName,
-          versioned: true,
-          encryption: BucketEncryption.S3_MANAGED,
-          blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
-          autoDeleteObjects: !this.prod,
-          removalPolicy: this.prod ? RemovalPolicy.RETAIN : RemovalPolicy.DESTROY
-        });
-
     const originAccessIdentity = new OriginAccessIdentity(this, 'OriginAccessIdentity');
-    this.bucket.grantRead(originAccessIdentity);
+
+    if (this.props.bucketExists) {
+      this.bucket = Bucket.fromBucketName(this, 'Bucket', bucketName);
+      new CfnBucketPolicy(this, 'BucketPolicy', {
+        bucket: this.bucket.bucketName,
+        policyDocument: {
+          Statement: [
+            {
+              Effect: 'Allow',
+              Action: ['s3:getObject', 's3:GetObject'],
+              Principal: {
+                CanonicalUser: originAccessIdentity.cloudFrontOriginAccessIdentityS3CanonicalUserId
+              },
+              Resource: [this.bucket.arnForObjects('*')]
+            }
+          ]
+        }
+      });
+    } else {
+      this.bucket = new Bucket(this, 'Bucket', {
+        bucketName,
+        versioned: true,
+        encryption: BucketEncryption.S3_MANAGED,
+        blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
+        autoDeleteObjects: !this.prod,
+        removalPolicy: this.prod ? RemovalPolicy.RETAIN : RemovalPolicy.DESTROY
+      });
+    }
 
     if (props.rootDomain && props.stage) {
       this.urls = this.buildUrls({
