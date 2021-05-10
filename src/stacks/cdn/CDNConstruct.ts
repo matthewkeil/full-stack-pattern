@@ -47,6 +47,9 @@ export class CDNConstruct extends BaseConstruct {
           removalPolicy: this.prod ? RemovalPolicy.RETAIN : RemovalPolicy.DESTROY
         });
 
+    const originAccessIdentity = new OriginAccessIdentity(this, 'OriginAccessIdentity');
+    this.bucket.grantRead(originAccessIdentity);
+
     if (props.rootDomain && props.stage) {
       this.urls = this.buildUrls({
         rootDomain: props.rootDomain,
@@ -71,7 +74,7 @@ export class CDNConstruct extends BaseConstruct {
           behaviors: [{ isDefaultBehavior: true }],
           s3OriginSource: {
             s3BucketSource: this.bucket,
-            originAccessIdentity: new OriginAccessIdentity(this, 'OriginAccessIdentity')
+            originAccessIdentity
           }
         }
       ],
