@@ -8,13 +8,6 @@ import {
   BucketEncryption,
   CfnBucketPolicy
 } from '@aws-cdk/aws-s3';
-import {
-  Effect,
-  Role,
-  CanonicalUserPrincipal,
-  PolicyDocument,
-  PolicyStatement
-} from '@aws-cdk/aws-iam';
 import { ICertificate } from '@aws-cdk/aws-certificatemanager';
 import { ARecord, IHostedZone, RecordTarget } from '@aws-cdk/aws-route53';
 import { CloudFrontTarget } from '@aws-cdk/aws-route53-targets';
