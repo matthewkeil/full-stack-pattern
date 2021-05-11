@@ -1,4 +1,4 @@
-export * from './lib/changeCase';
+export * from './lib';
 export * from './src/constructs/Api';
 export * from './src/constructs/Lambdas';
 export * from './src/constructs/Tables';
