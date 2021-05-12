@@ -1,5 +1,6 @@
-import { Construct, CustomResource, Duration, Environment } from '@aws-cdk/core';
+import { App, Construct, CustomResource, Duration, Environment } from '@aws-cdk/core';
 import { Function as Lambda } from '@aws-cdk/aws-lambda';
+import express from 'express';
 import { Role, ServicePrincipal } from '@aws-cdk/aws-iam';
 import { Lambdas, LambdasProps, LambdaProps } from '../../constructs/Lambdas';
 import { Tables, TablesProps } from '../../constructs/Tables';
@@ -17,7 +18,7 @@ export interface ServerlessConstructProps
     Omit<TablesProps, 'tables'>,
     Omit<LambdasProps, 'tables'>,
     Omit<ApiProps, 'lambdas' | 'userPool'> {
-  frontend: CDNStack | CDNNestedStack;
+  frontend?: CDNStack | CDNNestedStack;
   tables?: TablesProps['tables'];
   auth?: CognitoStack | CognitoNestedStack;
   configFile?: object;
@@ -30,14 +31,13 @@ export class ServerlessConstruct extends BaseConstruct {
   public api?: Api;
   public serviceToken?: Lambda;
 
-  constructor(scope: Construct, id: string, props: ServerlessConstructProps) {
+  constructor(scope: Construct, id: string, private props: ServerlessConstructProps) {
     super(scope, id, props);
 
     const serviceTokenRole = new Role(this, 'ServiceTokenRole', {
       roleName: `${props.prefix}-${SERVICE_TOKEN_NAME}`,
       assumedBy: new ServicePrincipal('lambda.amazonaws.com')
     });
-    props.frontend.bucket.grantReadWrite(serviceTokenRole);
     const serviceToken: LambdaProps = {
       functionName: SERVICE_TOKEN_NAME,
       handler: 'index.handler',
@@ -45,6 +45,9 @@ export class ServerlessConstruct extends BaseConstruct {
       code: resolve(__dirname, '..', '..', '..', 'providers', 'configFileProvider'),
       role: serviceTokenRole
     };
+    if (props.frontend) {
+      props.frontend.bucket.grantReadWrite(serviceTokenRole);
+    }
 
     if (props.tables) {
       this.tables = new Tables(this, 'Tables', (props as unknown) as TablesProps);
@@ -82,17 +85,24 @@ export class ServerlessConstruct extends BaseConstruct {
           identityPool: props.auth.identityPool.ref
         };
       }
-      const configFile = new CustomResource(this, 'ConfigFile', {
-        serviceToken: this.serviceToken.functionArn,
-        resourceType: 'Custom::ConfigFile',
-        properties: {
-          config,
-          fileType: 'js',
-          targetBucketName: props.frontend.bucket.bucketName,
-          timestamps: Date.now()
-        }
-      });
-      configFile.node.addDependency(this.serviceToken);
+      if (props.frontend) {
+        const configFile = new CustomResource(this, 'ConfigFile', {
+          serviceToken: this.serviceToken.functionArn,
+          resourceType: 'Custom::ConfigFile',
+          properties: {
+            config,
+            fileType: 'js',
+            targetBucketName: props.frontend.bucket.bucketName,
+            timestamps: Date.now()
+          }
+        });
+        configFile.node.addDependency(this.serviceToken);
+      }
     }
+  }
+
+  static buildDevServer(props: ServerlessConstructProps) {
+    const stack = new ServerlessConstruct(new App(), 'Construct', { ...props, devServer: true });
+    return stack.lambdas.devServer as express.Express;
   }
 }

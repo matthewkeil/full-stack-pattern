@@ -7,14 +7,17 @@ import {
   LayerVersionProps,
   Runtime
 } from '@aws-cdk/aws-lambda';
+import { Construct, RemovalPolicy } from '@aws-cdk/core';
 import { ILogGroup, LogGroup, LogGroupProps } from '@aws-cdk/aws-logs';
 import { IRole, Role, Policy, PolicyStatement, Effect, ServicePrincipal } from '@aws-cdk/aws-iam';
+import express from 'express';
 import { BaseConstruct, BaseConstructProps } from './BaseConstruct';
-import { Construct, RemovalPolicy } from '@aws-cdk/core';
 import { Tables } from './Tables';
 import { toKebab, toPascal, toUpperSnake } from '../../lib/changeCase';
-import { ApiConfig, ApiEvent, isApiEvent } from './Api';
+import { ApiConfig, ApiEvent, isApiEvent, isMethod } from './Api';
 import { mergeProps } from '../../lib/mergeProps';
+import { resolve, sep } from 'path';
+import { wrapLambda } from '../../lib/wrapLambda';
 
 interface TableDetail {
   tableName: string;
@@ -48,6 +51,7 @@ export interface LambdasProps extends BaseConstructProps, Omit<LambdaProps, Omit
   lambdas: LambdaProps[];
   tables?: Tables;
   existingLogGroups?: string[];
+  devServer?: boolean;
 }
 export interface ResourceGroup {
   lambda: Lambda;
@@ -57,7 +61,8 @@ export interface ResourceGroup {
 
 export class Lambdas extends BaseConstruct {
   public resources: { [functionName: string]: ResourceGroup } = {};
-  public apiConfig?: { [functionName: string]: ApiConfig };
+  public apiConfig?: { [functionName: string]: ApiConfig & { code: AssetCode } };
+  public devServer?: express.Express;
   private tables?: Tables['tables'];
   private code?: AssetCode;
   private layers: LayerVersion[];
@@ -67,6 +72,9 @@ export class Lambdas extends BaseConstruct {
     this.tables = props.tables?.tables;
     if (props.code) {
       this.code = typeof props.code === 'string' ? new AssetCode(props.code) : props.code;
+    }
+    if (props.devServer ?? true) {
+      this.devServer = express();
     }
     this.layers = props.layers?.length ? props.layers.map(this.mapToLayerVersion) : [];
     for (const lambda of props.lambdas) {
@@ -124,7 +132,7 @@ export class Lambdas extends BaseConstruct {
       layers: undefined
     });
 
-    this.configureFunction({ props, lambda, role, logGroup });
+    this.configureFunction({ props, lambda, role, logGroup, code });
     this.resources[props.functionName] = {
       lambda,
       logGroup,
@@ -176,12 +184,14 @@ export class Lambdas extends BaseConstruct {
     props,
     logGroup,
     lambda,
+    code,
     role
   }: {
-    props: LambdaProps;
     logGroup: ILogGroup;
     lambda: Lambda;
     role: IRole;
+    props: LambdaProps;
+    code: AssetCode;
   }) {
     logGroup.grantWrite(role);
     lambda.node.addDependency(role);
@@ -249,15 +259,40 @@ export class Lambdas extends BaseConstruct {
           if (!this.apiConfig) {
             this.apiConfig = {};
           }
+          if (this.devServer) {
+            const { method, path } = event;
+            if (isMethod(method)) {
+              const handler = this.getHandler({ props, code });
+              if (handler) {
+                this.devServer[method](path, handler);
+              }
+            }
+          }
           this.apiConfig[props.functionName] = {
             lambda,
-            method: event.method,
-            path: event.path
+            code,
+            ...event
           };
           continue;
         }
         lambda.addEventSource(event);
       }
+    }
+  }
+
+  private getHandler({ props, code }: { props: LambdaProps; code: AssetCode }) {
+    const handlerSegments = props.handler.split('/');
+    const [filename, propName] = handlerSegments.pop()?.split('.') as string[];
+    const pathSegments = code.path.split(sep).concat([...handlerSegments, filename]);
+    const filePath = require.resolve(resolve('/', ...pathSegments));
+
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const lambdaHandler = require(filePath)[propName];
+      const wrappedHandler = wrapLambda(lambdaHandler);
+      return wrappedHandler;
+    } catch (err) {
+      console.error(err);
     }
   }
 

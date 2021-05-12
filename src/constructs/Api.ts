@@ -18,11 +18,11 @@ import { Lambdas } from './Lambdas';
 import { UserPool } from '@aws-cdk/aws-cognito';
 import { Mutable } from '../../lib/Mutable';
 
-const methods = ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'] as const;
-type Method = typeof methods[number];
+const methods = ['get', 'post', 'patch', 'put', 'delete', 'options'] as const;
+export type Method = typeof methods[number];
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function isMethod(value: any): value is Method {
-  return typeof value === 'string' && !!methods.find(method => method === value.toUpperCase());
+export function isMethod(value: any): value is Method {
+  return typeof value === 'string' && !!methods.find(method => method === value.toLowerCase());
 }
 export interface ApiEvent {
   method: Method;
@@ -122,7 +122,7 @@ export class Api extends BaseConstruct {
 
   addResource({ lambda, method, path, options = {} }: ApiConfig) {
     const resource = this.restApi.root.resourceForPath(path);
-    if (this.userPool && method !== 'OPTIONS') {
+    if (this.userPool && method !== 'options') {
       options.authorizer =
         options.authorizer ??
         new CognitoUserPoolsAuthorizer(this, 'UserPoolAuthorizer', {

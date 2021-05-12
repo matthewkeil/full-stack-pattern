@@ -33,6 +33,11 @@ export interface FullStackProps extends BaseStackProps {
 }
 
 export class FullStack extends BaseConstruct {
+  public core: CoreStack;
+  public frontend: CDNStack;
+  public auth: CognitoStack;
+  public backend: ServerlessStack;
+
   constructor(scope: Construct, id: string, props: FullStackProps) {
     super(scope, id, props);
     const {
@@ -46,26 +51,26 @@ export class FullStack extends BaseConstruct {
       backend: backendProps
     } = props;
 
-    const coreStack = new CoreStack(this, 'Core', {
+    this.core = new CoreStack(this, 'Core', {
       ...coreProps,
       env,
       rootDomain,
       prefix: this.prefix
     });
 
-    const frontendStack = new CDNStack(this, 'Frontend', {
+    this.frontend = new CDNStack(this, 'Frontend', {
       ...frontendProps,
       env,
       prefix: this.prefix,
       stage,
-      certificate: coreStack.certificate,
-      hostedZone: coreStack.hostedZone,
+      certificate: this.core.certificate,
+      hostedZone: this.core.hostedZone,
       rootDomain
     });
 
     const devAddress = `http://localhost:${devPort ?? 4200}`;
-    const urls = (frontendStack.urls ?? []).map(url => `https://${url}`).concat(devAddress);
-    const authStack = new CognitoStack(this, 'Auth', {
+    const urls = (this.frontend.urls ?? []).map(url => `https://${url}`).concat(devAddress);
+    this.auth = new CognitoStack(this, 'Auth', {
       ...authProps,
       env,
       prefix: this.prefix,
@@ -88,12 +93,12 @@ export class FullStack extends BaseConstruct {
       }
     });
 
-    new ServerlessStack(this, 'Backend', {
+    this.backend = new ServerlessStack(this, 'Backend', {
       ...backendProps,
       env,
       prefix: this.prefix,
-      auth: authStack,
-      frontend: frontendStack,
+      auth: this.auth,
+      frontend: this.frontend,
       cors: {
         ...(backendProps.cors ?? {}),
         allowOrigins: urls.concat(backendProps.cors?.allowOrigins ?? [])
