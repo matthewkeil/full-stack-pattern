@@ -1,6 +1,7 @@
 import {
   APIGatewayProxyResult,
   APIGatewayProxyWithCognitoAuthorizerEvent,
+  APIGatewayProxyWithCognitoAuthorizerHandler,
   Context
 } from 'aws-lambda';
 import { Handler, Request } from 'express';
@@ -64,7 +65,10 @@ function buildResponseHeaders({
   return headers;
 }
 
-export function wrapLambda(handler: LambdaHandler, options?: WrapperOptions): Handler {
+export function wrapLambda(
+  handler: APIGatewayProxyWithCognitoAuthorizerHandler,
+  options?: WrapperOptions
+): Handler {
   return async (req, res, next) => {
     const event = {
       body: req.body,
@@ -88,7 +92,30 @@ export function wrapLambda(handler: LambdaHandler, options?: WrapperOptions): Ha
     } as Context;
 
     try {
-      const response = await handler(event, context);
+      const response = await new Promise<APIGatewayProxyResult>((resolve, reject) => {
+        let resolved = false;
+        const voidOrPromise = handler(event, context, (err, res) => {
+          if (err) {
+            resolved = true;
+            return reject(err);
+          }
+          resolved = true;
+          return resolve(res as APIGatewayProxyResult);
+        });
+        if (voidOrPromise) {
+          voidOrPromise
+            .then(res => {
+              if (!resolved) {
+                resolve(res);
+              }
+            })
+            .catch(err => {
+              if (!resolved) {
+                reject(err);
+              }
+            });
+        }
+      });
       res.status(response.statusCode);
 
       const headers = buildResponseHeaders({ response, options });
@@ -101,7 +128,6 @@ export function wrapLambda(handler: LambdaHandler, options?: WrapperOptions): Ha
       }
       return res.end();
     } catch (err) {
-      console.error(err);
       return next(err);
     }
   };

@@ -264,7 +264,20 @@ export class Lambdas extends BaseConstruct {
             if (isMethod(method)) {
               const handler = this.getHandler({ props, code });
               if (handler) {
-                this.devServer[method](path, handler);
+                console.log({
+                  method,
+                  path,
+                  filePath: handler.filePath
+                });
+                if (props.environment) {
+                  for (const [key, value] of Object.entries(props.environment)) {
+                    if (!value) {
+                      throw new Error(`attempting to load devServer env ${key} with undefined`);
+                    }
+                    process.env[key] = value;
+                  }
+                }
+                this.devServer[method](path, handler.handler);
               }
             }
           }
@@ -290,7 +303,7 @@ export class Lambdas extends BaseConstruct {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       const lambdaHandler = require(filePath)[propName];
       const wrappedHandler = wrapLambda(lambdaHandler);
-      return wrappedHandler;
+      return { handler: wrappedHandler, filePath };
     } catch (err) {
       console.error(err);
     }
