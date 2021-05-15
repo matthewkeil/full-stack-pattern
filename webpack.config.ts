@@ -34,7 +34,16 @@ const config: Configuration = {
             }
           }
         ]
-      }
+      },
+      {
+        test: /\.(t|j)s$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'shebang-loader',
+          },
+        ],
+      },
     ]
   },
   optimization: {

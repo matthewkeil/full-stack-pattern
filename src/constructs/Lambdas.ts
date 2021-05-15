@@ -1,3 +1,6 @@
+import helmet from 'helmet';
+import morgan from 'morgan';
+import cors from 'cors';
 import {
   AssetCode,
   Function as Lambda,
@@ -14,7 +17,7 @@ import express from 'express';
 import { BaseConstruct, BaseConstructProps } from './BaseConstruct';
 import { Tables } from './Tables';
 import { toKebab, toPascal, toUpperSnake } from '../../lib/changeCase';
-import { ApiConfig, ApiEvent, isApiEvent, isMethod } from './Api';
+import { ApiConfig, ApiEvent, isApiEvent, isMethod, Method } from './Api';
 import { mergeProps } from '../../lib/mergeProps';
 import { resolve, sep } from 'path';
 import { wrapLambda } from '../../lib/wrapLambda';
@@ -27,10 +30,11 @@ interface TableDetail {
 
 type LambdaLayer = string | LayerVersionProps;
 export interface LambdaProps
-  extends Omit<FunctionProps, 'code' | 'runtime' | 'events' | 'layers' | 'role'>,
+  extends Omit<FunctionProps, 'code' | 'runtime' | 'events' | 'layers' | 'role' | 'environment'>,
     LogGroupProps {
   functionName: string;
   role?: IRole;
+  environment?: Record<string, string | (() => string)>;
   policyStatements?: PolicyStatement[];
   tables?: (string | TableDetail)[];
   code?: string | AssetCode;
@@ -47,11 +51,11 @@ const omittedLambdaProps = [
   'handler'
 ] as const;
 type OmittedLambdaProps = typeof omittedLambdaProps[number];
+
 export interface LambdasProps extends BaseConstructProps, Omit<LambdaProps, OmittedLambdaProps> {
   lambdas: LambdaProps[];
   tables?: Tables;
   existingLogGroups?: string[];
-  devServer?: boolean;
 }
 export interface ResourceGroup {
   lambda: Lambda;
@@ -62,7 +66,14 @@ export interface ResourceGroup {
 export class Lambdas extends BaseConstruct {
   public resources: { [functionName: string]: ResourceGroup } = {};
   public apiConfig?: { [functionName: string]: ApiConfig & { code: AssetCode } };
-  public devServer?: express.Express;
+  private devServerConfig?: {
+    method: Method;
+    path: string;
+    environment: LambdaProps['environment'];
+    propName: string;
+    filePath: string;
+  }[];
+
   private tables?: Tables['tables'];
   private code?: AssetCode;
   private layers: LayerVersion[];
@@ -73,16 +84,77 @@ export class Lambdas extends BaseConstruct {
     if (props.code) {
       this.code = typeof props.code === 'string' ? new AssetCode(props.code) : props.code;
     }
-    if (props.devServer ?? true) {
-      this.devServer = express();
-    }
     this.layers = props.layers?.length ? props.layers.map(this.mapToLayerVersion) : [];
     for (const lambda of props.lambdas) {
       this.buildResources(lambda);
     }
   }
 
-  buildResources(props: LambdaProps) {
+  public getDevServer(devServer?: {
+    logger?: false | string;
+    cors?: cors.CorsOptions;
+    helmet?: Record<string, unknown>;
+    middleware?: express.Handler[];
+  }): express.Express {
+    if (!this.devServerConfig) {
+      throw new Error('no handlers configured');
+    }
+
+    const app = express();
+    const environment: Record<string, string> = {};
+
+    if (devServer?.logger !== false && devServer?.logger !== 'false') {
+      app.use(morgan(devServer?.logger ?? this.prod ? 'combined' : 'dev'));
+    }
+    app.use(
+      cors({
+        origin: '*',
+        methods: '*',
+        ...(devServer?.cors ?? {})
+      })
+    );
+    app.use(morgan(devServer?.logger ?? this.prod ? 'combined' : 'dev'));
+    if (devServer?.middleware?.length) {
+      devServer.middleware.forEach(handler => app.use(handler));
+    }
+
+    for (const { method, path, environment, filePath, propName } of this.devServerConfig) {
+      if (!isMethod(method)) {
+        throw new Error(`${method} is not a valid method`);
+      }
+      if (environment) {
+        for (const [key, value] of Object.entries(environment)) {
+          const _value = typeof value === 'function' ? value() : value;
+          if (!_value.length) {
+            throw new Error(`attempting to load devServer env ${key} with "${_value}"`);
+          }
+          environment[key] = _value;
+        }
+      }
+
+      if (require.cache[filePath]) {
+        delete require.cache[filePath];
+      }
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const lambdaHandler = require(filePath)[propName];
+      app[method](path, wrapLambda(lambdaHandler));
+
+      console.log({
+        method,
+        path,
+        filePath
+      });
+    }
+
+    for (const [key, value] of Object.entries(environment)) {
+      console.log('loading env key ' + key);
+      process.env[key] = value;
+    }
+
+    return app;
+  }
+
+  private buildResources(props: LambdaProps) {
     const functionName = `${this.prefix}-${props.functionName}`.substr(0, 64);
     const role = this.buildRole({
       role: props.role ?? this.props.role,
@@ -122,8 +194,14 @@ export class Lambdas extends BaseConstruct {
     if (!code) {
       throw new Error(`no code provided for function ${props.functionName}`);
     }
+    const merged = mergeProps(this.props, props);
+    const environment: Record<string, string> = {};
+    for (const [key, value] of Object.entries(merged.environment ?? {})) {
+      environment[key] = typeof value === 'function' ? value() : value;
+    }
     const lambda = new Lambda(this, `${toPascal(props.functionName)}Lambda`, {
-      ...mergeProps(this.props, props),
+      ...merged,
+      environment,
       code,
       role,
       functionName,
@@ -256,30 +334,21 @@ export class Lambdas extends BaseConstruct {
     if (props.events?.length) {
       for (const event of props.events) {
         if (isApiEvent(event)) {
+          const handler = this.getHandler({ props, code });
+          if (handler) {
+            if (!this.devServerConfig) {
+              this.devServerConfig = [];
+            }
+            this.devServerConfig.push({
+              method: event.method,
+              path: event.path,
+              environment: props.environment,
+              filePath: handler.filePath,
+              propName: handler.propName
+            });
+          }
           if (!this.apiConfig) {
             this.apiConfig = {};
-          }
-          if (this.devServer) {
-            const { method, path } = event;
-            if (isMethod(method)) {
-              const handler = this.getHandler({ props, code });
-              if (handler) {
-                console.log({
-                  method,
-                  path,
-                  filePath: handler.filePath
-                });
-                if (props.environment) {
-                  for (const [key, value] of Object.entries(props.environment)) {
-                    if (!value) {
-                      throw new Error(`attempting to load devServer env ${key} with undefined`);
-                    }
-                    process.env[key] = value;
-                  }
-                }
-                this.devServer[method](path, handler.handler);
-              }
-            }
           }
           this.apiConfig[props.functionName] = {
             lambda,
@@ -294,16 +363,12 @@ export class Lambdas extends BaseConstruct {
   }
 
   private getHandler({ props, code }: { props: LambdaProps; code: AssetCode }) {
-    const handlerSegments = props.handler.split('/');
-    const [filename, propName] = handlerSegments.pop()?.split('.') as string[];
-    const pathSegments = code.path.split(sep).concat([...handlerSegments, filename]);
-    const filePath = require.resolve(resolve('/', ...pathSegments));
-
     try {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const lambdaHandler = require(filePath)[propName];
-      const wrappedHandler = wrapLambda(lambdaHandler);
-      return { handler: wrappedHandler, filePath };
+      const handlerSegments = props.handler.split('/');
+      const [filename, propName] = handlerSegments.pop()?.split('.') as string[];
+      const pathSegments = code.path.split(sep).concat([...handlerSegments, filename]);
+      const filePath = require.resolve(resolve('/', ...pathSegments));
+      return { filePath, propName };
     } catch (err) {
       console.error(err);
     }

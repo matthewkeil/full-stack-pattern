@@ -1,4 +1,4 @@
-import { App, Construct, CustomResource, Duration, Environment } from '@aws-cdk/core';
+import { App, Construct, CustomResource, Duration, Environment, Fn } from '@aws-cdk/core';
 import { Function as Lambda } from '@aws-cdk/aws-lambda';
 import express from 'express';
 import { Role, ServicePrincipal } from '@aws-cdk/aws-iam';
@@ -97,12 +97,22 @@ export class ServerlessConstruct extends BaseConstruct {
           }
         });
         configFile.node.addDependency(this.serviceToken);
+        const netlifyConfig = new CustomResource(this, 'AdminConfigFile', {
+          serviceToken: this.serviceToken.functionArn,
+          resourceType: 'Custom::ConfigFile',
+          properties: {
+            config: {
+              backend: { baseUrl: Fn.join('/', [this.api?.restApi.url ?? '', 'netlify']) }
+            },
+            fileType: 'yaml',
+            fileName: 'admin/config.yml',
+            targetBucketName: props.frontend.bucket.bucketName,
+            timestamps: Date.now()
+          }
+        });
+        netlifyConfig.node.addDependency(this.serviceToken);
       }
     }
   }
 
-  static buildDevServer(props: ServerlessConstructProps) {
-    const stack = new ServerlessConstruct(new App(), 'Construct', { ...props, devServer: true });
-    return stack.lambdas.devServer as express.Express;
-  }
 }
