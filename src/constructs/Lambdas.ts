@@ -95,6 +95,7 @@ export class Lambdas extends BaseConstruct {
     cors?: cors.CorsOptions;
     helmet?: Record<string, unknown>;
     middleware?: express.Handler[];
+    verbose?: boolean;
   }): express.Express {
     if (!this.devServerConfig) {
       throw new Error('no handlers configured');
@@ -139,15 +140,19 @@ export class Lambdas extends BaseConstruct {
       const lambdaHandler = require(filePath)[propName];
       app[method](path, wrapLambda(lambdaHandler));
 
-      console.log({
-        method,
-        path,
-        filePath
-      });
+      if (devServer?.verbose) {
+        console.log({
+          method,
+          path,
+          filePath
+        });
+      }
     }
 
     for (const [key, value] of Object.entries(environment)) {
-      console.log('loading env key ' + key);
+      if (devServer?.verbose) {
+        console.log('loading env key ' + key);
+      }
       process.env[key] = value;
     }
 

@@ -5,7 +5,7 @@ interface IObject {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type TUnionToIntersection<U> = (U extends any
+type Intersection<U> = (U extends any
 ? (k: U) => void
 : never) extends (k: infer I) => void
   ? I
@@ -25,7 +25,7 @@ const isObject = (obj: any) => {
   return false;
 };
 
-export const mergeProps = <T extends IObject[]>(...objects: T): TUnionToIntersection<T[number]> =>
+export const mergeProps = <T extends IObject[]>(...objects: T): Intersection<T[number]> =>
   objects.reduce((result, current) => {
     Object.keys(current).forEach(key => {
       if (Array.isArray(result[key]) && Array.isArray(current[key])) {

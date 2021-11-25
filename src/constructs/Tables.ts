@@ -2,23 +2,24 @@ import {
   BillingMode,
   Table,
   ITable,
+  TableEncryption,
   Attribute as BaseAttribute,
   AttributeType as BaseAttributeType,
   TableProps as BaseTableProps,
   GlobalSecondaryIndexProps,
-  LocalSecondaryIndexProps
+  LocalSecondaryIndexProps,
+  CfnTable
 } from '@aws-cdk/aws-dynamodb';
 import { Construct, RemovalPolicy } from '@aws-cdk/core';
-import { toKebab, toPascal } from '../../lib/changeCase';
-import { BaseConstruct, BaseConstructProps } from './BaseConstruct';
+import { toKebab, toPascal, mergeProps } from '../../lib';
 
 const dynamoAttributeTypes = ['string', 'number', 'boolean'] as const;
 type AttributeType = typeof dynamoAttributeTypes[number];
 export type DynamoAttribute = {
-  [AttributeName: string]: AttributeType;
+  [attributeName: string]: AttributeType;
 };
-const omittedIndexProps = ['partitionKey', 'sortKey'] as const;
-type OmittedIndexProps = typeof omittedIndexProps[number];
+
+type OmittedIndexProps = 'partitionKey' | 'sortKey';
 interface LsiProps extends Omit<LocalSecondaryIndexProps, OmittedIndexProps> {
   sortKey: DynamoAttribute;
 }
@@ -26,107 +27,80 @@ interface GsiProps extends Omit<GlobalSecondaryIndexProps, OmittedIndexProps> {
   partitionKey: DynamoAttribute;
   sortKey?: DynamoAttribute;
 }
-export interface TableProps extends Omit<BaseTableProps, OmittedIndexProps> {
-  tableName: string;
+export interface TableProps extends Omit<BaseTableProps, OmittedIndexProps | 'tableName'> {
+  name: string;
+  logicalId: string;
   partitionKey: DynamoAttribute;
   sortKey?: DynamoAttribute;
-  localSecondaryIndexes?: LsiProps[];
-  globalSecondaryIndexes?: GsiProps[];
+  lsi?: LsiProps[];
+  gsi?: GsiProps[];
 }
-const omittedTableProps = [
-  ...omittedIndexProps,
-  'tableName',
-  'localSecondaryIndexes',
-  'globalSecondaryIndexes'
-] as const;
-type OmittedTableProps = typeof omittedTableProps[number];
-export interface TablesProps extends BaseConstructProps, Omit<TableProps, OmittedTableProps> {
+type OmittedTablesProps = OmittedIndexProps | 'tableName' | 'name' | 'logicalId' | 'lsi' | 'gsi';
+export interface TablesProps extends Omit<TableProps, OmittedTablesProps> {
+  prefix?: string;
   tables: TableProps[];
-  existingTables?: string[];
 }
 
-export class Tables extends BaseConstruct {
-  public tables: { [tableName: string]: ITable } = {};
+const DEFAULT_PROPS = {
+  billingMode: BillingMode.PAY_PER_REQUEST
+} as TableProps;
+
+export class Tables extends Construct {
+  public resources: { [tableName: string]: ITable } = {};
+  private globalProps: Omit<TablesProps, 'tables'>;
+
   constructor(scope: Construct, id: string, private props: TablesProps) {
-    super(scope, id, props);
+    super(scope, id);
+    this.globalProps = mergeProps(DEFAULT_PROPS, props, { tables: undefined });
+
     for (const table of props.tables) {
-      const _table = this.buildTable({
-        ...table,
-        billingMode: props.billingMode ?? table.billingMode ?? BillingMode.PAY_PER_REQUEST,
-        encryption: props.encryption ?? table.encryption,
-        encryptionKey: props.encryptionKey ?? table.encryptionKey,
-        pointInTimeRecovery: props.pointInTimeRecovery ?? table.pointInTimeRecovery,
-        removalPolicy: props.removalPolicy ?? table.removalPolicy,
-        readCapacity: props.readCapacity ?? table.readCapacity,
-        replicationRegions: props.replicationRegions ?? table.replicationRegions,
-        replicationTimeout: props.replicationTimeout ?? table.replicationTimeout,
-        timeToLiveAttribute: props.timeToLiveAttribute ?? table.timeToLiveAttribute,
-        writeCapacity: props.writeCapacity ?? table.writeCapacity,
-        stream: props.stream ?? table.stream
-      });
-      this.tables[table.tableName] = _table;
+      this.addTable(table);
     }
   }
 
-  buildTable(props: TableProps) {
-    const logicalId = `${toPascal(props.tableName)}Table`;
-    const tableName = `${this.prefix}-${toKebab(props.tableName)}`;
-    if (this.props.existingTables?.find(existing => tableName === existing)) {
-      return Table.fromTableName(this, logicalId, tableName);
-    }
-    const table = new Table(this, logicalId, {
+  public addTable(tableProps: TableProps) {
+    const { name, logicalId, lsi, gsi } = tableProps;
+    const tableName = this.props.prefix ? `${this.props.prefix}-${name}` : name;
+    const pascalName = toPascal(name);
+    const props = mergeProps(this.globalProps, tableProps);
+
+    const table = new Table(this, pascalName, {
       ...props,
       tableName,
-      partitionKey: this.convertAttribute(props.partitionKey),
-      sortKey: props.sortKey ? this.convertAttribute(props.sortKey) : undefined,
-      removalPolicy: props.removalPolicy
-        ? props.removalPolicy
-        : this.prod
-        ? RemovalPolicy.RETAIN
-        : RemovalPolicy.DESTROY
+      partitionKey: this.convertAttribute(tableProps.partitionKey),
+      sortKey: tableProps.sortKey ? this.convertAttribute(tableProps.sortKey) : undefined,
+      encryption: props.encryption
+        ? props.encryption
+        : props.encryptionKey
+        ? TableEncryption.CUSTOMER_MANAGED
+        : undefined,
+      removalPolicy: props.removalPolicy ? props.removalPolicy : RemovalPolicy.DESTROY
     });
+    (table.node.defaultChild as CfnTable).overrideLogicalId(logicalId ? logicalId : pascalName);
 
-    if (props.localSecondaryIndexes?.length) {
-      for (const {
-        indexName,
-        sortKey,
-        nonKeyAttributes,
-        projectionType
-      } of props.localSecondaryIndexes) {
-        table.addLocalSecondaryIndex({
-          indexName,
-          nonKeyAttributes,
-          projectionType,
-          sortKey: this.convertAttribute(sortKey)
-        });
-      }
-    }
-    if (props.globalSecondaryIndexes?.length) {
-      for (const {
-        indexName,
-        partitionKey,
-        sortKey,
-        nonKeyAttributes,
-        projectionType,
-        readCapacity,
-        writeCapacity
-      } of props.globalSecondaryIndexes) {
+    if (gsi) {
+      for (const index of gsi) {
         table.addGlobalSecondaryIndex({
-          indexName,
-          partitionKey: this.convertAttribute(partitionKey),
-          sortKey: sortKey ? this.convertAttribute(sortKey) : undefined,
-          nonKeyAttributes,
-          projectionType,
-          readCapacity,
-          writeCapacity
+          ...index,
+          partitionKey: this.convertAttribute(index.partitionKey),
+          sortKey: index.sortKey ? this.convertAttribute(index.sortKey) : undefined
+        });
+      }
+    }
+    if (lsi) {
+      for (const index of lsi) {
+        table.addLocalSecondaryIndex({
+          ...index,
+          sortKey: this.convertAttribute(index.sortKey)
         });
       }
     }
 
+    this.resources[name] = table;
     return table;
   }
 
-  convertAttribute(attribute: DynamoAttribute): BaseAttribute {
+  private convertAttribute(attribute: DynamoAttribute): BaseAttribute {
     const [attributeName, attributeType] = Object.entries(attribute)[0];
     return {
       name: attributeName,

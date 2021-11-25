@@ -1,157 +1,173 @@
 import {
   CognitoUserPoolsAuthorizer,
-  Cors,
-  CorsOptions as BaseCorsOptions,
   GatewayResponseOptions,
-  LambdaIntegration,
-  LambdaIntegrationOptions,
+  IntegrationOptions,
   MethodOptions,
   ResponseType,
   RestApi,
-  RestApiProps
+  IResource,
+  RestApiProps,
+  MockIntegration,
+  PassthroughBehavior,
+  IRestApi,
+  AwsIntegration
 } from '@aws-cdk/aws-apigateway';
 import { Function as Lambda } from '@aws-cdk/aws-lambda';
-import { Role, IRole, ServicePrincipal } from '@aws-cdk/aws-iam';
+import { ServicePrincipal } from '@aws-cdk/aws-iam';
 import { Construct } from '@aws-cdk/core';
-import { BaseConstruct, BaseConstructProps } from './BaseConstruct';
-import { Lambdas } from './Lambdas';
-import { UserPool } from '@aws-cdk/aws-cognito';
-import { Mutable } from '../../lib/Mutable';
+import { IUserPool } from '@aws-cdk/aws-cognito';
+import { Mutable, toPascal, toKebab, HttpMethod } from '../../lib';
 
-const methods = ['get', 'post', 'patch', 'put', 'delete', 'options'] as const;
-export type Method = typeof methods[number];
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function isMethod(value: any): value is Method {
-  return typeof value === 'string' && !!methods.find(method => method === value.toLowerCase());
-}
-export interface ApiEvent {
-  method: Method;
-  path: string;
-  options?: Mutable<MethodOptions & LambdaIntegrationOptions>;
-}
-export interface ApiConfig extends ApiEvent {
-  lambda: Lambda;
-}
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function isApiEvent(event: any): event is ApiEvent {
-  if (typeof event !== 'object') {
-    return false;
-  }
-  for (const [key, value] of Object.entries(event)) {
-    switch (key) {
-      case 'method':
-        if (!isMethod(value)) {
-          throw new Error(`${value} is not a valid METHOD`);
-        }
-        break;
-      case 'path':
-        if (typeof value === 'string' && value.startsWith('/')) {
-          break;
-        }
-        throw new Error('ApiEvent paths must be of type string and start with a "/"');
-      default:
-        return false;
-    }
-  }
-  return true;
-}
-
-interface CorsOptions extends BaseCorsOptions {
-  allowOrigins: string[];
-}
-
-export interface ApiProps
-  extends BaseConstructProps,
-    Omit<RestApiProps, 'defaultCorsPreflightOptions'> {
-  // Api service role for lambda execution
-  lambdas: Lambdas;
+export interface ApiProps extends RestApiProps {
   stage: string;
-  role?: IRole;
-  userPool?: UserPool;
+  prefix: string;
+  userPool?: IUserPool;
   gatewayResponses?: GatewayResponseOptions[];
-  cors: CorsOptions;
 }
 
-export class Api extends BaseConstruct {
-  public restApi: RestApi;
-  private serviceRole: IRole;
-  private userPool?: UserPool;
+export class Api extends Construct {
+  public api: IRestApi;
 
-  constructor(scope: Construct, id: string, props: ApiProps) {
-    super(scope, id, props);
-    this.serviceRole =
-      props.role ??
-      new Role(this, 'ApiServiceRole', {
-        roleName: `${this.prefix}-api-execution`,
-        assumedBy: new ServicePrincipal('apigateway.amazonaws.com')
-      });
-    const allowHeaders = [
-      ...new Set([
-        ...(props.cors.allowHeaders ?? []),
-        'Authorization',
-        'X-Api-Key',
-        'X-Amz-Date',
-        'X-Amz-Security-Token',
-        'Content-Type'
-      ])
-    ];
-    this.restApi = new RestApi(this, 'RestApi', {
-      ...props,
-      restApiName: this.prefix,
-      defaultCorsPreflightOptions: {
-        allowHeaders,
-        statusCode: props.cors.statusCode ?? 200,
-        allowOrigins: props.cors.allowOrigins ?? Cors.ALL_ORIGINS,
-        allowMethods: props.cors.allowMethods ?? Cors.ALL_METHODS
-      },
+  private allowedOrigins: string;
+  private allowedMethods: string;
+  private allowedHeaders: string;
+  private authorizer?: CognitoUserPoolsAuthorizer;
+
+  constructor(scope: Construct, id: string, private props: ApiProps) {
+    super(scope, id);
+
+    this.api = new RestApi(this, toPascal(`${this.props.prefix}-RestApi`), {
+      ...this.props,
+      restApiName: toKebab(this.props.prefix),
       deployOptions: {
-        ...(props.deployOptions ?? {}),
         stageName: props.stage
       }
     });
 
-    if (!props.lambdas.apiConfig) {
-      throw new Error('attempting to build an api without a lambdas.apiConfig');
-    }
-    for (const resource of Object.values(props.lambdas.apiConfig)) {
-      this.addResource(resource);
-    }
+    this.allowedOrigins = this.props.defaultCorsPreflightOptions?.allowOrigins
+      ? `"${this.props.defaultCorsPreflightOptions.allowOrigins.join(',')}"`
+      : '"*"';
+    this.allowedMethods = this.props.defaultCorsPreflightOptions?.allowMethods
+      ? `"${this.props.defaultCorsPreflightOptions.allowMethods.join(',')}"`
+      : '"OPTIONS,GET,PUT,POST,DELETE"';
+    this.allowedHeaders = this.props.defaultCorsPreflightOptions?.allowHeaders
+      ? `"${this.props.defaultCorsPreflightOptions.allowHeaders.join(',')}"`
+      : '"Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent"';
 
-    this.configureGatewayResponses(props.gatewayResponses);
+    this.addGatewayResponses();
+
+    if (props.userPool) {
+      this.attachCognitoAuthorizer(props.userPool);
+    }
   }
 
-  addResource({ lambda, method, path, options = {} }: ApiConfig) {
-    const resource = this.restApi.root.resourceForPath(path);
-    if (this.userPool && method !== 'options') {
-      options.authorizer =
-        options.authorizer ??
-        new CognitoUserPoolsAuthorizer(this, 'UserPoolAuthorizer', {
-          cognitoUserPools: [this.userPool]
-        });
-    }
-    resource.addMethod(method, new LambdaIntegration(lambda, options), options);
-    lambda.grantInvoke(this.serviceRole);
+  public attachCognitoAuthorizer(userPool: IUserPool) {
+    this.authorizer = new CognitoUserPoolsAuthorizer(this, 'CognitoAuthorizer', {
+      cognitoUserPools: [userPool],
+      authorizerName: 'Cognito'
+    });
+    this.authorizer._attachToApi(this.api);
   }
 
-  configureGatewayResponses(gatewayResponses: GatewayResponseOptions[] = []) {
+  public addLambda({
+    method,
+    path,
+    lambda,
+    options = {}
+  }: {
+    method: HttpMethod;
+    path: string;
+    lambda: Lambda;
+    options?: Mutable<IntegrationOptions & MethodOptions>;
+  }) {
+    const resource = this.api.root.resourceForPath(path.startsWith('/') ? path : `/${path}`);
+
+    const _options = options;
+    if (this.authorizer && method !== 'OPTIONS') {
+      _options.authorizer = this.authorizer;
+    }
+    const integration = new AwsIntegration({
+      proxy: true,
+      service: 'lambda',
+      path: `2015-03-31/functions/${lambda.functionArn}/invocations`,
+      options
+    });
+    resource.addMethod(method, integration, options);
+    lambda.grantInvoke(new ServicePrincipal('apigateway.amazonaws.com')); //Need to grant apigateway permission to invoke lambda when there are multiple stages
+
+    try {
+      this.addCorsMockIntegration(resource); // throws if added multiple times
+    } catch {
+      // Allow multiple resources of the same name with different methods
+    }
+  }
+
+  private addGatewayResponses() {
     const defaultResponses: GatewayResponseOptions[] = [
       { type: ResponseType.UNAUTHORIZED, statusCode: '401' },
       { type: ResponseType.ACCESS_DENIED, statusCode: '403' },
       { type: ResponseType.RESOURCE_NOT_FOUND, statusCode: '404' },
       { type: ResponseType.DEFAULT_5XX, statusCode: '500' }
     ];
-    for (const response of defaultResponses) {
-      // look in gatewayResponses argument to not have duplication and to favor
-      // one user submitted over the defaults
-      const inArgument = gatewayResponses.find(
-        ({ type: { responseType } }) => responseType === response.type.responseType
+    const responses = [...defaultResponses, ...(this.props.gatewayResponses || [])];
+
+    for (const { type, statusCode } of responses) {
+      (this.api as RestApi).addGatewayResponse(
+        toPascal(`${this.props.prefix}-GatewayResponse-${type.responseType}`),
+        {
+          type,
+          statusCode,
+          responseHeaders: {
+            'Access-Control-Allow-Methods': this.allowedMethods,
+            'Access-Control-Allow-Origin': this.allowedOrigins,
+            'Access-Control-Allow-Headers': this.allowedHeaders
+          }
+        }
       );
-      if (!inArgument) {
-        this.restApi.addGatewayResponse(`${response.type.responseType}GatewayResponse`, response);
+    }
+  }
+
+  private addCorsMockIntegration(apiResource: IResource) {
+    // TODO: verify how this mock synth's with different props
+    const integrationOptions: IntegrationOptions = {
+      integrationResponses: [
+        {
+          statusCode: '204',
+          responseParameters: {
+            'method.response.header.Access-Control-Allow-Headers': this.allowedHeaders,
+            'method.response.header.Access-Control-Allow-Origin': this.allowedOrigins,
+            'method.response.header.Access-Control-Allow-Methods': this.allowedMethods,
+            'method.response.header.Access-Control-Allow-Credentials': this.props
+              .defaultCorsPreflightOptions?.allowCredentials
+              ? '"true"'
+              : '"false"'
+          }
+        }
+      ],
+      passthroughBehavior: PassthroughBehavior.NEVER,
+      requestTemplates: {
+        'application/json': '{"statusCode": 200}'
       }
+    };
+    const methodOptions: MethodOptions = {
+      methodResponses: [
+        {
+          statusCode: '204',
+          responseParameters: {
+            'method.response.header.Access-Control-Allow-Headers': true,
+            'method.response.header.Access-Control-Allow-Methods': true,
+            'method.response.header.Access-Control-Allow-Origin': true
+          }
+        }
+      ]
+    };
+    if (this.props.defaultCorsPreflightOptions?.allowCredentials) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (methodOptions as any).methodResponses[0].responseParameters[
+        'method.response.header.Access-Control-Allow-Credentials'
+      ] = true;
     }
-    for (const response of gatewayResponses) {
-      this.restApi.addGatewayResponse(`${response.type.responseType}GatewayResponse`, response);
-    }
+
+    apiResource.addMethod('OPTIONS', new MockIntegration(integrationOptions), methodOptions);
   }
 }
