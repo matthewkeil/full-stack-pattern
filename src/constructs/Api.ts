@@ -12,10 +12,11 @@ import {
   IRestApi,
   AwsIntegration
 } from '@aws-cdk/aws-apigateway';
-import { Function as Lambda } from '@aws-cdk/aws-lambda';
-import { ServicePrincipal } from '@aws-cdk/aws-iam';
 import { Construct } from '@aws-cdk/core';
 import { IUserPool } from '@aws-cdk/aws-cognito';
+import { ServicePrincipal } from '@aws-cdk/aws-iam';
+import { Function as Lambda } from '@aws-cdk/aws-lambda';
+
 import { Mutable, toPascal, toKebab, HttpMethod } from '../../lib';
 
 export interface ApiProps extends RestApiProps {
@@ -49,7 +50,7 @@ export class Api extends Construct {
       : '"*"';
     this.allowedMethods = this.props.defaultCorsPreflightOptions?.allowMethods
       ? `"${this.props.defaultCorsPreflightOptions.allowMethods.join(',')}"`
-      : '"OPTIONS,GET,PUT,POST,DELETE"';
+      : '"OPTIONS,GET,PUT,POST,PATCH,DELETE"';
     this.allowedHeaders = this.props.defaultCorsPreflightOptions?.allowHeaders
       ? `"${this.props.defaultCorsPreflightOptions.allowHeaders.join(',')}"`
       : '"Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent"';
@@ -120,7 +121,11 @@ export class Api extends Construct {
           responseHeaders: {
             'Access-Control-Allow-Methods': this.allowedMethods,
             'Access-Control-Allow-Origin': this.allowedOrigins,
-            'Access-Control-Allow-Headers': this.allowedHeaders
+            'Access-Control-Allow-Headers': this.allowedHeaders,
+            'Access-Control-Allow-Credentials': this.props
+              .defaultCorsPreflightOptions?.allowCredentials
+              ? '"true"'
+              : '"false"'
           }
         }
       );

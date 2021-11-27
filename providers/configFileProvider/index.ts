@@ -12,8 +12,8 @@ import { toKebab } from '../../lib/changeCase';
 const s3 = new S3();
 const FILE_NAME = 'config';
 
-interface ConfigFileProps {
-  targetBucketName: string;
+export interface ConfigFileProps {
+  bucketName: string;
   fileName?: string;
   fileType?: 'js' | 'json' | 'yaml';
   config: object;
@@ -43,16 +43,18 @@ async function buildAndUploadFile(props: Required<ConfigFileProps>) {
   try {
     const { Body } = await s3
       .getObject({
-        Bucket: props.targetBucketName,
+        Bucket: props.bucketName,
         Key: props.fileName
       })
       .promise();
+
     const config =
       props.fileType === 'json'
         ? JSON.parse(Body?.toString() ?? '{}')
         : props.fileType === 'yaml'
         ? YAML.parse(Body?.toString() ?? '')
         : {};
+
     merged = deepMerge(props.config, config);
   } catch {
     merged = { ...props.config };
@@ -62,7 +64,7 @@ async function buildAndUploadFile(props: Required<ConfigFileProps>) {
   console.log({ Body });
   return s3
     .putObject({
-      Bucket: props.targetBucketName,
+      Bucket: props.bucketName,
       Key: props.fileName,
       ContentType,
       Body
@@ -82,7 +84,7 @@ const updateFile: UpdateEventHandler<ConfigFileProps> = async event => {
   const { ResourceProperties } = event;
   const { fileName, fileType } = getFileInfo(ResourceProperties);
   const PhysicalResourceId =
-    event.PhysicalResourceId ?? toKebab(`${ResourceProperties.targetBucketName}-${fileName}`);
+    event.PhysicalResourceId ?? toKebab(`${ResourceProperties.bucketName}-${fileName}`);
 
   console.log('handling: ' + PhysicalResourceId);
   await buildAndUploadFile({
@@ -102,16 +104,16 @@ const ConfigFile = new CustomResourceProvider<ConfigFileProps>({
   delete: async event => {
     const { ResourceProperties } = event;
     const { fileName } = getFileInfo(ResourceProperties);
-    console.log(`deleting s3://${ResourceProperties.targetBucketName}/${fileName}`);
+    console.log(`deleting s3://${ResourceProperties.bucketName}/${fileName}`);
     try {
       await s3
         .deleteObject({
-          Bucket: ResourceProperties.targetBucketName,
+          Bucket: ResourceProperties.bucketName,
           Key: fileName
         })
         .promise();
     } catch {
-      console.log(`s3://${ResourceProperties.targetBucketName}/${fileName} was not found`);
+      console.log(`s3://${ResourceProperties.bucketName}/${fileName} was not found`);
     }
     return {
       Status: 'SUCCESS'

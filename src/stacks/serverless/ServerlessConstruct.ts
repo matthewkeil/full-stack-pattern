@@ -1,118 +1,81 @@
-import { App, Construct, CustomResource, Duration, Environment, Fn } from '@aws-cdk/core';
-import { Function as Lambda } from '@aws-cdk/aws-lambda';
-import express from 'express';
-import { Role, ServicePrincipal } from '@aws-cdk/aws-iam';
-import { Lambdas, LambdasProps, LambdaProps } from '../../constructs/Lambdas';
-import { Tables, TablesProps } from '../../constructs/Tables';
+import { nanoid } from 'nanoid';
+import { Construct, CustomResource } from '@aws-cdk/core';
+import { AssetCode, LayerVersion } from '@aws-cdk/aws-lambda';
 import { Api, ApiProps } from '../../constructs/Api';
-import { BaseConstruct, BaseConstructProps } from '../../constructs/BaseConstruct';
-import { CDNStack } from '../cdn/CDNStack';
-import { CDNNestedStack } from '../cdn/CDNNestedStack';
-import { CognitoStack } from '../cognito/CognitoStack';
-import { CognitoNestedStack } from '../cognito/CognitoNestedStack';
-import { resolve } from 'path';
+import { Tables, TablesProps } from '../../constructs/Tables';
+import { Lambdas, LambdasProps } from '../../constructs/Lambdas';
+import { ConfigFileProps } from '../../../providers/configFileProvider';
 
-const SERVICE_TOKEN_NAME = 'custom-resource';
 export interface ServerlessConstructProps
-  extends BaseConstructProps,
-    Omit<TablesProps, 'tables'>,
-    Omit<LambdasProps, 'tables'>,
-    Omit<ApiProps, 'lambdas' | 'userPool'> {
-  frontend?: CDNStack | CDNNestedStack;
-  tables?: TablesProps['tables'];
-  auth?: CognitoStack | CognitoNestedStack;
-  configFile?: object;
-  env: Required<Environment>;
+  extends ApiProps,
+    Pick<TablesProps, 'tables'>,
+    Omit<LambdasProps, 'tables' | 'prefix'> {
+  configFile?: ConfigFileProps & {
+    serviceToken: string;
+  };
 }
 
-export class ServerlessConstruct extends BaseConstruct {
-  public lambdas: Lambdas;
+export class ServerlessConstruct extends Construct {
+  public lambdas?: Lambdas;
   public tables?: Tables;
   public api?: Api;
-  public serviceToken?: Lambda;
+
+  private layers?: LayerVersion[];
 
   constructor(scope: Construct, id: string, private props: ServerlessConstructProps) {
-    super(scope, id, props);
+    super(scope, id);
+    this.api = new Api(this, 'Api', props);
 
-    const serviceTokenRole = new Role(this, 'ServiceTokenRole', {
-      roleName: `${props.prefix}-${SERVICE_TOKEN_NAME}`,
-      assumedBy: new ServicePrincipal('lambda.amazonaws.com')
-    });
-    const serviceToken: LambdaProps = {
-      functionName: SERVICE_TOKEN_NAME,
-      handler: 'index.handler',
-      timeout: Duration.seconds(15),
-      code: resolve(__dirname, '..', '..', '..', 'providers', 'configFileProvider'),
-      role: serviceTokenRole
-    };
-    if (props.frontend) {
-      props.frontend.bucket.grantReadWrite(serviceTokenRole);
-    }
-
-    if (props.tables) {
-      this.tables = new Tables(this, 'Tables', (props as unknown) as TablesProps);
-    }
-    this.lambdas = new Lambdas(this, 'Lambdas', {
-      ...props,
-      lambdas: [...props.lambdas, serviceToken],
-      tables: this.tables
-    });
-    this.serviceToken = this.lambdas.resources[SERVICE_TOKEN_NAME]?.lambda;
-    if (this.lambdas.apiConfig) {
-      this.api = new Api(this, 'Api', {
-        ...props,
-        lambdas: this.lambdas,
-        userPool: props.auth?.userPool
+    if (this.props.tables) {
+      this.tables = new Tables(this, 'Tables', {
+        prefix: this.props.prefix,
+        tables: this.props.tables
       });
     }
 
-    if (props.configFile || props.auth || this.api) {
-      let config: object = {
-        ...(props.configFile || {}),
-        region: props.env.region
-      };
-      if (this.api) {
-        config = {
-          ...config,
-          backendUrl: this.api.restApi.url
-        };
-      }
-      if (props.auth) {
-        config = {
-          ...config,
-          userPool: props.auth.userPool.userPoolId,
-          userPoolClient: props.auth.userPoolClient.userPoolClientId,
-          identityPool: props.auth.identityPool.ref
-        };
-      }
-      if (props.frontend) {
-        const configFile = new CustomResource(this, 'ConfigFile', {
-          serviceToken: this.serviceToken.functionArn,
-          resourceType: 'Custom::ConfigFile',
-          properties: {
-            config,
-            fileType: 'js',
-            targetBucketName: props.frontend.bucket.bucketName,
-            timestamps: Date.now()
-          }
-        });
-        configFile.node.addDependency(this.serviceToken);
-        const netlifyConfig = new CustomResource(this, 'AdminConfigFile', {
-          serviceToken: this.serviceToken.functionArn,
-          resourceType: 'Custom::ConfigFile',
-          properties: {
-            config: {
-              backend: { baseUrl: Fn.join('/', [this.api?.restApi.url ?? '', 'netlify']) }
-            },
-            fileType: 'yaml',
-            fileName: 'admin/config.yml',
-            targetBucketName: props.frontend.bucket.bucketName,
-            timestamps: Date.now()
-          }
-        });
-        netlifyConfig.node.addDependency(this.serviceToken);
+    const layers: LayerVersion[] = [];
+    if (this.props.layers) {
+      for (const layer of this.props.layers) {
+        if (layer instanceof LayerVersion) {
+          layers.push(layer);
+        } else {
+          layers.push(
+            new LayerVersion(this, `Layer${nanoid()}`, {
+              code: new AssetCode(layer)
+            })
+          );
+        }
       }
     }
-  }
 
+    if (this.props.lambdas) {
+      this.lambdas = new Lambdas(this, 'Lambdas', {
+        ...props,
+        prefix: this.props.prefix,
+        api: this.api,
+        tables: this.tables,
+        layers: this.layers
+      });
+
+      if (!this.lambdas.api) {
+        this.node.tryRemoveChild('Api');
+        this.api = undefined;
+      }
+    }
+
+    if (this.props.configFile) {
+      const configFileProps = this.props.configFile;
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      delete configFileProps.serviceToken;
+      new CustomResource(this, 'ConfigFile', {
+        serviceToken: this.props.configFile.serviceToken,
+        resourceType: 'Custom::ConfigFile',
+        properties: {
+          ...configFileProps,
+          IDEMOPOTENCY_TOKEN: Date.now() // makes sure config file is updated
+        }
+      });
+    }
+  }
 }

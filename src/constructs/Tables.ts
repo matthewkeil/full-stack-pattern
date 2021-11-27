@@ -11,7 +11,8 @@ import {
   CfnTable
 } from '@aws-cdk/aws-dynamodb';
 import { Construct, RemovalPolicy } from '@aws-cdk/core';
-import { toKebab, toPascal, mergeProps } from '../../lib';
+
+import { toPascal, mergeProps } from '../../lib';
 
 const dynamoAttributeTypes = ['string', 'number', 'boolean'] as const;
 type AttributeType = typeof dynamoAttributeTypes[number];
@@ -38,7 +39,7 @@ export interface TableProps extends Omit<BaseTableProps, OmittedIndexProps | 'ta
 type OmittedTablesProps = OmittedIndexProps | 'tableName' | 'name' | 'logicalId' | 'lsi' | 'gsi';
 export interface TablesProps extends Omit<TableProps, OmittedTablesProps> {
   prefix?: string;
-  tables: TableProps[];
+  tables?: TableProps[];
 }
 
 const DEFAULT_PROPS = {
@@ -53,7 +54,7 @@ export class Tables extends Construct {
     super(scope, id);
     this.globalProps = mergeProps(DEFAULT_PROPS, props, { tables: undefined });
 
-    for (const table of props.tables) {
+    for (const table of props.tables ?? []) {
       this.addTable(table);
     }
   }

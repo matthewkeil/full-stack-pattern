@@ -129,7 +129,7 @@ export class FullStackNested extends BaseStack {
     const frontend: FullStackNestedProps['frontend'] = {
       ...props.frontend
     };
-    const bucketName = CDNConstruct.GET_BUCKET_NAME(props);
+    const bucketName = CDNConstruct.getBucketName(props);
     if (await bucketExists({ profile: props.profile, region: props.env.region, bucketName })) {
       frontend.bucketExists = true;
     }

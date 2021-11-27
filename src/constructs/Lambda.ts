@@ -28,7 +28,8 @@ import {
   Code,
   AssetCode,
   IEventSource,
-  Runtime
+  Runtime,
+  LayerVersion
 } from '@aws-cdk/aws-lambda';
 
 import { HttpMethod, isHttpMethod, LogLevel, Mutable, toKebab, toPascal, toEnv } from '../../lib';
@@ -61,12 +62,15 @@ function isApiEvent(obj: unknown): obj is ApiEvent {
 }
 
 export interface LambdaProps
-  extends Mutable<Omit<FunctionProps, 'functionName' | 'role' | 'code' | 'events' | 'runtime'>>,
+  extends Mutable<
+      Omit<FunctionProps, 'functionName' | 'role' | 'code' | 'events' | 'runtime' | 'layers'>
+    >,
     Mutable<Omit<RoleProps, 'roleName' | 'assumedBy'>>,
     Mutable<Omit<PolicyProps, 'policyName' | 'roles'>>,
     Mutable<Omit<LogGroupProps, 'logGroupName'>> {
   name: string;
   code?: string | Code;
+  layers?: (LayerVersion | string)[];
   runtime?: Runtime;
   prefix?: string;
   role?: IRole | string;
@@ -100,8 +104,8 @@ export class Lambda extends Construct {
   public logGroup: LogGroup;
   public role!: IRole;
   public policy?: Policy;
+  public api?: Api;
 
-  private api?: Api;
   private pascalName: string;
   private kebabName: string;
   private code: Code;
@@ -136,9 +140,25 @@ export class Lambda extends Construct {
 
     this._buildIam();
 
+    const layers: LayerVersion[] = [];
+    if (this.props.layers) {
+      for (const layer of this.props.layers) {
+        if (layer instanceof LayerVersion) {
+          layers.push(layer);
+        } else {
+          layers.push(
+            new LayerVersion(this, `Layer${nanoid()}`, {
+              code: new AssetCode(layer)
+            })
+          );
+        }
+      }
+    }
+
     this.function = new BaseLambda(this, 'Function', {
       ...props,
       events: undefined,
+      layers,
       code,
       runtime,
       functionName: this.kebabName,
