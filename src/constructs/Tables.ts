@@ -40,6 +40,7 @@ type OmittedTablesProps = OmittedIndexProps | 'tableName' | 'name' | 'logicalId'
 export interface TablesProps extends Omit<TableProps, OmittedTablesProps> {
   prefix?: string;
   tables?: TableProps[];
+  existingTables?: string[];
 }
 
 const DEFAULT_PROPS = {
@@ -61,9 +62,13 @@ export class Tables extends Construct {
 
   public addTable(tableProps: TableProps) {
     const { name, logicalId, lsi, gsi } = tableProps;
-    const tableName = this.props.prefix ? `${this.props.prefix}-${name}` : name;
     const pascalName = toPascal(name);
     const props = mergeProps(this.globalProps, tableProps);
+
+    const tableName = this.props.prefix ? `${this.props.prefix}-${name}` : name;
+    if (this.props.existingTables?.includes(tableName)) {
+      throw new Error('Attempting to create a table that already exists');
+    }
 
     const table = new Table(this, pascalName, {
       ...props,

@@ -1,21 +1,33 @@
-import { StackProps, Stack, Construct } from '@aws-cdk/core';
+import { StackProps, Stack, Construct, Environment } from '@aws-cdk/core';
 import { Api } from '../../constructs/Api';
 import { Tables } from '../../constructs/Tables';
 import { Lambdas } from '../../constructs/Lambdas';
-import { ServerlessConstruct, ServerlessConstructProps } from './ServerlessConstruct';
+import { AddConfigFileProps, ServerlessConstruct, ServerlessConstructProps } from './ServerlessConstruct';
 
-export interface ServerlessStackProps extends StackProps, ServerlessConstructProps {}
+export interface ServerlessStackProps extends StackProps, ServerlessConstructProps {
+  env: Required<Environment>;
+}
 
 export class ServerlessStack extends Stack {
   public lambdas?: Lambdas;
   public tables?: Tables;
   public api?: Api;
 
+  private construct: ServerlessConstruct;
+
   constructor(scope: Construct, id: string, props: ServerlessStackProps) {
-    super(scope, id, { ...props, stackName: props.stackName ?? `${props.prefix}-serverless` });
-    const { lambdas, tables, api } = new ServerlessConstruct(this, 'ServerlessConstruct', props);
+    super(scope, id, {
+      ...props,
+      stackName: props.stackName ?? `${props.prefix}-serverless`
+    });
+    this.construct = new ServerlessConstruct(this, 'ServerlessConstruct', props);
+    const { lambdas, tables, api } = this.construct;
     this.lambdas = lambdas;
     this.tables = tables;
     this.api = api;
+  }
+
+  public addConfigFile(configProps: AddConfigFileProps) {
+    this.construct.addConfigFile(configProps);
   }
 }

@@ -1,29 +1,43 @@
-import { CfnIdentityPool, CfnUserPoolDomain, UserPool, UserPoolClient } from '@aws-cdk/aws-cognito';
-import { Role } from '@aws-cdk/aws-iam';
-import { Construct } from '@aws-cdk/core';
-import { BaseStack, BaseStackProps } from '../BaseStack';
+import { Construct, Environment, Stack, StackProps } from '@aws-cdk/core';
+import { IRole } from '@aws-cdk/aws-iam';
+import {
+  CfnIdentityPool,
+  CfnUserPoolDomain,
+  IUserPool,
+  IUserPoolClient
+} from '@aws-cdk/aws-cognito';
 import { CognitoConstruct, CognitoConstructProps } from './CognitoConstruct';
 
-export interface CognitoStackProps extends BaseStackProps, CognitoConstructProps {}
+export interface CognitoStackProps extends StackProps, CognitoConstructProps {
+  env: Required<Environment>;
+}
 
-export class CognitoStack extends BaseStack {
-  public userPool!: UserPool;
-  public userPoolClient!: UserPoolClient;
-  public userPoolDomain!: CfnUserPoolDomain;
-  public identityPool!: CfnIdentityPool;
-  public roles: { [groupName: string]: Role } = {};
+export class CognitoStack extends Stack {
+  public userPool: IUserPool;
+  public userPoolClient: IUserPoolClient;
+  public userPoolDomain?: CfnUserPoolDomain;
+  public identityPool?: CfnIdentityPool;
+  public authenticatedRole?: IRole;
+  public groups: CognitoConstruct['groups'];
 
   constructor(scope: Construct, id: string, props: CognitoStackProps) {
-    super(scope, id, { ...props, stackName: props.stackName ?? `${props.prefix}-cognito` });
-    const { userPool, userPoolClient, userPoolDomain, identityPool, roles } = new CognitoConstruct(
-      this,
-      'CognitoConstruct',
-      props
-    );
+    super(scope, id, {
+      ...props,
+      stackName: props.stackName ?? `${props.prefix}-cognito`
+    });
+    const {
+      userPool,
+      userPoolClient,
+      userPoolDomain,
+      identityPool,
+      authenticatedRole,
+      groups
+    } = new CognitoConstruct(this, 'CognitoConstruct', props);
     this.userPool = userPool;
     this.userPoolClient = userPoolClient;
     this.userPoolDomain = userPoolDomain;
     this.identityPool = identityPool;
-    this.roles = roles;
+    this.authenticatedRole = authenticatedRole;
+    this.groups = groups;
   }
 }

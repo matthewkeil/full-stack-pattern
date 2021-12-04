@@ -33,7 +33,7 @@ import { resolve } from 'path';
 export interface CDNConstructProps {
   prefix: string;
   removalPolicy?: RemovalPolicy;
-  
+
   /**
    * @description The absolute paths for the code that will be uploaded and
    * hosted via S3/CloudFront.
@@ -140,6 +140,40 @@ export class CDNConstruct extends Construct {
     return toKebab(stage.replace(/[^a-zA-Z0-9_-]*/g, ''));
   }
 
+  public static buildUrls({
+    stage,
+    rootDomain,
+    buildWwwSubdomain = true
+  }: {
+    stage: string;
+    rootDomain: string;
+    buildWwwSubdomain?: boolean;
+  }): string[] {
+    if (stage === 'prod') {
+      if (buildWwwSubdomain) {
+        return [`www.${rootDomain}`, rootDomain];
+      }
+      return [rootDomain];
+    }
+    return [`${CDNConstruct.urlSafe(stage)}.${rootDomain}`];
+  }
+
+  public static getBucketName = ({
+    bucketName,
+    prefix,
+    urls
+  }: Pick<CDNConstructProps, 'bucketName' | 'prefix'> & { urls?: string[] }) => {
+    if (bucketName) {
+      return bucketName;
+    }
+
+    if (urls) {
+      return urls[0];
+    }
+
+    return `${prefix}-cdn`;
+  };
+
   public bucket: IBucket;
   public distribution: CloudFrontWebDistribution;
   public configFileProvider: Lambda;
@@ -153,7 +187,7 @@ export class CDNConstruct extends Construct {
       if (!props.stage) {
         throw new Error('CDNConstruct requires a stage when rootDomain is provided');
       }
-      this.urls = this.buildUrls({
+      this.urls = CDNConstruct.buildUrls({
         rootDomain: props.rootDomain,
         stage: props.stage,
         buildWwwSubdomain: props.buildWwwSubdomain
@@ -179,41 +213,10 @@ export class CDNConstruct extends Construct {
     }
   }
 
-  public getBucketName = ({ bucketName, prefix }: CDNConstructProps) => {
-    if (bucketName) {
-      return bucketName;
-    }
-
-    if (this.urls) {
-      return this.urls[0];
-    }
-
-    return `${prefix}-cdn`;
-  };
-
-  private buildUrls({
-    stage,
-    rootDomain,
-    buildWwwSubdomain = true
-  }: {
-    stage: string;
-    rootDomain: string;
-    buildWwwSubdomain?: boolean;
-  }): string[] {
-    if (this.props.stage === 'prod') {
-      if (buildWwwSubdomain) {
-        return [`www.${rootDomain}`, rootDomain];
-      }
-      return [rootDomain];
-    }
-    return [`${CDNConstruct.urlSafe(stage)}.${rootDomain}`];
-  }
-
   private buildBucket() {
-    const bucketName = this.getBucketName(this.props);
-
+    
     if (this.props.bucketName) {
-      const bucket = Bucket.fromBucketName(this, 'Bucket', bucketName);
+      const bucket = Bucket.fromBucketName(this, 'Bucket', this.props.bucketName);
       new CfnBucketPolicy(this, 'BucketPolicy', {
         bucket: bucket.bucketName,
         policyDocument: {
@@ -223,7 +226,7 @@ export class CDNConstruct extends Construct {
               Action: ['s3:GetObject'],
               Principal: {
                 CanonicalUser: this.originAccessIdentity
-                  .cloudFrontOriginAccessIdentityS3CanonicalUserId
+                .cloudFrontOriginAccessIdentityS3CanonicalUserId
               },
               Resource: [bucket.arnForObjects('*')]
             }
@@ -232,7 +235,8 @@ export class CDNConstruct extends Construct {
       });
       return bucket;
     }
-
+    
+    const bucketName = CDNConstruct.getBucketName(this.props);
     const removalPolicy = this.props.removalPolicy ?? RemovalPolicy.DESTROY;
     const autoDeleteObjects = removalPolicy === RemovalPolicy.DESTROY;
     const bucket = new Bucket(this, 'Bucket', {

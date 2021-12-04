@@ -6,13 +6,15 @@ import { Tables, TablesProps } from '../../constructs/Tables';
 import { Lambdas, LambdasProps } from '../../constructs/Lambdas';
 import { ConfigFileProps } from '../../../providers/configFileProvider';
 
+export type AddConfigFileProps = ConfigFileProps & {
+  serviceToken: string;
+};
+
 export interface ServerlessConstructProps
   extends ApiProps,
-    Pick<TablesProps, 'tables'>,
+    Pick<TablesProps, 'tables' | 'existingTables'>,
     Omit<LambdasProps, 'tables' | 'prefix'> {
-  configFile?: ConfigFileProps & {
-    serviceToken: string;
-  };
+  configFile?: AddConfigFileProps;
 }
 
 export class ServerlessConstruct extends Construct {
@@ -64,18 +66,22 @@ export class ServerlessConstruct extends Construct {
     }
 
     if (this.props.configFile) {
-      const configFileProps = this.props.configFile;
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-      // @ts-ignore
-      delete configFileProps.serviceToken;
-      new CustomResource(this, 'ConfigFile', {
-        serviceToken: this.props.configFile.serviceToken,
-        resourceType: 'Custom::ConfigFile',
-        properties: {
-          ...configFileProps,
-          IDEMOPOTENCY_TOKEN: Date.now() // makes sure config file is updated
-        }
-      });
+      this.addConfigFile(this.props.configFile);
     }
+  }
+
+  public addConfigFile(configProps: AddConfigFileProps) {
+    const configFileProps = { ...configProps };
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
+    delete configFileProps.serviceToken;
+    new CustomResource(this, 'ConfigFile', {
+      serviceToken: configProps.serviceToken,
+      resourceType: 'Custom::ConfigFile',
+      properties: {
+        ...configFileProps,
+        IDEMOPOTENCY_TOKEN: Date.now() // makes sure config file is updated
+      }
+    });
   }
 }

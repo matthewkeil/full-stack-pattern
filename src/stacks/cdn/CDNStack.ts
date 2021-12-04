@@ -1,10 +1,12 @@
+import { StackProps, Stack, Construct, Environment } from '@aws-cdk/core';
 import { CloudFrontWebDistribution } from '@aws-cdk/aws-cloudfront';
 import { IBucket } from '@aws-cdk/aws-s3';
-import { StackProps, Stack, Construct } from '@aws-cdk/core';
 import { Lambda } from '../../constructs/Lambda';
 import { CDNConstruct, CDNConstructProps } from './CDNConstruct';
 
-export interface CDNStackProps extends StackProps, CDNConstructProps {}
+export interface CDNStackProps extends StackProps, CDNConstructProps {
+  env: Required<Environment>;
+}
 
 export class CDNStack extends Stack {
   public urls?: string[];
@@ -13,7 +15,10 @@ export class CDNStack extends Stack {
   public configFileProvider: Lambda;
 
   constructor(scope: Construct, id: string, props: CDNStackProps) {
-    super(scope, id, props);
+    super(scope, id, {
+      ...props,
+      stackName: props.stackName ?? `${props.prefix}-cdn`
+    });
     const { bucket, distribution, urls, configFileProvider } = new CDNConstruct(
       this,
       'CDNConstruct',

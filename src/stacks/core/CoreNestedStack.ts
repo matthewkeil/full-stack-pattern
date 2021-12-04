@@ -1,21 +1,28 @@
+import { Duration, Construct, Environment, NestedStack, NestedStackProps } from '@aws-cdk/core';
 import { ICertificate } from '@aws-cdk/aws-certificatemanager';
 import { IHostedZone } from '@aws-cdk/aws-route53';
-import { Construct, Environment } from '@aws-cdk/core';
 import { getHostedZoneIdForDomain } from '../../../lib/aws/route53';
-import { BaseNestedStack, BaseNestedStackProps } from '../BaseStack';
 import { CoreConstruct, CoreConstructProps } from './CoreConstruct';
 
-export interface CoreNestedStackProps extends BaseNestedStackProps, CoreConstructProps {}
+export interface CoreNestedStackProps
+  extends Omit<NestedStackProps, 'removalPolicy' | 'timeout'>,
+    CoreConstructProps {
+  stackTimeout?: Duration;
+}
 export interface AsyncCoreNestedStackProps extends CoreNestedStackProps {
-  env: Required<Environment>;
   profile: string;
+  env: Required<Environment>;
 }
 
-export class CoreNestedStack extends BaseNestedStack {
+export class CoreNestedStack extends NestedStack {
   public certificate!: ICertificate;
   public hostedZone!: IHostedZone;
   constructor(scope: Construct, id: string, props: CoreNestedStackProps) {
-    super(scope, id, props);
+    super(scope, id, {
+      ...props,
+      removalPolicy: undefined,
+      timeout: props.stackTimeout
+    });
     const { hostedZone, certificate } = new CoreConstruct(this, 'CoreConstruct', props);
     this.certificate = certificate;
     this.hostedZone = hostedZone;

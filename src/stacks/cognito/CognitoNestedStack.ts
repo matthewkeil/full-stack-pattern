@@ -1,29 +1,46 @@
-import { CfnIdentityPool, CfnUserPoolDomain, UserPool, UserPoolClient } from '@aws-cdk/aws-cognito';
-import { Role } from '@aws-cdk/aws-iam';
-import { Construct } from '@aws-cdk/core';
-import { BaseNestedStack, BaseNestedStackProps } from '../BaseStack';
+import { Construct, Duration, NestedStack, NestedStackProps } from '@aws-cdk/core';
+import { IRole } from '@aws-cdk/aws-iam';
+import {
+  CfnIdentityPool,
+  CfnUserPoolDomain,
+  IUserPool,
+  IUserPoolClient
+} from '@aws-cdk/aws-cognito';
 import { CognitoConstruct, CognitoConstructProps } from './CognitoConstruct';
 
-export interface CognitoNestedStackProps extends BaseNestedStackProps, CognitoConstructProps {}
+export interface CognitoNestedStackProps
+  extends Omit<NestedStackProps, 'removalPolicy' | 'timeout'>,
+    CognitoConstructProps {
+  stackTimeout?: Duration;
+}
 
-export class CognitoNestedStack extends BaseNestedStack {
-  public userPool!: UserPool;
-  public userPoolClient!: UserPoolClient;
-  public userPoolDomain!: CfnUserPoolDomain;
-  public identityPool!: CfnIdentityPool;
-  public roles: { [groupName: string]: Role } = {};
+export class CognitoNestedStack extends NestedStack {
+  public userPool: IUserPool;
+  public userPoolClient: IUserPoolClient;
+  public userPoolDomain?: CfnUserPoolDomain;
+  public identityPool?: CfnIdentityPool;
+  public authenticatedRole?: IRole;
+  public groups: CognitoConstruct['groups'];
 
   constructor(scope: Construct, id: string, props: CognitoNestedStackProps) {
-    super(scope, id, props);
-    const { userPool, userPoolClient, userPoolDomain, identityPool, roles } = new CognitoConstruct(
-      this,
-      'CognitoConstruct',
-      props
-    );
+    super(scope, id, {
+      ...props,
+      removalPolicy: undefined,
+      timeout: props.stackTimeout
+    });
+    const {
+      userPool,
+      userPoolClient,
+      userPoolDomain,
+      identityPool,
+      authenticatedRole,
+      groups
+    } = new CognitoConstruct(this, 'CognitoConstruct', props);
     this.userPool = userPool;
     this.userPoolClient = userPoolClient;
     this.userPoolDomain = userPoolDomain;
     this.identityPool = identityPool;
-    this.roles = roles;
+    this.authenticatedRole = authenticatedRole;
+    this.groups = groups;
   }
 }

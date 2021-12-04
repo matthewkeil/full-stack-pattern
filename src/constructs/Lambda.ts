@@ -5,7 +5,7 @@ import { ITable } from '@aws-cdk/aws-dynamodb';
 import { Rule, RuleTargetInput } from '@aws-cdk/aws-events';
 import { LambdaFunction } from '@aws-cdk/aws-events-targets';
 import { LambdaIntegrationOptions, MethodOptions } from '@aws-cdk/aws-apigateway';
-import { LogGroup, LogGroupProps, RetentionDays, CfnLogGroup } from '@aws-cdk/aws-logs';
+import { LogGroup, LogGroupProps, RetentionDays, CfnLogGroup, ILogGroup } from '@aws-cdk/aws-logs';
 import {
   IRole,
   Role,
@@ -80,6 +80,7 @@ export interface LambdaProps
   api?: Api;
   events?: (IEventSource | ApiEvent)[];
   buildDevServer?: boolean;
+  existingLogGroups?: string[];
 
   /**
    *
@@ -101,7 +102,7 @@ export interface LambdaProps
  */
 export class Lambda extends Construct {
   public function: BaseLambda;
-  public logGroup: LogGroup;
+  public logGroup: ILogGroup;
   public role!: IRole;
   public policy?: Policy;
   public api?: Api;
@@ -128,15 +129,20 @@ export class Lambda extends Construct {
       throw new Error('Must provide runtime');
     }
 
-    this.logGroup = new LogGroup(this, 'LogGroup', {
-      ...this.props,
-      logGroupName: `/aws/lambda/${this.kebabName}`,
-      removalPolicy: props.removalPolicy ?? RemovalPolicy.DESTROY,
-      retention: props.logRetention ?? RetentionDays.TWO_WEEKS
-    });
-    (this.logGroup.node.defaultChild as CfnLogGroup).overrideLogicalId(
-      `${this.pascalName}LogGroup`
-    );
+    const logGroupName = `/aws/lambda/${this.kebabName}`;
+    if (this.props.existingLogGroups?.find(name => name === logGroupName)) {
+      this.logGroup = LogGroup.fromLogGroupName(this, 'LogGroup', logGroupName);
+    } else {
+      this.logGroup = new LogGroup(this, 'LogGroup', {
+        ...this.props,
+        logGroupName,
+        removalPolicy: props.removalPolicy ?? RemovalPolicy.DESTROY,
+        retention: props.logRetention ?? RetentionDays.TWO_WEEKS
+      });
+      (this.logGroup.node.defaultChild as CfnLogGroup).overrideLogicalId(
+        `${this.pascalName}LogGroup`
+      );
+    }
 
     this._buildIam();
 

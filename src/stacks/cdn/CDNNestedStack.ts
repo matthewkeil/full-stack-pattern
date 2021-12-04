@@ -1,12 +1,14 @@
+import { Duration, NestedStackProps, NestedStack, Construct } from '@aws-cdk/core';
 import { CloudFrontWebDistribution } from '@aws-cdk/aws-cloudfront';
 import { IBucket } from '@aws-cdk/aws-s3';
-import { NestedStackProps, NestedStack, Construct } from '@aws-cdk/core';
 import { Lambda } from '../../constructs/Lambda';
 import { CDNConstruct, CDNConstructProps } from './CDNConstruct';
 
 export interface CDNNestedStackProps
-  extends Omit<NestedStackProps, 'removalPolicy'>,
-    CDNConstructProps {}
+  extends Omit<NestedStackProps, 'removalPolicy' | 'timeout'>,
+    CDNConstructProps {
+  stackTimeout?: Duration;
+}
 
 export class CDNNestedStack extends NestedStack {
   public urls?: string[];
@@ -17,7 +19,8 @@ export class CDNNestedStack extends NestedStack {
   constructor(scope: Construct, id: string, props: CDNNestedStackProps) {
     super(scope, id, {
       ...props,
-      removalPolicy: undefined
+      removalPolicy: undefined,
+      timeout: props.stackTimeout
     });
     const { bucket, distribution, urls, configFileProvider } = new CDNConstruct(
       this,
