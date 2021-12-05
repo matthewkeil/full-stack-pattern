@@ -6,6 +6,7 @@ export * from './src/constructs/Lambda';
 export * from './src/constructs/Lambdas';
 export * from './src/constructs/Tables';
 
+export * from './src/patterns/FullStackConstruct';
 export * from './src/patterns/FullStack';
 export * from './src/patterns/FullStackNested';
 

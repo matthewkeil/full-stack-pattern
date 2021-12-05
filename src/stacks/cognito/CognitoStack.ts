@@ -8,9 +8,7 @@ import {
 } from '@aws-cdk/aws-cognito';
 import { CognitoConstruct, CognitoConstructProps } from './CognitoConstruct';
 
-export interface CognitoStackProps extends StackProps, CognitoConstructProps {
-  env: Required<Environment>;
-}
+export interface CognitoStackProps extends StackProps, CognitoConstructProps {}
 
 export class CognitoStack extends Stack {
   public userPool: IUserPool;

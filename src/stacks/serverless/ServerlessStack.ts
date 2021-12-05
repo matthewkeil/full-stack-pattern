@@ -2,11 +2,13 @@ import { StackProps, Stack, Construct, Environment } from '@aws-cdk/core';
 import { Api } from '../../constructs/Api';
 import { Tables } from '../../constructs/Tables';
 import { Lambdas } from '../../constructs/Lambdas';
-import { AddConfigFileProps, ServerlessConstruct, ServerlessConstructProps } from './ServerlessConstruct';
+import {
+  AddConfigFileProps,
+  ServerlessConstruct,
+  ServerlessConstructProps
+} from './ServerlessConstruct';
 
-export interface ServerlessStackProps extends StackProps, ServerlessConstructProps {
-  env: Required<Environment>;
-}
+export interface ServerlessStackProps extends StackProps, ServerlessConstructProps {}
 
 export class ServerlessStack extends Stack {
   public lambdas?: Lambdas;

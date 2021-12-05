@@ -1,11 +1,10 @@
 import { ICertificate } from '@aws-cdk/aws-certificatemanager';
 import { IHostedZone } from '@aws-cdk/aws-route53';
-import { Construct, Environment, Stack, StackProps } from '@aws-cdk/core';
+import { Construct, Stack, StackProps } from '@aws-cdk/core';
 import { getHostedZoneIdForDomain } from '../../../lib/aws/route53';
 import { CoreConstruct, CoreConstructProps } from './CoreConstruct';
 
 export interface CoreStackProps extends StackProps, CoreConstructProps {
-  env: Required<Environment>;
   prefix: string;
 }
 export interface AsyncCoreStackProps extends CoreStackProps {
@@ -31,7 +30,7 @@ export class CoreStack extends Stack {
     if (!hostedZoneId) {
       hostedZoneId = await getHostedZoneIdForDomain({
         rootDomain: props.rootDomain,
-        region: props.env.region,
+        region: Stack.of(this).region,
         profile: props.profile
       });
     }

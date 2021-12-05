@@ -30,6 +30,7 @@ interface GsiProps extends Omit<GlobalSecondaryIndexProps, OmittedIndexProps> {
 }
 export interface TableProps extends Omit<BaseTableProps, OmittedIndexProps | 'tableName'> {
   name: string;
+  dontOverrideLogicalId?: boolean;
   logicalId: string;
   partitionKey: DynamoAttribute;
   sortKey?: DynamoAttribute;
@@ -82,7 +83,9 @@ export class Tables extends Construct {
         : undefined,
       removalPolicy: props.removalPolicy ? props.removalPolicy : RemovalPolicy.DESTROY
     });
-    (table.node.defaultChild as CfnTable).overrideLogicalId(logicalId ? logicalId : pascalName);
+    if (this.props.dontOverrideLogicalId !== true) {
+      (table.node.defaultChild as CfnTable).overrideLogicalId(logicalId ? logicalId : pascalName);
+    }
 
     if (gsi) {
       for (const index of gsi) {

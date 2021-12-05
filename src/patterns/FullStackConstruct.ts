@@ -1,4 +1,4 @@
-import { Duration, Construct, Environment, RemovalPolicy, StackProps } from '@aws-cdk/core';
+import { Duration, Construct, Environment, RemovalPolicy, StackProps, Stack } from '@aws-cdk/core';
 
 import { CoreConstructProps } from '../stacks/core/CoreConstruct';
 import { CoreStack } from '../stacks/core/CoreStack';
@@ -28,10 +28,22 @@ type Frontend = Omit<CDNConstructProps, 'prefix' | 'stage' | 'rootDomain'>;
 type Auth = Omit<CognitoConstructProps, 'prefix'>;
 type Backend = Omit<ServerlessConstructProps, 'prefix' | 'stage'>;
 
-const a: FullStackConstructProps = {};
-
-export interface FullStackConstructProps extends StackProps {
-  env: Required<Environment>;
+export interface FullStackConstructProps {
+  readonly env?: Environment;
+  /**
+   * @description A prefix that will be used for all resource names.  In an effort to
+   * prevent resource collisions and promote stack stability across application and 
+   * cdk construct life cycles. Best practice for this is to use a tiered approach. A
+   * process that has worked very well across teams and accounts is:
+   * 
+   * const prefix =`${client}-${project}-${stage}`;
+   * 
+   * Clients tend to do more than one line of business with a good contractor.  The
+   * project represents the LOB or other short descriptor.  So in the dev account of
+   * "best-client-ever" the project might be "fullstack-sales-plat" 
+   * 
+   * @example 
+   */
   prefix: string;
   stage: string;
   rootDomain: string;
@@ -44,13 +56,13 @@ export interface FullStackConstructProps extends StackProps {
   frontend: Frontend;
   backend: Omit<Backend, 'existingLogGroups' | 'existingTables'>;
 
-  auth?: Omit<CognitoStackProps, 'prefix' | 'env'> & {
+  auth?: Auth & {
     loginCallbackPath?: string;
     logoutCallbackPath?: string;
   };
 }
 
-export interface FullStackProps extends FullStackConstructProps, Omit<StackProps, 'env'> {}
+export interface FullStackProps extends FullStackConstructProps, StackProps {}
 
 export class FullStackConstruct extends Construct {
   public core: CoreStack | CoreNestedStack;
@@ -176,18 +188,19 @@ export class FullStackConstruct extends Construct {
     }
   ): Promise<FullStackConstructProps> {
     const core: Core = props.core ?? {};
+    const region = Stack.of(this).region;
     if (!core.certificateArn) {
       core.certificateArn = await getCertArnForDomain({
         profile: props.profile,
         domain: props.rootDomain,
-        region: props.env.region
+        region
       });
     }
     if (!core.hostedZoneId) {
       core.hostedZoneId = await getHostedZoneIdForDomain({
         profile: props.profile,
         rootDomain: props.rootDomain,
-        region: props.env.region
+        region
       });
     }
 
@@ -205,7 +218,7 @@ export class FullStackConstruct extends Construct {
       bucketName: frontend.bucketName,
       urls
     });
-    if (await bucketExists({ profile: props.profile, region: props.env.region, bucketName })) {
+    if (await bucketExists({ profile: props.profile, region, bucketName })) {
       console.log(`Bucket ${bucketName} already exists. Will deploy frontend to existing bucket`);
       frontend.bucketName = bucketName;
     }

@@ -40,10 +40,11 @@ interface GroupConfig {
 type IdentityPoolConfig = CfnIdentityPoolProps & { removalPolicy?: RemovalPolicy };
 
 export interface CognitoConstructProps {
+  prefix: string;
+  dontOverrideLogicalId?: boolean;
   /**
    *
    */
-  prefix: string;
   userPoolId?: string;
   userPool?: UserPoolProps;
   userPoolClientId?: string;
@@ -125,7 +126,9 @@ export class CognitoConstruct extends Construct {
           removalPolicy:
             this.props.userPool?.removalPolicy ?? this.props.removalPolicy ?? RemovalPolicy.DESTROY
         });
-    (this.userPool.node.defaultChild as CfnUserPool).overrideLogicalId('UserPool');
+    if (this.props.dontOverrideLogicalId !== true) {
+      (this.userPool.node.defaultChild as CfnUserPool).overrideLogicalId('UserPool');
+    }
     new CfnOutput(this, 'UserPoolId', {
       value: this.userPool.userPoolId
     });
@@ -139,9 +142,11 @@ export class CognitoConstruct extends Construct {
           userPoolClientName: this.props.userPoolClient?.userPoolClientName ?? this.props.prefix,
           userPool: this.userPool
         });
-    (this.userPoolClient.node.defaultChild as CfnUserPoolClient).overrideLogicalId(
-      'UserPoolClient'
-    );
+    if (this.props.dontOverrideLogicalId !== true) {
+      (this.userPoolClient.node.defaultChild as CfnUserPoolClient).overrideLogicalId(
+        'UserPoolClient'
+      );
+    }
     if (this.userPoolClient instanceof UserPoolClient) {
       this.userPoolClient.applyRemovalPolicy(this.props.removalPolicy ?? RemovalPolicy.DESTROY);
     }
@@ -171,9 +176,10 @@ export class CognitoConstruct extends Construct {
       }
 
       this.userPoolDomain = new CfnUserPoolDomain(this, 'UserPoolDomain', domainProps);
-
       this.userPoolDomain.applyRemovalPolicy(this.props.removalPolicy ?? RemovalPolicy.DESTROY);
-      this.userPoolDomain.overrideLogicalId('UserPoolDomain');
+      if (this.props.dontOverrideLogicalId !== true) {
+        this.userPoolDomain.overrideLogicalId('UserPoolDomain');
+      }
       new CfnOutput(this, 'UserPoolDomain', {
         value: this.userPoolDomain.domain
       });
@@ -257,7 +263,10 @@ export class CognitoConstruct extends Construct {
     this.identityPool.applyRemovalPolicy(
       this.props.identityPool?.removalPolicy ?? this.props.removalPolicy ?? RemovalPolicy.DESTROY
     );
-    this.identityPool.overrideLogicalId('IdentityPool');
+
+    if (this.props.dontOverrideLogicalId !== true) {
+      this.identityPool.overrideLogicalId('IdentityPool');
+    }
     new CfnOutput(this, 'IdentityPoolId', {
       value: this.identityPool.ref
     });
@@ -308,7 +317,9 @@ export class CognitoConstruct extends Construct {
       roleArn: _role?.roleArn
     });
     group.applyRemovalPolicy(this.props.removalPolicy ?? RemovalPolicy.DESTROY);
-    group.overrideLogicalId(groupLogicalId);
+    if (this.props.dontOverrideLogicalId !== true) {
+      group.overrideLogicalId(groupLogicalId);
+    }
 
     if (userEmail) {
       const userLogicalId = `${toPascal(groupName)}User`;
@@ -321,7 +332,9 @@ export class CognitoConstruct extends Construct {
           { name: 'email_verified', value: 'true' }
         ]
       });
-      user.overrideLogicalId(userLogicalId);
+      if (this.props.dontOverrideLogicalId !== true) {
+        user.overrideLogicalId(userLogicalId);
+      }
       user.applyRemovalPolicy(this.props.removalPolicy ?? RemovalPolicy.DESTROY);
 
       const attachmentLogicalId = `${toPascal(groupName)}UserAttachment`;
@@ -330,7 +343,9 @@ export class CognitoConstruct extends Construct {
         userPoolId: this.userPool.userPoolId,
         username: userEmail
       });
-      groupAttachment.overrideLogicalId(attachmentLogicalId);
+      if (this.props.dontOverrideLogicalId !== true) {
+        groupAttachment.overrideLogicalId(attachmentLogicalId);
+      }
       groupAttachment.addDependsOn(group);
       groupAttachment.addDependsOn(user);
     }

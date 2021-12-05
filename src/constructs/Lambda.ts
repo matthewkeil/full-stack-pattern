@@ -69,6 +69,7 @@ export interface LambdaProps
     Mutable<Omit<PolicyProps, 'policyName' | 'roles'>>,
     Mutable<Omit<LogGroupProps, 'logGroupName'>> {
   name: string;
+  dontOverrideLogicalId?: boolean;
   code?: string | Code;
   layers?: (LayerVersion | string)[];
   runtime?: Runtime;
@@ -139,9 +140,11 @@ export class Lambda extends Construct {
         removalPolicy: props.removalPolicy ?? RemovalPolicy.DESTROY,
         retention: props.logRetention ?? RetentionDays.TWO_WEEKS
       });
-      (this.logGroup.node.defaultChild as CfnLogGroup).overrideLogicalId(
-        `${this.pascalName}LogGroup`
-      );
+      if (this.props.dontOverrideLogicalId !== true) {
+        (this.logGroup.node.defaultChild as CfnLogGroup).overrideLogicalId(
+          `${this.pascalName}LogGroup`
+        );
+      }
     }
 
     this._buildIam();
@@ -170,9 +173,11 @@ export class Lambda extends Construct {
       functionName: this.kebabName,
       role: this.role
     });
-    (this.function.node.defaultChild as CfnFunction).overrideLogicalId(
-      `${this.pascalName}Function`
-    );
+    if (this.props.dontOverrideLogicalId !== true) {
+      (this.function.node.defaultChild as CfnFunction).overrideLogicalId(
+        `${this.pascalName}Function`
+      );
+    }
     if (this.policy) {
       this.function.node.addDependency(this.policy);
     }
@@ -319,7 +324,9 @@ export class Lambda extends Construct {
       roleName: this.kebabName,
       assumedBy: new ServicePrincipal('lambda.amazonaws.com')
     });
-    (this.role.node.defaultChild as CfnRole).overrideLogicalId(`${this.pascalName}Role`);
+    if (this.props.dontOverrideLogicalId !== true) {
+      (this.role.node.defaultChild as CfnRole).overrideLogicalId(`${this.pascalName}Role`);
+    }
 
     this.policy = new Policy(this, `${this.pascalName}Policy`, {
       ...this.props,
@@ -332,7 +339,9 @@ export class Lambda extends Construct {
         })
       )
     });
-    (this.policy.node.defaultChild as CfnPolicy).overrideLogicalId(`${this.pascalName}Policy`);
+    if (this.props.dontOverrideLogicalId !== true) {
+      (this.policy.node.defaultChild as CfnPolicy).overrideLogicalId(`${this.pascalName}Policy`);
+    }
     this.policy.node.addDependency(this.role);
     if (this.props.vpc || this.props.vpcSubnets || this.props.securityGroups) {
       this.policy.addStatements(

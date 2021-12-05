@@ -32,6 +32,9 @@ import { resolve } from 'path';
 
 export interface CDNConstructProps {
   prefix: string;
+
+  dontOverrideLogicalId?: boolean;
+
   removalPolicy?: RemovalPolicy;
 
   /**
@@ -63,7 +66,6 @@ export interface CDNConstructProps {
   stage?: string;
 
   /**
-   * @param {boolean} [buildWwwSubdomain]
    * @default true
    * @description will build www.{rootDomain} alias on `prod` stage in addition
    * to the naked rootDomain. For non-production stages, this is a no-op.
@@ -81,7 +83,6 @@ export interface CDNConstructProps {
   certificate?: ICertificate;
 
   /**
-   * @param {BucketProps} [bucketProps]
    * @description Optional. If creating the hosting bucket, these props will be
    * passed to the Bucket construct. To set removal policy use
    * `CDNConstructProps.removalPolicy`.  When removalPolicy is set to DESTROY,
@@ -91,17 +92,15 @@ export interface CDNConstructProps {
 
   api?: {
     /**
-     * @description The RestApi that is being hit via through CloudFront.
+     * @description The RestApi that is being hit via CloudFront.
      */
     restApi: IRestApi;
     /**
-     * @param {string="/prod"} [apiStage]
      * @default "/prod"
      * @description The api stage (path suffix) at the end of the execute domain.
      */
     apiStage?: string;
     /**
-     * @param {string="/api/*"} [apiPathPattern]
      * @default "/api/*"
      * @description The url paths that will be forwarded to the api.
      */
@@ -214,7 +213,6 @@ export class CDNConstruct extends Construct {
   }
 
   private buildBucket() {
-    
     if (this.props.bucketName) {
       const bucket = Bucket.fromBucketName(this, 'Bucket', this.props.bucketName);
       new CfnBucketPolicy(this, 'BucketPolicy', {
@@ -226,7 +224,7 @@ export class CDNConstruct extends Construct {
               Action: ['s3:GetObject'],
               Principal: {
                 CanonicalUser: this.originAccessIdentity
-                .cloudFrontOriginAccessIdentityS3CanonicalUserId
+                  .cloudFrontOriginAccessIdentityS3CanonicalUserId
               },
               Resource: [bucket.arnForObjects('*')]
             }
@@ -235,7 +233,7 @@ export class CDNConstruct extends Construct {
       });
       return bucket;
     }
-    
+
     const bucketName = CDNConstruct.getBucketName(this.props);
     const removalPolicy = this.props.removalPolicy ?? RemovalPolicy.DESTROY;
     const autoDeleteObjects = removalPolicy === RemovalPolicy.DESTROY;
@@ -247,7 +245,9 @@ export class CDNConstruct extends Construct {
       removalPolicy,
       bucketName
     });
-    (bucket.node.defaultChild as CfnBucket).overrideLogicalId('Bucket');
+    if (this.props.dontOverrideLogicalId !== true) {
+      (bucket.node.defaultChild as CfnBucket).overrideLogicalId('Bucket');
+    }
     return bucket;
   }
 
@@ -338,7 +338,10 @@ export class CDNConstruct extends Construct {
     }
 
     const distribution = new CloudFrontWebDistribution(this, 'Distribution', distributionConfig);
-    (distribution.node.defaultChild as CfnDistribution).overrideLogicalId('Distribution');
+
+    if (this.props.dontOverrideLogicalId !== true) {
+      (distribution.node.defaultChild as CfnDistribution).overrideLogicalId('Distribution');
+    }
 
     return distribution;
 

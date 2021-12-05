@@ -1,12 +1,10 @@
-import { StackProps, Stack, Construct, Environment } from '@aws-cdk/core';
+import { StackProps, Stack, Construct } from '@aws-cdk/core';
 import { CloudFrontWebDistribution } from '@aws-cdk/aws-cloudfront';
 import { IBucket } from '@aws-cdk/aws-s3';
 import { Lambda } from '../../constructs/Lambda';
 import { CDNConstruct, CDNConstructProps } from './CDNConstruct';
 
-export interface CDNStackProps extends StackProps, CDNConstructProps {
-  env: Required<Environment>;
-}
+export interface CDNStackProps extends StackProps, CDNConstructProps {}
 
 export class CDNStack extends Stack {
   public urls?: string[];
