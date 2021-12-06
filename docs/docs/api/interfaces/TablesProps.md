@@ -8,9 +8,11 @@ custom_edit_url: null
 
 ## Hierarchy
 
-- `Omit`<[`TableProps`](TableProps), `OmittedTablesProps`\>
+- `Omit`<`TableProps`, `OmittedTablesProps`\>
 
   ↳ **`TablesProps`**
+
+  ↳↳ [`ServerlessConstructProps`](ServerlessConstructProps)
 
 ## Properties
 
@@ -58,13 +60,16 @@ ___
 
 • `Optional` **dontOverrideLogicalId**: false \| true
 
+Option to not use fixed logicalId's for the RestApi resource. For more
+info, see [Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
+
 #### Inherited from
 
 Omit.dontOverrideLogicalId
 
 #### Defined in
 
-[src/constructs/Tables.ts:38](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Tables.ts#L38)
+[src/constructs/Table.ts:112](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Table.ts#L112)
 
 ___
 
@@ -113,16 +118,6 @@ node_modules/@aws-cdk/aws-dynamodb/lib/table.d.ts:223
 
 ___
 
-### existingTables
-
-• `Optional` **existingTables**: `string`[]
-
-#### Defined in
-
-[src/constructs/Tables.ts:44](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Tables.ts#L44)
-
-___
-
 ### kinesisStream
 
 • `Optional` `Readonly` **kinesisStream**: `IStream`
@@ -167,9 +162,13 @@ ___
 
 • `Optional` **prefix**: `string`
 
+#### Overrides
+
+Omit.prefix
+
 #### Defined in
 
-[src/constructs/Tables.ts:42](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Tables.ts#L42)
+[src/constructs/Tables.ts:8](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Tables.ts#L8)
 
 ___
 
@@ -303,11 +302,11 @@ ___
 
 ### tables
 
-• `Optional` **tables**: [`TableProps`](TableProps)[]
+• `Optional` **tables**: `TableProps`[]
 
 #### Defined in
 
-[src/constructs/Tables.ts:43](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Tables.ts#L43)
+[src/constructs/Tables.ts:9](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Tables.ts#L9)
 
 ___
 

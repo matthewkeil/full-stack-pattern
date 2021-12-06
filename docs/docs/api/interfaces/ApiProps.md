@@ -8,11 +8,9 @@ custom_edit_url: null
 
 ## Hierarchy
 
-- `RestApiProps`
+- [`Mutable`](../modules#mutable)<`Omit`<`RestApiProps`, ``"restApiName"``\>\>
 
   ↳ **`ApiProps`**
-
-  ↳↳ [`ServerlessConstructProps`](ServerlessConstructProps)
 
 ## Properties
 
@@ -28,7 +26,7 @@ The source of the API key for metering requests according to a usage plan.
 
 #### Inherited from
 
-RestApiProps.apiKeySourceType
+Mutable.apiKeySourceType
 
 #### Defined in
 
@@ -48,11 +46,28 @@ The list of binary media mime-types that are supported by the RestApi resource, 
 
 #### Inherited from
 
-RestApiProps.binaryMediaTypes
+Mutable.binaryMediaTypes
 
 #### Defined in
 
 node_modules/@aws-cdk/aws-apigateway/lib/restapi.d.ts:222
+
+___
+
+### buildDevServer
+
+• `Optional` **buildDevServer**: false \| true
+
+Uses `convert-lambda-to-express` to provision a dev server to develop the api.
+
+See [convert-lambda-to-express](https://www.npmjs.com/package/convert-lambda-to-express)
+for more information about how to use this feature.
+
+**`default`** true
+
+#### Defined in
+
+[src/constructs/Api.ts:71](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L71)
 
 ___
 
@@ -68,7 +83,7 @@ The ID of the API Gateway RestApi resource that you want to clone.
 
 #### Inherited from
 
-RestApiProps.cloneFrom
+Mutable.cloneFrom
 
 #### Defined in
 
@@ -88,7 +103,7 @@ Automatically configure an AWS CloudWatch role for API Gateway.
 
 #### Inherited from
 
-RestApiProps.cloudWatchRole
+Mutable.cloudWatchRole
 
 #### Defined in
 
@@ -110,7 +125,7 @@ You can add CORS at the resource-level using `addCorsPreflight`.
 
 #### Inherited from
 
-RestApiProps.defaultCorsPreflightOptions
+Mutable.defaultCorsPreflightOptions
 
 #### Defined in
 
@@ -130,7 +145,7 @@ An integration to use as a default for all methods created within this API unles
 
 #### Inherited from
 
-RestApiProps.defaultIntegration
+Mutable.defaultIntegration
 
 #### Defined in
 
@@ -150,7 +165,7 @@ Method options to use as a default for all methods created within this API unles
 
 #### Inherited from
 
-RestApiProps.defaultMethodOptions
+Mutable.defaultMethodOptions
 
 #### Defined in
 
@@ -185,7 +200,7 @@ of this REST API.
 
 #### Inherited from
 
-RestApiProps.deploy
+Mutable.deploy
 
 #### Defined in
 
@@ -208,7 +223,7 @@ this value cannot be set.
 
 #### Inherited from
 
-RestApiProps.deployOptions
+Mutable.deployOptions
 
 #### Defined in
 
@@ -228,7 +243,7 @@ A description of the purpose of this API Gateway RestApi resource.
 
 #### Inherited from
 
-RestApiProps.description
+Mutable.description
 
 #### Defined in
 
@@ -253,7 +268,7 @@ API, disable the default endpoint.
 
 #### Inherited from
 
-RestApiProps.disableExecuteApiEndpoint
+Mutable.disableExecuteApiEndpoint
 
 #### Defined in
 
@@ -273,7 +288,7 @@ Configure a custom domain name and map it to this API.
 
 #### Inherited from
 
-RestApiProps.domainName
+Mutable.domainName
 
 #### Defined in
 
@@ -285,9 +300,12 @@ ___
 
 • `Optional` **dontOverrideLogicalId**: false \| true
 
+Option to not use fixed logicalId's for the RestApi resource. For more
+info, see [Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
+
 #### Defined in
 
-[src/constructs/Api.ts:29](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Api.ts#L29)
+[src/constructs/Api.ts:83](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L83)
 
 ___
 
@@ -305,7 +323,7 @@ The EndpointConfiguration property type specifies the endpoint types of a REST A
 
 #### Inherited from
 
-RestApiProps.endpointConfiguration
+Mutable.endpointConfiguration
 
 #### Defined in
 
@@ -325,7 +343,7 @@ Export name for the CfnOutput containing the API endpoint.
 
 #### Inherited from
 
-RestApiProps.endpointExportName
+Mutable.endpointExportName
 
 #### Defined in
 
@@ -348,7 +366,7 @@ an API.
 
 #### Inherited from
 
-RestApiProps.endpointTypes
+Mutable.endpointTypes
 
 #### Defined in
 
@@ -368,7 +386,7 @@ Indicates whether to roll back the resource if a warning occurs while API Gatewa
 
 #### Inherited from
 
-RestApiProps.failOnWarnings
+Mutable.failOnWarnings
 
 #### Defined in
 
@@ -380,9 +398,15 @@ ___
 
 • `Optional` **gatewayResponses**: `GatewayResponseOptions`[]
 
+Gateway responses to add to the api. By default the following responses are added:
+{ type: ResponseType.UNAUTHORIZED, statusCode: '401' }
+{ type: ResponseType.ACCESS_DENIED, statusCode: '403' }
+{ type: ResponseType.RESOURCE_NOT_FOUND, statusCode: '404' }
+{ type: ResponseType.DEFAULT_5XX, statusCode: '500' }
+
 #### Defined in
 
-[src/constructs/Api.ts:27](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Api.ts#L27)
+[src/constructs/Api.ts:61](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L61)
 
 ___
 
@@ -390,9 +414,12 @@ ___
 
 • `Optional` **logicalId**: `string`
 
+LogicalId for the RestApi resource for in-place upgrades. For more
+info, see [Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
+
 #### Defined in
 
-[src/constructs/Api.ts:28](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Api.ts#L28)
+[src/constructs/Api.ts:77](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L77)
 
 ___
 
@@ -413,11 +440,25 @@ payload size.
 
 #### Inherited from
 
-RestApiProps.minimumCompressionSize
+Mutable.minimumCompressionSize
 
 #### Defined in
 
 node_modules/@aws-cdk/aws-apigateway/lib/restapi.d.ts:234
+
+___
+
+### name
+
+• `Optional` **name**: `string`
+
+The name of the api. If `prefix` and `name` are provided then the
+apiName will be `${prefix}-${name}`.  If no prefix is provided then
+the apiName will be `name`
+
+#### Defined in
+
+[src/constructs/Api.ts:37](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L37)
 
 ___
 
@@ -439,7 +480,7 @@ Custom header parameters for the request.
 
 #### Inherited from
 
-RestApiProps.parameters
+Mutable.parameters
 
 #### Defined in
 
@@ -459,7 +500,7 @@ A policy document that contains the permissions for this RestApi.
 
 #### Inherited from
 
-RestApiProps.policy
+Mutable.policy
 
 #### Defined in
 
@@ -469,31 +510,16 @@ ___
 
 ### prefix
 
-• **prefix**: `string`
+• `Optional` **prefix**: `string`
+
+The prefix to use with resource names. If `prefix` and `name` are
+provided then the apiName will be `${prefix}-${name}`.  If no name
+is provided then the apiName will be `prefix`. For more info, see
+[Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
 
 #### Defined in
 
-[src/constructs/Api.ts:25](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Api.ts#L25)
-
-___
-
-### restApiName
-
-• `Optional` `Readonly` **restApiName**: `string`
-
-A name for the API Gateway RestApi resource.
-
-**`default`** - ID of the RestApi construct.
-
-**`stability`** stable
-
-#### Inherited from
-
-RestApiProps.restApiName
-
-#### Defined in
-
-node_modules/@aws-cdk/aws-apigateway/lib/restapi.d.ts:128
+[src/constructs/Api.ts:45](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L45)
 
 ___
 
@@ -513,7 +539,7 @@ Console.
 
 #### Inherited from
 
-RestApiProps.retainDeployments
+Mutable.retainDeployments
 
 #### Defined in
 
@@ -523,11 +549,15 @@ ___
 
 ### stage
 
-• **stage**: `string`
+• `Optional` **stage**: `string`
+
+The api stage name. This is an alias to the deployOptions.stageName.
+
+**`default`** "prod"
 
 #### Defined in
 
-[src/constructs/Api.ts:24](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Api.ts#L24)
+[src/constructs/Api.ts:30](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L30)
 
 ___
 
@@ -535,6 +565,10 @@ ___
 
 • `Optional` **userPool**: `IUserPool`
 
+UserPool to create a gateway authorizer.  It is not required to be added
+when running the constructor.  Can also add a cognito authorizer with
+the api.attachCognitoAuthorizer() method
+
 #### Defined in
 
-[src/constructs/Api.ts:26](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Api.ts#L26)
+[src/constructs/Api.ts:52](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L52)

@@ -32,17 +32,17 @@ export interface FullStackConstructProps {
   readonly env?: Environment;
   /**
    * @description A prefix that will be used for all resource names.  In an effort to
-   * prevent resource collisions and promote stack stability across application and 
+   * prevent resource collisions and promote stack stability across application and
    * cdk construct life cycles. Best practice for this is to use a tiered approach. A
    * process that has worked very well across teams and accounts is:
-   * 
+   *
    * const prefix =`${client}-${project}-${stage}`;
-   * 
+   *
    * Clients tend to do more than one line of business with a good contractor.  The
    * project represents the LOB or other short descriptor.  So in the dev account of
-   * "best-client-ever" the project might be "fullstack-sales-plat" 
-   * 
-   * @example 
+   * "best-client-ever" the project might be "fullstack-sales-plat"
+   *
+   * @example
    */
   prefix: string;
   stage: string;
@@ -225,8 +225,8 @@ export class FullStackConstruct extends Construct {
 
     const backend: Backend = {
       ...props.backend,
-      existingLogGroups: await existingLogGroups(props),
-      existingTables: await listTableNames(props)
+      existingLogGroups: await existingLogGroups(props)
+      // existingTables: await listTableNames(props)
     };
 
     return {

@@ -32,7 +32,7 @@ NestedStack.constructor
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessNestedStack.ts:20](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/serverless/ServerlessNestedStack.ts#L20)
+[src/stacks/serverless/ServerlessNestedStack.ts:24](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/serverless/ServerlessNestedStack.ts#L24)
 
 ## Properties
 
@@ -97,7 +97,7 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessNestedStack.ts:16](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/serverless/ServerlessNestedStack.ts#L16)
+[src/stacks/serverless/ServerlessNestedStack.ts:20](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/serverless/ServerlessNestedStack.ts#L20)
 
 ___
 
@@ -125,7 +125,7 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessNestedStack.ts:18](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/serverless/ServerlessNestedStack.ts#L18)
+[src/stacks/serverless/ServerlessNestedStack.ts:22](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/serverless/ServerlessNestedStack.ts#L22)
 
 ___
 
@@ -165,7 +165,7 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessNestedStack.ts:14](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/serverless/ServerlessNestedStack.ts#L14)
+[src/stacks/serverless/ServerlessNestedStack.ts:18](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/serverless/ServerlessNestedStack.ts#L18)
 
 ___
 
@@ -266,7 +266,7 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessNestedStack.ts:15](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/serverless/ServerlessNestedStack.ts#L15)
+[src/stacks/serverless/ServerlessNestedStack.ts:19](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/serverless/ServerlessNestedStack.ts#L19)
 
 ___
 
@@ -776,7 +776,7 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessNestedStack.ts:33](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/serverless/ServerlessNestedStack.ts#L33)
+[src/stacks/serverless/ServerlessNestedStack.ts:38](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/serverless/ServerlessNestedStack.ts#L38)
 
 ___
 

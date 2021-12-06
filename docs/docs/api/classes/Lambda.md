@@ -34,7 +34,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/constructs/Lambda.ts:116](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L116)
+[src/constructs/Lambda.ts:201](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L201)
 
 ## Properties
 
@@ -44,27 +44,17 @@ Construct.constructor
 
 #### Defined in
 
-[src/constructs/Lambda.ts:109](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L109)
-
-___
-
-### buildDevServer
-
-• `Private` **buildDevServer**: `boolean`
-
-#### Defined in
-
-[src/constructs/Lambda.ts:114](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L114)
+[src/constructs/Lambda.ts:195](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L195)
 
 ___
 
 ### code
 
-• `Private` **code**: `Code`
+• **code**: `Code`
 
 #### Defined in
 
-[src/constructs/Lambda.ts:113](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L113)
+[src/constructs/Lambda.ts:196](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L196)
 
 ___
 
@@ -74,7 +64,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Lambda.ts:105](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L105)
+[src/constructs/Lambda.ts:191](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L191)
 
 ___
 
@@ -84,7 +74,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Lambda.ts:112](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L112)
+[src/constructs/Lambda.ts:199](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L199)
 
 ___
 
@@ -94,7 +84,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Lambda.ts:106](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L106)
+[src/constructs/Lambda.ts:192](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L192)
 
 ___
 
@@ -122,7 +112,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Lambda.ts:111](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L111)
+[src/constructs/Lambda.ts:198](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L198)
 
 ___
 
@@ -132,13 +122,13 @@ ___
 
 #### Defined in
 
-[src/constructs/Lambda.ts:108](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L108)
+[src/constructs/Lambda.ts:194](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L194)
 
 ___
 
 ### props
 
-• `Protected` **props**: [`LambdaProps`](../interfaces/LambdaProps)
+• `Readonly` **props**: [`LambdaProps`](../interfaces/LambdaProps)
 
 ___
 
@@ -148,7 +138,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Lambda.ts:107](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L107)
+[src/constructs/Lambda.ts:193](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L193)
 
 ## Methods
 
@@ -168,7 +158,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Lambda.ts:397](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L397)
+[src/constructs/Lambda.ts:508](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L508)
 
 ___
 
@@ -190,7 +180,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Lambda.ts:296](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L296)
+[src/constructs/Lambda.ts:407](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L407)
 
 ___
 
@@ -204,7 +194,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Lambda.ts:313](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L313)
+[src/constructs/Lambda.ts:424](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L424)
 
 ___
 
@@ -229,7 +219,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Lambda.ts:368](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L368)
+[src/constructs/Lambda.ts:479](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L479)
 
 ___
 
@@ -243,13 +233,36 @@ ___
 
 #### Defined in
 
-[src/constructs/Lambda.ts:374](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L374)
+[src/constructs/Lambda.ts:485](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L485)
 
 ___
 
 ### addApiEvent
 
 ▸ **addApiEvent**(`pathConfig`): [`Lambda`](Lambda)
+
+- adds an api event to the lambda: hooks up apiGateway to trigger the lambda
+and adds the necessary permissions.
+
+- builds an express server to server the lambdas during development. devServer
+supports hot reload and watch functionality. see [convert-lambda-to-express](https://www.npmjs.com/package/convert-lambda-to-express)
+for more information
+
+- can, optionally, pass in the RestApi that you want associated to the function
+through the LambdaProps.api property when new'ing the Lambda.  If no api is
+passed it looks at Stack.of(this).node.tryFindChild('Api') base stack and will
+use the first RestApi it finds if one exists.  If no api is passed to the
+constructor, nor is there a RestApi resource in the stack, one will be
+created. It will be built so all subsequent Lambdas will be able to find
+and use the same api.
+
+If api is looked up then it can be anywhere in your code as long as its built
+before trying to add an ApiEvent. Note that building the Lambda with an event in
+the constructor props will call the .addApiEvent method under the hood. The
+logicalId for the lookup method must be 'Api'.
+
+If you want to use a different Api logicalId, you can pass in the Api object
+directly to the constructor
 
 #### Parameters
 
@@ -263,13 +276,19 @@ ___
 
 #### Defined in
 
-[src/constructs/Lambda.ts:252](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L252)
+[src/constructs/Lambda.ts:364](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L364)
 
 ___
 
 ### addPermission
 
 ▸ **addPermission**(`principalOrArn`, `permission?`): [`Lambda`](Lambda)
+
+simplifies the underlying `lambda.Function.prototype.addPermission`
+
+- adds ability to just pass and arn as a string. automatically sets up
+  the principal
+- adds the invoke action
 
 #### Parameters
 
@@ -284,13 +303,18 @@ ___
 
 #### Defined in
 
-[src/constructs/Lambda.ts:225](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L225)
+[src/constructs/Lambda.ts:307](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L307)
 
 ___
 
 ### addWarmingEvent
 
 ▸ **addWarmingEvent**(`rule`): [`Lambda`](Lambda)
+
+simplifies warming the function. Timing will be base by the Rule that gets
+passed.  Event will emit the { warmer: true } object to the function
+
+code can easily check for warming event and return early
 
 #### Parameters
 
@@ -304,7 +328,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Lambda.ts:240](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L240)
+[src/constructs/Lambda.ts:328](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L328)
 
 ___
 
@@ -312,18 +336,17 @@ ___
 
 ▸ **associateTable**(`__namedParameters`): [`Lambda`](Lambda)
 
-**`description`** Associates a table with the function.
+Applies table.grantReadWriteData(role) for the function role if one was created.
 
-Applies grantReadWriteData for the function role if one was created.
+Adds table name to environment variables. As an example when passing in
+`table: "good-stuff-table"` will, by default, set actual tableName as:
+  - `process.env.TABLE_NAME=client-project-env-good-stuff-table`
+  - `process.env.GOOD_STUFF_TABLE=client-project-env-good-stuff-table`
 
-Adds table name to environment variables. As an example when passing in `table: "admin-table"` will set actual
-prefixed tableName as `process.env.TABLE_NAME=client-project-env-admin-table` and
-`process.env.ADMIN_TABLE=client-project-env-admin-table` by default.  You can override this with `tableEnvKey`
-to create the environment variables as `TABLE_NAME` and the `TABLE_ENV_KEY` that was passed in.
-
-Is backwards compatible with passing `table: string` like LambdasAndLogGroups.  Need to pass in DynamoTables
-construct for this functionality.  Can also be used with `table: string` when using Lambdas construct as
-it will pass in the DynamoTables object for you.
+You can override this with `tableEnvKey: TABLE_ENV_KEY` to create the
+environment variables as:
+`process.env.TABLE_NAME`
+`process.env.TABLE_ENV_KEY`
 
 #### Parameters
 
@@ -337,7 +360,7 @@ it will pass in the DynamoTables object for you.
 
 #### Defined in
 
-[src/constructs/Lambda.ts:275](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L275)
+[src/constructs/Lambda.ts:386](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L386)
 
 ___
 

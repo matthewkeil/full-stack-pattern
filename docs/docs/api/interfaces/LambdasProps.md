@@ -6,9 +6,23 @@ sidebar_position: 0
 custom_edit_url: null
 ---
 
+Any prop that can be set on an individual lambda can be set on this
+construct and all lambdas made in this group will have those values. Only
+the props 'name', 'description' and 'handler' cannot be set as a group as
+thats not possible.
+
+'runtime' and 'code' are Omitted as they are allowed as optional props but
+required by the Lambda construct.  See information below for each of those
+
+By default the individual props will get merged in with the ones set for
+the group and anything specifically set on one lambda will supercede the
+group values.  ie if runtime is set on the LambdasProps as
+Runtime.NODEJS_14_X and on an individual lambda, in the LambdasProps.lambdas
+array, as Runtime.NODEJS_10_X, then the function will use node 10.X
+
 ## Hierarchy
 
-- `Partial`<`Omit`<[`LambdaProps`](LambdaProps), ``"name"`` \| ``"description"`` \| ``"handler"``\>\>
+- `Partial`<`Omit`<[`LambdaProps`](LambdaProps), ``"name"`` \| ``"description"`` \| ``"handler"`` \| ``"runtime"`` \| ``"code"``\>\>
 
   ↳ **`LambdasProps`**
 
@@ -65,13 +79,19 @@ ___
 
 • `Optional` **api**: [`Api`](../classes/Api)
 
+The Api to use with all ApiEvents. If no api is passed it looks at
+Stack.of(this).node.tryFindChild('Api') base stack and will use the first
+RestApi it finds if one exists.  If no api is passed to the constructor,
+nor is there a RestApi resource in the stack, one will be created. It will
+be built so all subsequent Lambdas will be able to find and use the same api.
+
 #### Inherited from
 
 Partial.api
 
 #### Defined in
 
-[src/constructs/Lambda.ts:81](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L81)
+[src/constructs/Lambda.ts:146](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L146)
 
 ___
 
@@ -115,23 +135,12 @@ node_modules/@aws-cdk/aws-lambda/lib/function.d.ts:332
 
 ___
 
-### buildDevServer
-
-• `Optional` **buildDevServer**: false \| true
-
-#### Inherited from
-
-Partial.buildDevServer
-
-#### Defined in
-
-[src/constructs/Lambda.ts:83](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L83)
-
-___
-
 ### canInvoke
 
 • `Optional` **canInvoke**: (`string` \| `IRole` \| `PrincipalBase`)[]
+
+Array of principals that can invoke the lambda. Can pass a string arn, an IRole, or any Principal construct
+and will create the AWS::Lambda::Permission for you.
 
 #### Inherited from
 
@@ -139,7 +148,7 @@ Partial.canInvoke
 
 #### Defined in
 
-[src/constructs/Lambda.ts:79](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L79)
+[src/constructs/Lambda.ts:111](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L111)
 
 ___
 
@@ -147,13 +156,14 @@ ___
 
 • `Optional` **code**: `string` \| `Code`
 
-#### Inherited from
-
-Partial.code
+Code to use with all lambdas in this group.  Can pass a string to the
+absolute path of the code folder and the AssetCode will be created for
+you.  You can also pass in any Construct that extends Code ie:
+InlineCode, AssetCode, S3Code, etc.
 
 #### Defined in
 
-[src/constructs/Lambda.ts:73](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L73)
+[src/constructs/Lambdas.ts:56](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambdas.ts#L56)
 
 ___
 
@@ -268,13 +278,18 @@ ___
 
 • `Optional` **dontOverrideLogicalId**: false \| true
 
+Option to not use fixed logicalId's for the RestApi resource. For more
+info, see [Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
+
+**`default`** false (resources will have their logicalId's set by the library and not cdk)
+
 #### Inherited from
 
 Partial.dontOverrideLogicalId
 
 #### Defined in
 
-[src/constructs/Lambda.ts:72](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L72)
+[src/constructs/Lambda.ts:94](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L94)
 
 ___
 
@@ -350,13 +365,22 @@ ___
 
 • `Optional` **events**: ([`ApiEvent`](ApiEvent) \| `IEventSource`)[]
 
+Similar to the underlying LambdaProps.events but adds support for the
+ApiEvent from this library.  Works in conjunction with the Api construct.
+
+ApiEvents will build a dev server that can be run locally through the use
+of [convert-lambda-to-express](https://www.npmjs.com/package/convert-lambda-to-express) library
+
+See [convert-lambda-to-express](https://www.npmjs.com/package/convert-lambda-to-express) for more information about
+how to use this feature.
+
 #### Inherited from
 
 Partial.events
 
 #### Defined in
 
-[src/constructs/Lambda.ts:82](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L82)
+[src/constructs/Lambda.ts:137](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L137)
 
 ___
 
@@ -364,13 +388,18 @@ ___
 
 • `Optional` **existingLogGroups**: `string`[]
 
+Handy feature to plug into existing logGroups.  Pass an array of strings
+that are the logGroup names in the target account and any log groups that
+exist will not be created. ie no thrown errors, and stack rollbacks, for
+log groups that exist
+
 #### Inherited from
 
 Partial.existingLogGroups
 
 #### Defined in
 
-[src/constructs/Lambda.ts:84](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L84)
+[src/constructs/Lambda.ts:154](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L154)
 
 ___
 
@@ -566,11 +595,15 @@ ___
 
 ### lambdas
 
-• `Optional` **lambdas**: [`LambdaProps`](LambdaProps)[]
+• `Optional` **lambdas**: `LambdasPropsOptionalRuntimeAndCode`[]
+
+An array of LambdaProps objects where the `runtime` and `code` are optional
+While technically required they can be optionally passed as shared props and
+that will get merged with each set of individual props and creation time.
 
 #### Defined in
 
-[src/constructs/Lambdas.ts:17](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambdas.ts#L17)
+[src/constructs/Lambdas.ts:43](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambdas.ts#L43)
 
 ___
 
@@ -578,13 +611,16 @@ ___
 
 • `Optional` **layers**: (`string` \| `LayerVersion`)[]
 
+LayerVersions to use with the lambda.  Can pass in a strings, that are absolute path to the layer folder,
+and the AssetCode will be made for the directory.  Can also pass in an array of LayerVersion constructs.
+
 #### Inherited from
 
 Partial.layers
 
 #### Defined in
 
-[src/constructs/Lambda.ts:74](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L74)
+[src/constructs/Lambda.ts:100](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L100)
 
 ___
 
@@ -658,13 +694,16 @@ ___
 
 • `Optional` **loggingLevel**: ``"DEBUG"`` \| ``"INFO"`` \| ``"WARNING"`` \| ``"ERROR"`` \| ``"CRITICAL"``
 
+Adds process.env.LOGGING_LEVEL to the lambda environment. Can be set to:
+'DEBUG' | 'INFO' | 'WARNING' | 'ERROR' | 'CRITICAL'
+
 #### Inherited from
 
 Partial.loggingLevel
 
 #### Defined in
 
-[src/constructs/Lambda.ts:78](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L78)
+[src/constructs/Lambda.ts:125](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L125)
 
 ___
 
@@ -868,13 +907,16 @@ ___
 
 • `Optional` **prefix**: `string`
 
+The prefix to use for the resources.  Will prefix all resource names with this value. For more info, see
+[Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
+
 #### Inherited from
 
 Partial.prefix
 
 #### Defined in
 
-[src/constructs/Lambda.ts:76](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L76)
+[src/constructs/Lambda.ts:86](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L86)
 
 ___
 
@@ -1018,13 +1060,15 @@ ___
 
 • `Optional` **role**: `string` \| `IRole`
 
+The IRole or arn of the service role. If a LambdaProps.role is passed no IAM will be created
+
 #### Inherited from
 
 Partial.role
 
 #### Defined in
 
-[src/constructs/Lambda.ts:77](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L77)
+[src/constructs/Lambda.ts:105](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L105)
 
 ___
 
@@ -1032,13 +1076,11 @@ ___
 
 • `Optional` **runtime**: `Runtime`
 
-#### Inherited from
-
-Partial.runtime
+Runtime to use with all lambdas in this group.
 
 #### Defined in
 
-[src/constructs/Lambda.ts:75](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L75)
+[src/constructs/Lambdas.ts:48](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambdas.ts#L48)
 
 ___
 
@@ -1119,12 +1161,11 @@ ___
 
 • `Optional` **table**: `string` \| `ITable`
 
-**`description`** To add a table to the function, either provide:
-
-`table: Table` OR `table: string and tables: DynamoTables`
-
-When using table as a string will pull the table named the same as the string and associate that with the function.
-Supports for backwards compatibility with LambdasAndLogGroups.
+Associates a table with the lambda function.  Can be passed as a Table or
+a string. When using a string must also pass a Tables object to the
+`tables` prop.  This is mostly a convention for use with the Lambdas and
+Tables constructs so its easier to created the lambda definitions.  See
+the LambdasProps.tables for more information.
 
 #### Inherited from
 
@@ -1132,7 +1173,7 @@ Partial.table
 
 #### Defined in
 
-[src/constructs/Lambda.ts:96](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L96)
+[src/constructs/Lambda.ts:163](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L163)
 
 ___
 
@@ -1140,13 +1181,24 @@ ___
 
 • `Optional` **tableEnvKey**: `string`
 
+By default, this construct sets the tableName to the environment for you.
+
+If a name of 'good-stuff-table' is used, will set environment variables as:
+  - `process.env.TABLE_NAME = "full-table-name-for-sdk"`
+  - `process.env.GOOD_STUFF_TABLE = "full-table-name-for-sdk"`
+
+You can override this with `tableEnvKey: "SOME_ENV_KEY"` to create the
+environment variables as:
+  - `process.env.TABLE_NAME = "full-table-name-for-sdk"`
+  - `process.env.SOME_ENV_KEY = "full-table-name-for-sdk"`
+
 #### Inherited from
 
 Partial.tableEnvKey
 
 #### Defined in
 
-[src/constructs/Lambda.ts:98](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L98)
+[src/constructs/Lambda.ts:184](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L184)
 
 ___
 
@@ -1154,13 +1206,17 @@ ___
 
 • `Optional` **tables**: [`Tables`](../classes/Tables)
 
+Can pass a Tables object to the Lambdas object.  That was you can use
+LambdaProps.table as a string to reference the table that should be
+associated.  Makes building the lambdas array easier.
+
 #### Overrides
 
 Partial.tables
 
 #### Defined in
 
-[src/constructs/Lambdas.ts:18](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambdas.ts#L18)
+[src/constructs/Lambdas.ts:63](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambdas.ts#L63)
 
 ___
 
@@ -1278,10 +1334,15 @@ ___
 
 • `Optional` **warmingEvent**: `Rule`
 
+simplifies warming the function. Timing will be base by the Rule that gets
+passed.  Event will emit the { warmer: true } object to the function
+
+code can easily check for warming event and return early
+
 #### Inherited from
 
 Partial.warmingEvent
 
 #### Defined in
 
-[src/constructs/Lambda.ts:80](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L80)
+[src/constructs/Lambda.ts:119](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L119)

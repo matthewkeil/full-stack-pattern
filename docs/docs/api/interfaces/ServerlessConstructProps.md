@@ -8,11 +8,11 @@ custom_edit_url: null
 
 ## Hierarchy
 
-- [`ApiProps`](ApiProps)
+- `Omit`<[`ApiProps`](ApiProps), ``"description"``\>
 
-- `Pick`<[`TablesProps`](TablesProps), ``"tables"`` \| ``"existingTables"``\>
+- [`TablesProps`](TablesProps)
 
-- `Omit`<[`LambdasProps`](LambdasProps), ``"tables"`` \| ``"prefix"``\>
+- `Omit`<[`LambdasProps`](LambdasProps), ``"tables"``\>
 
   ↳ **`ServerlessConstructProps`**
 
@@ -73,13 +73,19 @@ ___
 
 • `Optional` **api**: [`Api`](../classes/Api)
 
+The Api to use with all ApiEvents. If no api is passed it looks at
+Stack.of(this).node.tryFindChild('Api') base stack and will use the first
+RestApi it finds if one exists.  If no api is passed to the constructor,
+nor is there a RestApi resource in the stack, one will be created. It will
+be built so all subsequent Lambdas will be able to find and use the same api.
+
 #### Inherited from
 
 Omit.api
 
 #### Defined in
 
-[src/constructs/Lambda.ts:81](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L81)
+[src/constructs/Lambda.ts:146](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L146)
 
 ___
 
@@ -95,7 +101,7 @@ The source of the API key for metering requests according to a usage plan.
 
 #### Inherited from
 
-[ApiProps](ApiProps).[apiKeySourceType](ApiProps#apikeysourcetype)
+Omit.apiKeySourceType
 
 #### Defined in
 
@@ -143,6 +149,26 @@ node_modules/@aws-cdk/aws-lambda/lib/function.d.ts:332
 
 ___
 
+### billingMode
+
+• `Optional` `Readonly` **billingMode**: `PAY_PER_REQUEST` \| `PROVISIONED`
+
+Specify how you are charged for read and write throughput and how you manage capacity.
+
+**`default`** PROVISIONED if `replicationRegions` is not specified, PAY_PER_REQUEST otherwise
+
+**`stability`** stable
+
+#### Inherited from
+
+[TablesProps](TablesProps).[billingMode](TablesProps#billingmode)
+
+#### Defined in
+
+node_modules/@aws-cdk/aws-dynamodb/lib/table.d.ts:187
+
+___
+
 ### binaryMediaTypes
 
 • `Optional` `Readonly` **binaryMediaTypes**: `string`[]
@@ -155,7 +181,7 @@ The list of binary media mime-types that are supported by the RestApi resource, 
 
 #### Inherited from
 
-[ApiProps](ApiProps).[binaryMediaTypes](ApiProps#binarymediatypes)
+Omit.binaryMediaTypes
 
 #### Defined in
 
@@ -167,13 +193,20 @@ ___
 
 • `Optional` **buildDevServer**: false \| true
 
+Uses `convert-lambda-to-express` to provision a dev server to develop the api.
+
+See [convert-lambda-to-express](https://www.npmjs.com/package/convert-lambda-to-express)
+for more information about how to use this feature.
+
+**`default`** true
+
 #### Inherited from
 
 Omit.buildDevServer
 
 #### Defined in
 
-[src/constructs/Lambda.ts:83](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L83)
+[src/constructs/Api.ts:71](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L71)
 
 ___
 
@@ -181,13 +214,16 @@ ___
 
 • `Optional` **canInvoke**: (`string` \| `IRole` \| `PrincipalBase`)[]
 
+Array of principals that can invoke the lambda. Can pass a string arn, an IRole, or any Principal construct
+and will create the AWS::Lambda::Permission for you.
+
 #### Inherited from
 
 Omit.canInvoke
 
 #### Defined in
 
-[src/constructs/Lambda.ts:79](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L79)
+[src/constructs/Lambda.ts:111](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L111)
 
 ___
 
@@ -203,7 +239,7 @@ The ID of the API Gateway RestApi resource that you want to clone.
 
 #### Inherited from
 
-[ApiProps](ApiProps).[cloneFrom](ApiProps#clonefrom)
+Omit.cloneFrom
 
 #### Defined in
 
@@ -223,7 +259,7 @@ Automatically configure an AWS CloudWatch role for API Gateway.
 
 #### Inherited from
 
-[ApiProps](ApiProps).[cloudWatchRole](ApiProps#cloudwatchrole)
+Omit.cloudWatchRole
 
 #### Defined in
 
@@ -235,13 +271,18 @@ ___
 
 • `Optional` **code**: `string` \| `Code`
 
+Code to use with all lambdas in this group.  Can pass a string to the
+absolute path of the code folder and the AssetCode will be created for
+you.  You can also pass in any Construct that extends Code ie:
+InlineCode, AssetCode, S3Code, etc.
+
 #### Inherited from
 
 Omit.code
 
 #### Defined in
 
-[src/constructs/Lambda.ts:73](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L73)
+[src/constructs/Lambdas.ts:56](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambdas.ts#L56)
 
 ___
 
@@ -271,7 +312,27 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessConstruct.ts:17](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/serverless/ServerlessConstruct.ts#L17)
+[src/stacks/serverless/ServerlessConstruct.ts:17](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/serverless/ServerlessConstruct.ts#L17)
+
+___
+
+### contributorInsightsEnabled
+
+• `Optional` `Readonly` **contributorInsightsEnabled**: false \| true
+
+Whether CloudWatch contributor insights is enabled.
+
+**`default`** false
+
+**`stability`** stable
+
+#### Inherited from
+
+[TablesProps](TablesProps).[contributorInsightsEnabled](TablesProps#contributorinsightsenabled)
+
+#### Defined in
+
+node_modules/@aws-cdk/aws-dynamodb/lib/table.d.ts:282
 
 ___
 
@@ -352,7 +413,7 @@ You can add CORS at the resource-level using `addCorsPreflight`.
 
 #### Inherited from
 
-[ApiProps](ApiProps).[defaultCorsPreflightOptions](ApiProps#defaultcorspreflightoptions)
+Omit.defaultCorsPreflightOptions
 
 #### Defined in
 
@@ -372,7 +433,7 @@ An integration to use as a default for all methods created within this API unles
 
 #### Inherited from
 
-[ApiProps](ApiProps).[defaultIntegration](ApiProps#defaultintegration)
+Omit.defaultIntegration
 
 #### Defined in
 
@@ -392,7 +453,7 @@ Method options to use as a default for all methods created within this API unles
 
 #### Inherited from
 
-[ApiProps](ApiProps).[defaultMethodOptions](ApiProps#defaultmethodoptions)
+Omit.defaultMethodOptions
 
 #### Defined in
 
@@ -427,7 +488,7 @@ of this REST API.
 
 #### Inherited from
 
-[ApiProps](ApiProps).[deploy](ApiProps#deploy)
+Omit.deploy
 
 #### Defined in
 
@@ -450,31 +511,11 @@ this value cannot be set.
 
 #### Inherited from
 
-[ApiProps](ApiProps).[deployOptions](ApiProps#deployoptions)
+Omit.deployOptions
 
 #### Defined in
 
 node_modules/@aws-cdk/aws-apigateway/lib/restapi.d.ts:110
-
-___
-
-### description
-
-• `Optional` `Readonly` **description**: `string`
-
-A description of the purpose of this API Gateway RestApi resource.
-
-**`default`** - No description.
-
-**`stability`** stable
-
-#### Inherited from
-
-[ApiProps](ApiProps).[description](ApiProps#description)
-
-#### Defined in
-
-node_modules/@aws-cdk/aws-apigateway/lib/restapi.d.ts:215
 
 ___
 
@@ -495,7 +536,7 @@ API, disable the default endpoint.
 
 #### Inherited from
 
-[ApiProps](ApiProps).[disableExecuteApiEndpoint](ApiProps#disableexecuteapiendpoint)
+Omit.disableExecuteApiEndpoint
 
 #### Defined in
 
@@ -539,7 +580,7 @@ Configure a custom domain name and map it to this API.
 
 #### Inherited from
 
-[ApiProps](ApiProps).[domainName](ApiProps#domainname)
+Omit.domainName
 
 #### Defined in
 
@@ -551,13 +592,38 @@ ___
 
 • `Optional` **dontOverrideLogicalId**: false \| true
 
+Option to not use fixed logicalId's for the RestApi resource. For more
+info, see [Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
+
 #### Inherited from
 
-[ApiProps](ApiProps).[dontOverrideLogicalId](ApiProps#dontoverridelogicalid)
+[TablesProps](TablesProps).[dontOverrideLogicalId](TablesProps#dontoverridelogicalid)
 
 #### Defined in
 
-[src/constructs/Api.ts:29](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Api.ts#L29)
+[src/constructs/Api.ts:83](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L83)
+
+___
+
+### encryption
+
+• `Optional` `Readonly` **encryption**: `DEFAULT` \| `CUSTOMER_MANAGED` \| `AWS_MANAGED`
+
+Whether server-side encryption with an AWS managed customer master key is enabled.
+
+This property cannot be set if `serverSideEncryption` is set.
+
+**`default`** - server-side encryption is enabled with an AWS owned customer master key
+
+**`stability`** stable
+
+#### Inherited from
+
+[TablesProps](TablesProps).[encryption](TablesProps#encryption)
+
+#### Defined in
+
+node_modules/@aws-cdk/aws-dynamodb/lib/table.d.ts:213
 
 ___
 
@@ -565,19 +631,22 @@ ___
 
 • `Optional` `Readonly` **encryptionKey**: `IKey`
 
-The KMS Key to encrypt the log group with.
+External KMS key to use for table encryption.
 
-**`default`** - log group is encrypted with the default master key
+This property can only be set if `encryption` is set to `TableEncryption.CUSTOMER_MANAGED`.
+
+**`default`** - If `encryption` is set to `TableEncryption.CUSTOMER_MANAGED` and this
+property is undefined, a new KMS key will be created and associated with this table.
 
 **`stability`** stable
 
 #### Inherited from
 
-Omit.encryptionKey
+[TablesProps](TablesProps).[encryptionKey](TablesProps#encryptionkey)
 
 #### Defined in
 
-node_modules/@aws-cdk/aws-logs/lib/log-group.d.ts:296
+node_modules/@aws-cdk/aws-dynamodb/lib/table.d.ts:223
 
 ___
 
@@ -595,7 +664,7 @@ The EndpointConfiguration property type specifies the endpoint types of a REST A
 
 #### Inherited from
 
-[ApiProps](ApiProps).[endpointConfiguration](ApiProps#endpointconfiguration)
+Omit.endpointConfiguration
 
 #### Defined in
 
@@ -615,7 +684,7 @@ Export name for the CfnOutput containing the API endpoint.
 
 #### Inherited from
 
-[ApiProps](ApiProps).[endpointExportName](ApiProps#endpointexportname)
+Omit.endpointExportName
 
 #### Defined in
 
@@ -638,7 +707,7 @@ an API.
 
 #### Inherited from
 
-[ApiProps](ApiProps).[endpointTypes](ApiProps#endpointtypes)
+Omit.endpointTypes
 
 #### Defined in
 
@@ -698,13 +767,22 @@ ___
 
 • `Optional` **events**: ([`ApiEvent`](ApiEvent) \| `IEventSource`)[]
 
+Similar to the underlying LambdaProps.events but adds support for the
+ApiEvent from this library.  Works in conjunction with the Api construct.
+
+ApiEvents will build a dev server that can be run locally through the use
+of [convert-lambda-to-express](https://www.npmjs.com/package/convert-lambda-to-express) library
+
+See [convert-lambda-to-express](https://www.npmjs.com/package/convert-lambda-to-express) for more information about
+how to use this feature.
+
 #### Inherited from
 
 Omit.events
 
 #### Defined in
 
-[src/constructs/Lambda.ts:82](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L82)
+[src/constructs/Lambda.ts:137](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L137)
 
 ___
 
@@ -712,27 +790,18 @@ ___
 
 • `Optional` **existingLogGroups**: `string`[]
 
+Handy feature to plug into existing logGroups.  Pass an array of strings
+that are the logGroup names in the target account and any log groups that
+exist will not be created. ie no thrown errors, and stack rollbacks, for
+log groups that exist
+
 #### Inherited from
 
 Omit.existingLogGroups
 
 #### Defined in
 
-[src/constructs/Lambda.ts:84](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L84)
-
-___
-
-### existingTables
-
-• `Optional` **existingTables**: `string`[]
-
-#### Inherited from
-
-Pick.existingTables
-
-#### Defined in
-
-[src/constructs/Tables.ts:44](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Tables.ts#L44)
+[src/constructs/Lambda.ts:154](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L154)
 
 ___
 
@@ -794,7 +863,7 @@ Indicates whether to roll back the resource if a warning occurs while API Gatewa
 
 #### Inherited from
 
-[ApiProps](ApiProps).[failOnWarnings](ApiProps#failonwarnings)
+Omit.failOnWarnings
 
 #### Defined in
 
@@ -855,13 +924,19 @@ ___
 
 • `Optional` **gatewayResponses**: `GatewayResponseOptions`[]
 
+Gateway responses to add to the api. By default the following responses are added:
+{ type: ResponseType.UNAUTHORIZED, statusCode: '401' }
+{ type: ResponseType.ACCESS_DENIED, statusCode: '403' }
+{ type: ResponseType.RESOURCE_NOT_FOUND, statusCode: '404' }
+{ type: ResponseType.DEFAULT_5XX, statusCode: '500' }
+
 #### Inherited from
 
-[ApiProps](ApiProps).[gatewayResponses](ApiProps#gatewayresponses)
+Omit.gatewayResponses
 
 #### Defined in
 
-[src/constructs/Api.ts:27](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Api.ts#L27)
+[src/constructs/Api.ts:61](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L61)
 
 ___
 
@@ -960,9 +1035,33 @@ node_modules/@aws-cdk/aws-lambda/lib/function.d.ts:232
 
 ___
 
+### kinesisStream
+
+• `Optional` `Readonly` **kinesisStream**: `IStream`
+
+Kinesis Data Stream to capture item-level changes for the table.
+
+**`default`** - no Kinesis Data Stream
+
+**`stability`** stable
+
+#### Inherited from
+
+[TablesProps](TablesProps).[kinesisStream](TablesProps#kinesisstream)
+
+#### Defined in
+
+node_modules/@aws-cdk/aws-dynamodb/lib/table.d.ts:303
+
+___
+
 ### lambdas
 
-• `Optional` **lambdas**: [`LambdaProps`](LambdaProps)[]
+• `Optional` **lambdas**: `LambdasPropsOptionalRuntimeAndCode`[]
+
+An array of LambdaProps objects where the `runtime` and `code` are optional
+While technically required they can be optionally passed as shared props and
+that will get merged with each set of individual props and creation time.
 
 #### Inherited from
 
@@ -970,7 +1069,7 @@ Omit.lambdas
 
 #### Defined in
 
-[src/constructs/Lambdas.ts:17](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambdas.ts#L17)
+[src/constructs/Lambdas.ts:43](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambdas.ts#L43)
 
 ___
 
@@ -978,13 +1077,16 @@ ___
 
 • `Optional` **layers**: (`string` \| `LayerVersion`)[]
 
+LayerVersions to use with the lambda.  Can pass in a strings, that are absolute path to the layer folder,
+and the AssetCode will be made for the directory.  Can also pass in an array of LayerVersion constructs.
+
 #### Inherited from
 
 Omit.layers
 
 #### Defined in
 
-[src/constructs/Lambda.ts:74](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L74)
+[src/constructs/Lambda.ts:100](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L100)
 
 ___
 
@@ -1058,13 +1160,16 @@ ___
 
 • `Optional` **loggingLevel**: ``"DEBUG"`` \| ``"INFO"`` \| ``"WARNING"`` \| ``"ERROR"`` \| ``"CRITICAL"``
 
+Adds process.env.LOGGING_LEVEL to the lambda environment. Can be set to:
+'DEBUG' | 'INFO' | 'WARNING' | 'ERROR' | 'CRITICAL'
+
 #### Inherited from
 
 Omit.loggingLevel
 
 #### Defined in
 
-[src/constructs/Lambda.ts:78](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L78)
+[src/constructs/Lambda.ts:125](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L125)
 
 ___
 
@@ -1072,13 +1177,16 @@ ___
 
 • `Optional` **logicalId**: `string`
 
+LogicalId for the RestApi resource for in-place upgrades. For more
+info, see [Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
+
 #### Inherited from
 
-[ApiProps](ApiProps).[logicalId](ApiProps#logicalid)
+Omit.logicalId
 
 #### Defined in
 
-[src/constructs/Api.ts:28](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Api.ts#L28)
+[src/constructs/Api.ts:77](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L77)
 
 ___
 
@@ -1204,11 +1312,29 @@ payload size.
 
 #### Inherited from
 
-[ApiProps](ApiProps).[minimumCompressionSize](ApiProps#minimumcompressionsize)
+Omit.minimumCompressionSize
 
 #### Defined in
 
 node_modules/@aws-cdk/aws-apigateway/lib/restapi.d.ts:234
+
+___
+
+### name
+
+• `Optional` **name**: `string`
+
+The name of the api. If `prefix` and `name` are provided then the
+apiName will be `${prefix}-${name}`.  If no prefix is provided then
+the apiName will be `name`
+
+#### Inherited from
+
+Omit.name
+
+#### Defined in
+
+[src/constructs/Api.ts:37](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L37)
 
 ___
 
@@ -1270,7 +1396,7 @@ Custom header parameters for the request.
 
 #### Inherited from
 
-[ApiProps](ApiProps).[parameters](ApiProps#parameters)
+Omit.parameters
 
 #### Defined in
 
@@ -1329,6 +1455,26 @@ node_modules/@aws-cdk/aws-iam/lib/role.d.ts:92
 
 ___
 
+### pointInTimeRecovery
+
+• `Optional` `Readonly` **pointInTimeRecovery**: false \| true
+
+Whether point-in-time recovery is enabled.
+
+**`default`** - point-in-time recovery is disabled
+
+**`stability`** stable
+
+#### Inherited from
+
+[TablesProps](TablesProps).[pointInTimeRecovery](TablesProps#pointintimerecovery)
+
+#### Defined in
+
+node_modules/@aws-cdk/aws-dynamodb/lib/table.d.ts:194
+
+___
+
 ### policy
 
 • `Optional` `Readonly` **policy**: `PolicyDocument`
@@ -1341,7 +1487,7 @@ A policy document that contains the permissions for this RestApi.
 
 #### Inherited from
 
-[ApiProps](ApiProps).[policy](ApiProps#policy)
+Omit.policy
 
 #### Defined in
 
@@ -1351,15 +1497,20 @@ ___
 
 ### prefix
 
-• **prefix**: `string`
+• `Optional` **prefix**: `string`
+
+The prefix to use with resource names. If `prefix` and `name` are
+provided then the apiName will be `${prefix}-${name}`.  If no name
+is provided then the apiName will be `prefix`. For more info, see
+[Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
 
 #### Inherited from
 
-[ApiProps](ApiProps).[prefix](ApiProps#prefix)
+[TablesProps](TablesProps).[prefix](TablesProps#prefix)
 
 #### Defined in
 
-[src/constructs/Api.ts:25](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Api.ts#L25)
+[src/constructs/Api.ts:45](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L45)
 
 ___
 
@@ -1407,28 +1558,88 @@ node_modules/@aws-cdk/aws-lambda/lib/function.d.ts:224
 
 ___
 
-### removalPolicy
+### readCapacity
 
-• `Optional` `Readonly` **removalPolicy**: `DESTROY` \| `RETAIN` \| `SNAPSHOT`
+• `Optional` `Readonly` **readCapacity**: `number`
 
-Determine the removal policy of this log group.
+The read capacity for the table.
 
-Normally you want to retain the log group so you can diagnose issues
-from logs even after a deployment that no longer includes the log group.
-In that case, use the normal date-based retention policy to age out your
-logs.
+Careful if you add Global Secondary Indexes, as
+those will share the table's provisioned throughput.
 
-**`default`** RemovalPolicy.Retain
+Can only be provided if billingMode is Provisioned.
+
+**`default`** 5
 
 **`stability`** stable
 
 #### Inherited from
 
-Omit.removalPolicy
+[TablesProps](TablesProps).[readCapacity](TablesProps#readcapacity)
 
 #### Defined in
 
-node_modules/@aws-cdk/aws-logs/lib/log-group.d.ts:324
+node_modules/@aws-cdk/aws-dynamodb/lib/table.d.ts:168
+
+___
+
+### removalPolicy
+
+• `Optional` `Readonly` **removalPolicy**: `DESTROY` \| `RETAIN` \| `SNAPSHOT`
+
+The removal policy to apply to the DynamoDB Table.
+
+**`default`** RemovalPolicy.RETAIN
+
+**`stability`** stable
+
+#### Inherited from
+
+[TablesProps](TablesProps).[removalPolicy](TablesProps#removalpolicy)
+
+#### Defined in
+
+node_modules/@aws-cdk/aws-dynamodb/lib/table.d.ts:244
+
+___
+
+### replicationRegions
+
+• `Optional` `Readonly` **replicationRegions**: `string`[]
+
+Regions where replica tables will be created.
+
+**`default`** - no replica tables are created
+
+**`stability`** stable
+
+#### Inherited from
+
+[TablesProps](TablesProps).[replicationRegions](TablesProps#replicationregions)
+
+#### Defined in
+
+node_modules/@aws-cdk/aws-dynamodb/lib/table.d.ts:251
+
+___
+
+### replicationTimeout
+
+• `Optional` `Readonly` **replicationTimeout**: `Duration`
+
+The timeout for a table replication operation in a single region.
+
+**`default`** Duration.minutes(30)
+
+**`stability`** stable
+
+#### Inherited from
+
+[TablesProps](TablesProps).[replicationTimeout](TablesProps#replicationtimeout)
+
+#### Defined in
+
+node_modules/@aws-cdk/aws-dynamodb/lib/table.d.ts:258
 
 ___
 
@@ -1454,26 +1665,6 @@ node_modules/@aws-cdk/aws-lambda/lib/function.d.ts:251
 
 ___
 
-### restApiName
-
-• `Optional` `Readonly` **restApiName**: `string`
-
-A name for the API Gateway RestApi resource.
-
-**`default`** - ID of the RestApi construct.
-
-**`stability`** stable
-
-#### Inherited from
-
-[ApiProps](ApiProps).[restApiName](ApiProps#restapiname)
-
-#### Defined in
-
-node_modules/@aws-cdk/aws-apigateway/lib/restapi.d.ts:128
-
-___
-
 ### retainDeployments
 
 • `Optional` `Readonly` **retainDeployments**: false \| true
@@ -1490,7 +1681,7 @@ Console.
 
 #### Inherited from
 
-[ApiProps](ApiProps).[retainDeployments](ApiProps#retaindeployments)
+Omit.retainDeployments
 
 #### Defined in
 
@@ -1547,13 +1738,15 @@ ___
 
 • `Optional` **role**: `string` \| `IRole`
 
+The IRole or arn of the service role. If a LambdaProps.role is passed no IAM will be created
+
 #### Inherited from
 
 Omit.role
 
 #### Defined in
 
-[src/constructs/Lambda.ts:77](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L77)
+[src/constructs/Lambda.ts:105](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L105)
 
 ___
 
@@ -1561,13 +1754,15 @@ ___
 
 • `Optional` **runtime**: `Runtime`
 
+Runtime to use with all lambdas in this group.
+
 #### Inherited from
 
 Omit.runtime
 
 #### Defined in
 
-[src/constructs/Lambda.ts:75](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L75)
+[src/constructs/Lambdas.ts:48](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambdas.ts#L48)
 
 ___
 
@@ -1622,17 +1817,44 @@ node_modules/@aws-cdk/aws-lambda/lib/function.d.ts:174
 
 ___
 
-### stage
+### serverSideEncryption
 
-• **stage**: `string`
+• `Optional` `Readonly` **serverSideEncryption**: false \| true
+
+(deprecated) Whether server-side encryption with an AWS managed customer master key is enabled.
+
+This property cannot be set if `encryption` and/or `encryptionKey` is set.
+
+**`default`** - server-side encryption is enabled with an AWS owned customer master key
+
+**`deprecated`** This property is deprecated. In order to obtain the same behavior as
+enabling this, set the `encryption` property to `TableEncryption.AWS_MANAGED` instead.
 
 #### Inherited from
 
-[ApiProps](ApiProps).[stage](ApiProps#stage)
+[TablesProps](TablesProps).[serverSideEncryption](TablesProps#serversideencryption)
 
 #### Defined in
 
-[src/constructs/Api.ts:24](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Api.ts#L24)
+node_modules/@aws-cdk/aws-dynamodb/lib/table.d.ts:204
+
+___
+
+### stage
+
+• `Optional` **stage**: `string`
+
+The api stage name. This is an alias to the deployOptions.stageName.
+
+**`default`** "prod"
+
+#### Inherited from
+
+Omit.stage
+
+#### Defined in
+
+[src/constructs/Api.ts:30](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L30)
 
 ___
 
@@ -1658,16 +1880,35 @@ node_modules/@aws-cdk/aws-iam/lib/policy.d.ts:76
 
 ___
 
+### stream
+
+• `Optional` `Readonly` **stream**: `NEW_IMAGE` \| `OLD_IMAGE` \| `NEW_AND_OLD_IMAGES` \| `KEYS_ONLY`
+
+When an item in the table is modified, StreamViewType determines what information is written to the stream for this table.
+
+**`default`** - streams are disabled unless `replicationRegions` is specified
+
+**`stability`** stable
+
+#### Inherited from
+
+[TablesProps](TablesProps).[stream](TablesProps#stream)
+
+#### Defined in
+
+node_modules/@aws-cdk/aws-dynamodb/lib/table.d.ts:237
+
+___
+
 ### table
 
 • `Optional` **table**: `string` \| `ITable`
 
-**`description`** To add a table to the function, either provide:
-
-`table: Table` OR `table: string and tables: DynamoTables`
-
-When using table as a string will pull the table named the same as the string and associate that with the function.
-Supports for backwards compatibility with LambdasAndLogGroups.
+Associates a table with the lambda function.  Can be passed as a Table or
+a string. When using a string must also pass a Tables object to the
+`tables` prop.  This is mostly a convention for use with the Lambdas and
+Tables constructs so its easier to created the lambda definitions.  See
+the LambdasProps.tables for more information.
 
 #### Inherited from
 
@@ -1675,7 +1916,7 @@ Omit.table
 
 #### Defined in
 
-[src/constructs/Lambda.ts:96](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L96)
+[src/constructs/Lambda.ts:163](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L163)
 
 ___
 
@@ -1683,27 +1924,58 @@ ___
 
 • `Optional` **tableEnvKey**: `string`
 
+By default, this construct sets the tableName to the environment for you.
+
+If a name of 'good-stuff-table' is used, will set environment variables as:
+  - `process.env.TABLE_NAME = "full-table-name-for-sdk"`
+  - `process.env.GOOD_STUFF_TABLE = "full-table-name-for-sdk"`
+
+You can override this with `tableEnvKey: "SOME_ENV_KEY"` to create the
+environment variables as:
+  - `process.env.TABLE_NAME = "full-table-name-for-sdk"`
+  - `process.env.SOME_ENV_KEY = "full-table-name-for-sdk"`
+
 #### Inherited from
 
 Omit.tableEnvKey
 
 #### Defined in
 
-[src/constructs/Lambda.ts:98](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L98)
+[src/constructs/Lambda.ts:184](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L184)
 
 ___
 
 ### tables
 
-• `Optional` **tables**: [`TableProps`](TableProps)[]
+• `Optional` **tables**: `TableProps`[]
 
 #### Inherited from
 
-Pick.tables
+[TablesProps](TablesProps).[tables](TablesProps#tables)
 
 #### Defined in
 
-[src/constructs/Tables.ts:43](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Tables.ts#L43)
+[src/constructs/Tables.ts:9](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Tables.ts#L9)
+
+___
+
+### timeToLiveAttribute
+
+• `Optional` `Readonly` **timeToLiveAttribute**: `string`
+
+The name of TTL attribute.
+
+**`default`** - TTL is disabled
+
+**`stability`** stable
+
+#### Inherited from
+
+[TablesProps](TablesProps).[timeToLiveAttribute](TablesProps#timetoliveattribute)
+
+#### Defined in
+
+node_modules/@aws-cdk/aws-dynamodb/lib/table.d.ts:230
 
 ___
 
@@ -1754,13 +2026,17 @@ ___
 
 • `Optional` **userPool**: `IUserPool`
 
+UserPool to create a gateway authorizer.  It is not required to be added
+when running the constructor.  Can also add a cognito authorizer with
+the api.attachCognitoAuthorizer() method
+
 #### Inherited from
 
-[ApiProps](ApiProps).[userPool](ApiProps#userpool)
+Omit.userPool
 
 #### Defined in
 
-[src/constructs/Api.ts:26](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Api.ts#L26)
+[src/constructs/Api.ts:52](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L52)
 
 ___
 
@@ -1831,9 +2107,45 @@ node_modules/@aws-cdk/aws-lambda/lib/function.d.ts:149
 
 ___
 
+### waitForReplicationToFinish
+
+• `Optional` `Readonly` **waitForReplicationToFinish**: false \| true
+
+Indicates whether CloudFormation stack waits for replication to finish.
+
+If set to false, the CloudFormation resource will mark the resource as
+created and replication will be completed asynchronously. This property is
+ignored if replicationRegions property is not set.
+
+DO NOT UNSET this property if adding/removing multiple replicationRegions
+in one deployment, as CloudFormation only supports one region replication
+at a time. CDK overcomes this limitation by waiting for replication to
+finish before starting new replicationRegion.
+
+**`default`** true
+
+**`see`** https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-globaltable.html#cfn-dynamodb-globaltable-replicas
+
+**`stability`** stable
+
+#### Inherited from
+
+[TablesProps](TablesProps).[waitForReplicationToFinish](TablesProps#waitforreplicationtofinish)
+
+#### Defined in
+
+node_modules/@aws-cdk/aws-dynamodb/lib/table.d.ts:275
+
+___
+
 ### warmingEvent
 
 • `Optional` **warmingEvent**: `Rule`
+
+simplifies warming the function. Timing will be base by the Rule that gets
+passed.  Event will emit the { warmer: true } object to the function
+
+code can easily check for warming event and return early
 
 #### Inherited from
 
@@ -1841,4 +2153,29 @@ Omit.warmingEvent
 
 #### Defined in
 
-[src/constructs/Lambda.ts:80](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L80)
+[src/constructs/Lambda.ts:119](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L119)
+
+___
+
+### writeCapacity
+
+• `Optional` `Readonly` **writeCapacity**: `number`
+
+The write capacity for the table.
+
+Careful if you add Global Secondary Indexes, as
+those will share the table's provisioned throughput.
+
+Can only be provided if billingMode is Provisioned.
+
+**`default`** 5
+
+**`stability`** stable
+
+#### Inherited from
+
+[TablesProps](TablesProps).[writeCapacity](TablesProps#writecapacity)
+
+#### Defined in
+
+node_modules/@aws-cdk/aws-dynamodb/lib/table.d.ts:180

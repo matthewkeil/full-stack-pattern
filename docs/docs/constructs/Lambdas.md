@@ -8,61 +8,6 @@ This construct is meant as a helper class to create many lambdas that have share
 
 Example: By default the individual props will get merged in with the ones set for the group and anything specifically set on one lambda will supercede the group values. Ie, if runtime is set on the LambdasProps as Runtime.NODEJS_14_X and on an individual lambda, in the LambdasProps.lambdas array, as Runtime.NODEJS_10_X, then the function will use node 10.X. See the Usage Example below.
 
-## Usage Example
-
-```typescript
-const tables = new Tables(this, 'Tables', {
-  tables: [
-    {
-      name: 'table-1'
-      /* see Table docs for props */
-    }
-  ]
-});
-
-const lambdas = new Lambdas(this, 'Lambdas', {
-  tables,
-  // default runtime
-  runtime: Runtime.NODEJS_14_X,
-  // this code bundle will be used for all lambdas
-  code: path.resolve(__dirname, '..', 'src', 'lambdas'),
-  loggingLevel: 'INFO',
-  environment: {
-    SOME_ENV_VAR: 'some-important-value'
-  },
-  lambdas: [
-    {
-      name: 'function-1',
-      handler: 'function1/index.handler',
-      // can override any default value set on the Lambdas construct
-      // this function will use node 10.X instead of 14.X
-      runtime: Runtime.NODEJS_10_X
-    },
-    {
-      name: 'function-2',
-      handler: 'function2/index.handler',
-      // merges group env with individual env.
-      // this function will have both SOME_ENV_VAR and ANOTHER_ENV_VAR
-      environment: {
-        ANOTHER_ENV_VAR: 'another-important-value'
-      }
-    }
-    {
-      name: 'function-3',
-      handler: 'function3/index.handler',
-      // adds association to table-1. see lambda.associateTable for more info
-      table: 'table-1',
-    }
-  ]
-});
-
-// added function will use any defaults set on the Lambdas construct
-lambdas.addLambda({
-  name: 'function-3',
-  handler: 'function3/index.handler'
-});
-```
-
 ## LambdasProps
 
 **NOTE** Every option available in the singular LambdaProps is also available in the plural LambdasProps. See the singular LambdasProps for more information.
@@ -118,4 +63,59 @@ export interface LambdasProps
    */
   tables?: Tables;
 }
+```
+
+## Usage Example
+
+```typescript
+const tables = new Tables(this, 'Tables', {
+  tables: [
+    {
+      name: 'table-1'
+      /* see Table docs for props */
+    }
+  ]
+});
+
+const lambdas = new Lambdas(this, 'Lambdas', {
+  tables,
+  // default runtime
+  runtime: Runtime.NODEJS_14_X,
+  // this code bundle will be used for all lambdas
+  code: path.resolve(__dirname, '..', 'src', 'lambdas'),
+  loggingLevel: 'INFO',
+  environment: {
+    SOME_ENV_VAR: 'some-important-value'
+  },
+  lambdas: [
+    {
+      name: 'function-1',
+      handler: 'function1/index.handler',
+      // can override any default value set on the Lambdas construct
+      // this function will use node 10.X instead of 14.X
+      runtime: Runtime.NODEJS_10_X
+    },
+    {
+      name: 'function-2',
+      handler: 'function2/index.handler',
+      // merges group env with individual env.
+      // this function will have both SOME_ENV_VAR and ANOTHER_ENV_VAR
+      environment: {
+        ANOTHER_ENV_VAR: 'another-important-value'
+      }
+    }
+    {
+      name: 'function-3',
+      handler: 'function3/index.handler',
+      // adds association to table-1. see lambda.associateTable for more info
+      table: 'table-1',
+    }
+  ]
+});
+
+// added function will use any defaults set on the Lambdas construct
+lambdas.addLambda({
+  name: 'function-3',
+  handler: 'function3/index.handler'
+});
 ```

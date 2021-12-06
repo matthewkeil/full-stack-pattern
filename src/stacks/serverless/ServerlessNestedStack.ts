@@ -2,10 +2,14 @@ import { NestedStack, Construct, NestedStackProps, Duration } from '@aws-cdk/cor
 import { Api } from '../../constructs/Api';
 import { Lambdas } from '../../constructs/Lambdas';
 import { Tables } from '../../constructs/Tables';
-import { AddConfigFileProps, ServerlessConstruct, ServerlessConstructProps } from './ServerlessConstruct';
+import {
+  AddConfigFileProps,
+  ServerlessConstruct,
+  ServerlessConstructProps
+} from './ServerlessConstruct';
 
 export interface ServerlessNestedStackProps
-  extends Omit<NestedStackProps, 'removalPolicy' | 'timeout'>,
+  extends Omit<NestedStackProps, 'removalPolicy' | 'timeout' | 'parameters'>,
     ServerlessConstructProps {
   stackTimeout?: Duration;
 }
@@ -21,6 +25,7 @@ export class ServerlessNestedStack extends NestedStack {
     super(scope, id, {
       ...props,
       removalPolicy: undefined,
+      parameters: undefined,
       timeout: props.stackTimeout
     });
     this.construct = new ServerlessConstruct(this, 'ServerlessConstruct', props);
@@ -30,7 +35,7 @@ export class ServerlessNestedStack extends NestedStack {
     this.api = api;
   }
 
-  public addConfigFile(configProps: AddConfigFileProps){
+  public addConfigFile(configProps: AddConfigFileProps) {
     this.construct.addConfigFile(configProps);
   }
 }

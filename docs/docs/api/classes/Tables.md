@@ -32,17 +32,17 @@ Construct.constructor
 
 #### Defined in
 
-[src/constructs/Tables.ts:55](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Tables.ts#L55)
+[src/constructs/Tables.ts:15](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Tables.ts#L15)
 
 ## Properties
 
 ### globalProps
 
-• `Private` **globalProps**: `Pick`<[`TablesProps`](../interfaces/TablesProps), ``"prefix"`` \| ``"encryptionKey"`` \| ``"removalPolicy"`` \| ``"dontOverrideLogicalId"`` \| ``"kinesisStream"`` \| ``"readCapacity"`` \| ``"writeCapacity"`` \| ``"billingMode"`` \| ``"pointInTimeRecovery"`` \| ``"serverSideEncryption"`` \| ``"encryption"`` \| ``"timeToLiveAttribute"`` \| ``"stream"`` \| ``"replicationRegions"`` \| ``"replicationTimeout"`` \| ``"waitForReplicationToFinish"`` \| ``"contributorInsightsEnabled"`` \| ``"existingTables"``\>
+• `Private` **globalProps**: `Pick`<[`TablesProps`](../interfaces/TablesProps), ``"prefix"`` \| ``"encryptionKey"`` \| ``"removalPolicy"`` \| ``"dontOverrideLogicalId"`` \| ``"kinesisStream"`` \| ``"readCapacity"`` \| ``"writeCapacity"`` \| ``"billingMode"`` \| ``"pointInTimeRecovery"`` \| ``"serverSideEncryption"`` \| ``"encryption"`` \| ``"timeToLiveAttribute"`` \| ``"stream"`` \| ``"replicationRegions"`` \| ``"replicationTimeout"`` \| ``"waitForReplicationToFinish"`` \| ``"contributorInsightsEnabled"``\>
 
 #### Defined in
 
-[src/constructs/Tables.ts:53](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Tables.ts#L53)
+[src/constructs/Tables.ts:13](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Tables.ts#L13)
 
 ___
 
@@ -70,11 +70,11 @@ ___
 
 #### Index signature
 
-▪ [tableName: `string`]: `ITable`
+▪ [tableName: `string`]: `Table`
 
 #### Defined in
 
-[src/constructs/Tables.ts:52](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Tables.ts#L52)
+[src/constructs/Tables.ts:12](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Tables.ts#L12)
 
 ## Methods
 
@@ -86,7 +86,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `tableProps` | [`TableProps`](../interfaces/TableProps) |
+| `tableProps` | `TableProps` |
 
 #### Returns
 
@@ -94,27 +94,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Tables.ts:64](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Tables.ts#L64)
-
-___
-
-### convertAttribute
-
-▸ `Private` **convertAttribute**(`attribute`): `Attribute`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `attribute` | [`DynamoAttribute`](../modules#dynamoattribute) |
-
-#### Returns
-
-`Attribute`
-
-#### Defined in
-
-[src/constructs/Tables.ts:112](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Tables.ts#L112)
+[src/constructs/Tables.ts:24](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Tables.ts#L24)
 
 ___
 

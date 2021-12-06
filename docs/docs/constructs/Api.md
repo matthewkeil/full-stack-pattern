@@ -6,44 +6,6 @@ sidebar_position: 1
 
 Takes some of the complexity out of building serverless api's. Handles cors by default and adds some basic gateway responses to make sure your debugging journey can be focussed on the handler code and not the nuances of using ApiGateway. The construct is fully customizable but setup with some logical defaults to make it easy to get started.
 
-## Usage Example
-
-```typescript
-import { Api, Lambda, CognitoConstruct } from 'ful-stack-pattern';
-
-interface FancyStackProps {
-  prefix: string;
-}
-
-class FancyStack extends Stack {
-  constructor(scope: Construct, id: string, props: FancyStackProps) {
-    super(scope, id, props);
-    const cognito = new CognitoConstruct(this, 'CognitoConstruct', {
-      /* ... */
-    });
-    const lambda = new Lambda(this, 'Lambda', {
-      /* ... */
-    });
-
-    const api = new Api(this, 'Api', {
-      prefix: props.prefix
-    });
-
-    api.attachCognitoAuthorizer(cognito.userPool);
-
-    api.addLambda({
-      lambda,
-      method: 'GET',
-      path: '/fancyPath',
-      options: {
-        credentialsPassthrough: true, // options object supports all `AwsIntegration.options`
-        apiKeyRequired: true // options object supports all `MethodOption`s
-      }
-    });
-  }
-}
-```
-
 ## ApiProps
 
 This construct inherits all props from the L2 RestApi construct. The only difference is that they are all mutable in the event you want to programmatically build the props object before passing it into the construct. There are also a few additional props that were added to support the additional functionality.
@@ -111,5 +73,43 @@ export interface ApiProps extends Mutable<RestApiProps> {
    * info, see [Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
    */
   dontOverrideLogicalId?: boolean;
+}
+```
+
+## Usage Example
+
+```typescript
+import { Api, Lambda, CognitoConstruct } from 'ful-stack-pattern';
+
+interface FancyStackProps {
+  prefix: string;
+}
+
+class FancyStack extends Stack {
+  constructor(scope: Construct, id: string, props: FancyStackProps) {
+    super(scope, id, props);
+    const cognito = new CognitoConstruct(this, 'CognitoConstruct', {
+      /* ... */
+    });
+    const lambda = new Lambda(this, 'Lambda', {
+      /* ... */
+    });
+
+    const api = new Api(this, 'Api', {
+      prefix: props.prefix
+    });
+
+    api.attachCognitoAuthorizer(cognito.userPool);
+
+    api.addLambda({
+      lambda,
+      method: 'GET',
+      path: '/fancyPath',
+      options: {
+        credentialsPassthrough: true, // options object supports all `AwsIntegration.options`
+        apiKeyRequired: true // options object supports all `MethodOption`s
+      }
+    });
+  }
 }
 ```

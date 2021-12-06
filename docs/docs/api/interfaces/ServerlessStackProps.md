@@ -8,7 +8,7 @@ custom_edit_url: null
 
 ## Hierarchy
 
-- `StackProps`
+- `Omit`<`StackProps`, ``"description"``\>
 
 - [`ServerlessConstructProps`](ServerlessConstructProps)
 
@@ -76,7 +76,7 @@ Include runtime versioning information in this Stack.
 
 #### Inherited from
 
-StackProps.analyticsReporting
+Omit.analyticsReporting
 
 #### Defined in
 
@@ -88,13 +88,19 @@ ___
 
 • `Optional` **api**: [`Api`](../classes/Api)
 
+The Api to use with all ApiEvents. If no api is passed it looks at
+Stack.of(this).node.tryFindChild('Api') base stack and will use the first
+RestApi it finds if one exists.  If no api is passed to the constructor,
+nor is there a RestApi resource in the stack, one will be created. It will
+be built so all subsequent Lambdas will be able to find and use the same api.
+
 #### Inherited from
 
 [ServerlessConstructProps](ServerlessConstructProps).[api](ServerlessConstructProps#api)
 
 #### Defined in
 
-[src/constructs/Lambda.ts:81](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L81)
+[src/constructs/Lambda.ts:146](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L146)
 
 ___
 
@@ -158,6 +164,26 @@ node_modules/@aws-cdk/aws-lambda/lib/function.d.ts:332
 
 ___
 
+### billingMode
+
+• `Optional` `Readonly` **billingMode**: `PAY_PER_REQUEST` \| `PROVISIONED`
+
+Specify how you are charged for read and write throughput and how you manage capacity.
+
+**`default`** PROVISIONED if `replicationRegions` is not specified, PAY_PER_REQUEST otherwise
+
+**`stability`** stable
+
+#### Inherited from
+
+[ServerlessConstructProps](ServerlessConstructProps).[billingMode](ServerlessConstructProps#billingmode)
+
+#### Defined in
+
+node_modules/@aws-cdk/aws-dynamodb/lib/table.d.ts:187
+
+___
+
 ### binaryMediaTypes
 
 • `Optional` `Readonly` **binaryMediaTypes**: `string`[]
@@ -182,13 +208,20 @@ ___
 
 • `Optional` **buildDevServer**: false \| true
 
+Uses `convert-lambda-to-express` to provision a dev server to develop the api.
+
+See [convert-lambda-to-express](https://www.npmjs.com/package/convert-lambda-to-express)
+for more information about how to use this feature.
+
+**`default`** true
+
 #### Inherited from
 
 [ServerlessConstructProps](ServerlessConstructProps).[buildDevServer](ServerlessConstructProps#builddevserver)
 
 #### Defined in
 
-[src/constructs/Lambda.ts:83](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L83)
+[src/constructs/Api.ts:71](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L71)
 
 ___
 
@@ -196,13 +229,16 @@ ___
 
 • `Optional` **canInvoke**: (`string` \| `IRole` \| `PrincipalBase`)[]
 
+Array of principals that can invoke the lambda. Can pass a string arn, an IRole, or any Principal construct
+and will create the AWS::Lambda::Permission for you.
+
 #### Inherited from
 
 [ServerlessConstructProps](ServerlessConstructProps).[canInvoke](ServerlessConstructProps#caninvoke)
 
 #### Defined in
 
-[src/constructs/Lambda.ts:79](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L79)
+[src/constructs/Lambda.ts:111](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L111)
 
 ___
 
@@ -250,13 +286,18 @@ ___
 
 • `Optional` **code**: `string` \| `Code`
 
+Code to use with all lambdas in this group.  Can pass a string to the
+absolute path of the code folder and the AssetCode will be created for
+you.  You can also pass in any Construct that extends Code ie:
+InlineCode, AssetCode, S3Code, etc.
+
 #### Inherited from
 
 [ServerlessConstructProps](ServerlessConstructProps).[code](ServerlessConstructProps#code)
 
 #### Defined in
 
-[src/constructs/Lambda.ts:73](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L73)
+[src/constructs/Lambdas.ts:56](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambdas.ts#L56)
 
 ___
 
@@ -290,7 +331,27 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessConstruct.ts:17](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/serverless/ServerlessConstruct.ts#L17)
+[src/stacks/serverless/ServerlessConstruct.ts:17](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/serverless/ServerlessConstruct.ts#L17)
+
+___
+
+### contributorInsightsEnabled
+
+• `Optional` `Readonly` **contributorInsightsEnabled**: false \| true
+
+Whether CloudWatch contributor insights is enabled.
+
+**`default`** false
+
+**`stability`** stable
+
+#### Inherited from
+
+[ServerlessConstructProps](ServerlessConstructProps).[contributorInsightsEnabled](ServerlessConstructProps#contributorinsightsenabled)
+
+#### Defined in
+
+node_modules/@aws-cdk/aws-dynamodb/lib/table.d.ts:282
 
 ___
 
@@ -477,26 +538,6 @@ node_modules/@aws-cdk/aws-apigateway/lib/restapi.d.ts:110
 
 ___
 
-### description
-
-• `Optional` `Readonly` **description**: `string`
-
-A description of the stack.
-
-**`default`** - No description.
-
-**`stability`** stable
-
-#### Inherited from
-
-[ServerlessConstructProps](ServerlessConstructProps).[description](ServerlessConstructProps#description)
-
-#### Defined in
-
-node_modules/@aws-cdk/core/lib/stack.d.ts:22
-
-___
-
 ### disableExecuteApiEndpoint
 
 • `Optional` `Readonly` **disableExecuteApiEndpoint**: false \| true
@@ -570,13 +611,38 @@ ___
 
 • `Optional` **dontOverrideLogicalId**: false \| true
 
+Option to not use fixed logicalId's for the RestApi resource. For more
+info, see [Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
+
 #### Inherited from
 
 [ServerlessConstructProps](ServerlessConstructProps).[dontOverrideLogicalId](ServerlessConstructProps#dontoverridelogicalid)
 
 #### Defined in
 
-[src/constructs/Api.ts:29](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Api.ts#L29)
+[src/constructs/Api.ts:83](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L83)
+
+___
+
+### encryption
+
+• `Optional` `Readonly` **encryption**: `DEFAULT` \| `CUSTOMER_MANAGED` \| `AWS_MANAGED`
+
+Whether server-side encryption with an AWS managed customer master key is enabled.
+
+This property cannot be set if `serverSideEncryption` is set.
+
+**`default`** - server-side encryption is enabled with an AWS owned customer master key
+
+**`stability`** stable
+
+#### Inherited from
+
+[ServerlessConstructProps](ServerlessConstructProps).[encryption](ServerlessConstructProps#encryption)
+
+#### Defined in
+
+node_modules/@aws-cdk/aws-dynamodb/lib/table.d.ts:213
 
 ___
 
@@ -584,9 +650,12 @@ ___
 
 • `Optional` `Readonly` **encryptionKey**: `IKey`
 
-The KMS Key to encrypt the log group with.
+External KMS key to use for table encryption.
 
-**`default`** - log group is encrypted with the default master key
+This property can only be set if `encryption` is set to `TableEncryption.CUSTOMER_MANAGED`.
+
+**`default`** - If `encryption` is set to `TableEncryption.CUSTOMER_MANAGED` and this
+property is undefined, a new KMS key will be created and associated with this table.
 
 **`stability`** stable
 
@@ -596,7 +665,7 @@ The KMS Key to encrypt the log group with.
 
 #### Defined in
 
-node_modules/@aws-cdk/aws-logs/lib/log-group.d.ts:296
+node_modules/@aws-cdk/aws-dynamodb/lib/table.d.ts:223
 
 ___
 
@@ -736,7 +805,7 @@ new MyStack(app, 'Stack1');
 
 #### Inherited from
 
-StackProps.env
+Omit.env
 
 #### Defined in
 
@@ -796,13 +865,22 @@ ___
 
 • `Optional` **events**: ([`ApiEvent`](ApiEvent) \| `IEventSource`)[]
 
+Similar to the underlying LambdaProps.events but adds support for the
+ApiEvent from this library.  Works in conjunction with the Api construct.
+
+ApiEvents will build a dev server that can be run locally through the use
+of [convert-lambda-to-express](https://www.npmjs.com/package/convert-lambda-to-express) library
+
+See [convert-lambda-to-express](https://www.npmjs.com/package/convert-lambda-to-express) for more information about
+how to use this feature.
+
 #### Inherited from
 
 [ServerlessConstructProps](ServerlessConstructProps).[events](ServerlessConstructProps#events)
 
 #### Defined in
 
-[src/constructs/Lambda.ts:82](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L82)
+[src/constructs/Lambda.ts:137](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L137)
 
 ___
 
@@ -810,27 +888,18 @@ ___
 
 • `Optional` **existingLogGroups**: `string`[]
 
+Handy feature to plug into existing logGroups.  Pass an array of strings
+that are the logGroup names in the target account and any log groups that
+exist will not be created. ie no thrown errors, and stack rollbacks, for
+log groups that exist
+
 #### Inherited from
 
 [ServerlessConstructProps](ServerlessConstructProps).[existingLogGroups](ServerlessConstructProps#existingloggroups)
 
 #### Defined in
 
-[src/constructs/Lambda.ts:84](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L84)
-
-___
-
-### existingTables
-
-• `Optional` **existingTables**: `string`[]
-
-#### Inherited from
-
-[ServerlessConstructProps](ServerlessConstructProps).[existingTables](ServerlessConstructProps#existingtables)
-
-#### Defined in
-
-[src/constructs/Tables.ts:44](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Tables.ts#L44)
+[src/constructs/Lambda.ts:154](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L154)
 
 ___
 
@@ -953,13 +1022,19 @@ ___
 
 • `Optional` **gatewayResponses**: `GatewayResponseOptions`[]
 
+Gateway responses to add to the api. By default the following responses are added:
+{ type: ResponseType.UNAUTHORIZED, statusCode: '401' }
+{ type: ResponseType.ACCESS_DENIED, statusCode: '403' }
+{ type: ResponseType.RESOURCE_NOT_FOUND, statusCode: '404' }
+{ type: ResponseType.DEFAULT_5XX, statusCode: '500' }
+
 #### Inherited from
 
 [ServerlessConstructProps](ServerlessConstructProps).[gatewayResponses](ServerlessConstructProps#gatewayresponses)
 
 #### Defined in
 
-[src/constructs/Api.ts:27](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Api.ts#L27)
+[src/constructs/Api.ts:61](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L61)
 
 ___
 
@@ -1058,9 +1133,33 @@ node_modules/@aws-cdk/aws-lambda/lib/function.d.ts:232
 
 ___
 
+### kinesisStream
+
+• `Optional` `Readonly` **kinesisStream**: `IStream`
+
+Kinesis Data Stream to capture item-level changes for the table.
+
+**`default`** - no Kinesis Data Stream
+
+**`stability`** stable
+
+#### Inherited from
+
+[ServerlessConstructProps](ServerlessConstructProps).[kinesisStream](ServerlessConstructProps#kinesisstream)
+
+#### Defined in
+
+node_modules/@aws-cdk/aws-dynamodb/lib/table.d.ts:303
+
+___
+
 ### lambdas
 
-• `Optional` **lambdas**: [`LambdaProps`](LambdaProps)[]
+• `Optional` **lambdas**: `LambdasPropsOptionalRuntimeAndCode`[]
+
+An array of LambdaProps objects where the `runtime` and `code` are optional
+While technically required they can be optionally passed as shared props and
+that will get merged with each set of individual props and creation time.
 
 #### Inherited from
 
@@ -1068,7 +1167,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Lambdas.ts:17](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambdas.ts#L17)
+[src/constructs/Lambdas.ts:43](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambdas.ts#L43)
 
 ___
 
@@ -1076,13 +1175,16 @@ ___
 
 • `Optional` **layers**: (`string` \| `LayerVersion`)[]
 
+LayerVersions to use with the lambda.  Can pass in a strings, that are absolute path to the layer folder,
+and the AssetCode will be made for the directory.  Can also pass in an array of LayerVersion constructs.
+
 #### Inherited from
 
 [ServerlessConstructProps](ServerlessConstructProps).[layers](ServerlessConstructProps#layers)
 
 #### Defined in
 
-[src/constructs/Lambda.ts:74](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L74)
+[src/constructs/Lambda.ts:100](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L100)
 
 ___
 
@@ -1156,13 +1258,16 @@ ___
 
 • `Optional` **loggingLevel**: ``"DEBUG"`` \| ``"INFO"`` \| ``"WARNING"`` \| ``"ERROR"`` \| ``"CRITICAL"``
 
+Adds process.env.LOGGING_LEVEL to the lambda environment. Can be set to:
+'DEBUG' | 'INFO' | 'WARNING' | 'ERROR' | 'CRITICAL'
+
 #### Inherited from
 
 [ServerlessConstructProps](ServerlessConstructProps).[loggingLevel](ServerlessConstructProps#logginglevel)
 
 #### Defined in
 
-[src/constructs/Lambda.ts:78](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L78)
+[src/constructs/Lambda.ts:125](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L125)
 
 ___
 
@@ -1170,13 +1275,16 @@ ___
 
 • `Optional` **logicalId**: `string`
 
+LogicalId for the RestApi resource for in-place upgrades. For more
+info, see [Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
+
 #### Inherited from
 
 [ServerlessConstructProps](ServerlessConstructProps).[logicalId](ServerlessConstructProps#logicalid)
 
 #### Defined in
 
-[src/constructs/Api.ts:28](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Api.ts#L28)
+[src/constructs/Api.ts:77](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L77)
 
 ___
 
@@ -1310,6 +1418,24 @@ node_modules/@aws-cdk/aws-apigateway/lib/restapi.d.ts:234
 
 ___
 
+### name
+
+• `Optional` **name**: `string`
+
+The name of the api. If `prefix` and `name` are provided then the
+apiName will be `${prefix}-${name}`.  If no prefix is provided then
+the apiName will be `name`
+
+#### Inherited from
+
+[ServerlessConstructProps](ServerlessConstructProps).[name](ServerlessConstructProps#name)
+
+#### Defined in
+
+[src/constructs/Api.ts:37](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L37)
+
+___
+
 ### onFailure
 
 • `Optional` `Readonly` **onFailure**: `IDestination`
@@ -1427,6 +1553,26 @@ node_modules/@aws-cdk/aws-iam/lib/role.d.ts:92
 
 ___
 
+### pointInTimeRecovery
+
+• `Optional` `Readonly` **pointInTimeRecovery**: false \| true
+
+Whether point-in-time recovery is enabled.
+
+**`default`** - point-in-time recovery is disabled
+
+**`stability`** stable
+
+#### Inherited from
+
+[ServerlessConstructProps](ServerlessConstructProps).[pointInTimeRecovery](ServerlessConstructProps#pointintimerecovery)
+
+#### Defined in
+
+node_modules/@aws-cdk/aws-dynamodb/lib/table.d.ts:194
+
+___
+
 ### policy
 
 • `Optional` `Readonly` **policy**: `PolicyDocument`
@@ -1449,7 +1595,12 @@ ___
 
 ### prefix
 
-• **prefix**: `string`
+• `Optional` **prefix**: `string`
+
+The prefix to use with resource names. If `prefix` and `name` are
+provided then the apiName will be `${prefix}-${name}`.  If no name
+is provided then the apiName will be `prefix`. For more info, see
+[Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
 
 #### Inherited from
 
@@ -1457,7 +1608,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Api.ts:25](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Api.ts#L25)
+[src/constructs/Api.ts:45](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L45)
 
 ___
 
@@ -1505,18 +1656,38 @@ node_modules/@aws-cdk/aws-lambda/lib/function.d.ts:224
 
 ___
 
+### readCapacity
+
+• `Optional` `Readonly` **readCapacity**: `number`
+
+The read capacity for the table.
+
+Careful if you add Global Secondary Indexes, as
+those will share the table's provisioned throughput.
+
+Can only be provided if billingMode is Provisioned.
+
+**`default`** 5
+
+**`stability`** stable
+
+#### Inherited from
+
+[ServerlessConstructProps](ServerlessConstructProps).[readCapacity](ServerlessConstructProps#readcapacity)
+
+#### Defined in
+
+node_modules/@aws-cdk/aws-dynamodb/lib/table.d.ts:168
+
+___
+
 ### removalPolicy
 
 • `Optional` `Readonly` **removalPolicy**: `DESTROY` \| `RETAIN` \| `SNAPSHOT`
 
-Determine the removal policy of this log group.
+The removal policy to apply to the DynamoDB Table.
 
-Normally you want to retain the log group so you can diagnose issues
-from logs even after a deployment that no longer includes the log group.
-In that case, use the normal date-based retention policy to age out your
-logs.
-
-**`default`** RemovalPolicy.Retain
+**`default`** RemovalPolicy.RETAIN
 
 **`stability`** stable
 
@@ -1526,7 +1697,47 @@ logs.
 
 #### Defined in
 
-node_modules/@aws-cdk/aws-logs/lib/log-group.d.ts:324
+node_modules/@aws-cdk/aws-dynamodb/lib/table.d.ts:244
+
+___
+
+### replicationRegions
+
+• `Optional` `Readonly` **replicationRegions**: `string`[]
+
+Regions where replica tables will be created.
+
+**`default`** - no replica tables are created
+
+**`stability`** stable
+
+#### Inherited from
+
+[ServerlessConstructProps](ServerlessConstructProps).[replicationRegions](ServerlessConstructProps#replicationregions)
+
+#### Defined in
+
+node_modules/@aws-cdk/aws-dynamodb/lib/table.d.ts:251
+
+___
+
+### replicationTimeout
+
+• `Optional` `Readonly` **replicationTimeout**: `Duration`
+
+The timeout for a table replication operation in a single region.
+
+**`default`** Duration.minutes(30)
+
+**`stability`** stable
+
+#### Inherited from
+
+[ServerlessConstructProps](ServerlessConstructProps).[replicationTimeout](ServerlessConstructProps#replicationtimeout)
+
+#### Defined in
+
+node_modules/@aws-cdk/aws-dynamodb/lib/table.d.ts:258
 
 ___
 
@@ -1549,26 +1760,6 @@ The maximum of concurrent executions you want to reserve for the function.
 #### Defined in
 
 node_modules/@aws-cdk/aws-lambda/lib/function.d.ts:251
-
-___
-
-### restApiName
-
-• `Optional` `Readonly` **restApiName**: `string`
-
-A name for the API Gateway RestApi resource.
-
-**`default`** - ID of the RestApi construct.
-
-**`stability`** stable
-
-#### Inherited from
-
-[ServerlessConstructProps](ServerlessConstructProps).[restApiName](ServerlessConstructProps#restapiname)
-
-#### Defined in
-
-node_modules/@aws-cdk/aws-apigateway/lib/restapi.d.ts:128
 
 ___
 
@@ -1645,13 +1836,15 @@ ___
 
 • `Optional` **role**: `string` \| `IRole`
 
+The IRole or arn of the service role. If a LambdaProps.role is passed no IAM will be created
+
 #### Inherited from
 
 [ServerlessConstructProps](ServerlessConstructProps).[role](ServerlessConstructProps#role)
 
 #### Defined in
 
-[src/constructs/Lambda.ts:77](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L77)
+[src/constructs/Lambda.ts:105](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L105)
 
 ___
 
@@ -1659,13 +1852,15 @@ ___
 
 • `Optional` **runtime**: `Runtime`
 
+Runtime to use with all lambdas in this group.
+
 #### Inherited from
 
 [ServerlessConstructProps](ServerlessConstructProps).[runtime](ServerlessConstructProps#runtime)
 
 #### Defined in
 
-[src/constructs/Lambda.ts:75](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L75)
+[src/constructs/Lambdas.ts:48](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambdas.ts#L48)
 
 ___
 
@@ -1720,6 +1915,29 @@ node_modules/@aws-cdk/aws-lambda/lib/function.d.ts:174
 
 ___
 
+### serverSideEncryption
+
+• `Optional` `Readonly` **serverSideEncryption**: false \| true
+
+(deprecated) Whether server-side encryption with an AWS managed customer master key is enabled.
+
+This property cannot be set if `encryption` and/or `encryptionKey` is set.
+
+**`default`** - server-side encryption is enabled with an AWS owned customer master key
+
+**`deprecated`** This property is deprecated. In order to obtain the same behavior as
+enabling this, set the `encryption` property to `TableEncryption.AWS_MANAGED` instead.
+
+#### Inherited from
+
+[ServerlessConstructProps](ServerlessConstructProps).[serverSideEncryption](ServerlessConstructProps#serversideencryption)
+
+#### Defined in
+
+node_modules/@aws-cdk/aws-dynamodb/lib/table.d.ts:204
+
+___
+
 ### stackName
 
 • `Optional` `Readonly` **stackName**: `string`
@@ -1732,7 +1950,7 @@ Name to deploy the stack with.
 
 #### Inherited from
 
-StackProps.stackName
+Omit.stackName
 
 #### Defined in
 
@@ -1742,7 +1960,11 @@ ___
 
 ### stage
 
-• **stage**: `string`
+• `Optional` **stage**: `string`
+
+The api stage name. This is an alias to the deployOptions.stageName.
+
+**`default`** "prod"
 
 #### Inherited from
 
@@ -1750,7 +1972,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Api.ts:24](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Api.ts#L24)
+[src/constructs/Api.ts:30](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L30)
 
 ___
 
@@ -1776,6 +1998,26 @@ node_modules/@aws-cdk/aws-iam/lib/policy.d.ts:76
 
 ___
 
+### stream
+
+• `Optional` `Readonly` **stream**: `NEW_IMAGE` \| `OLD_IMAGE` \| `NEW_AND_OLD_IMAGES` \| `KEYS_ONLY`
+
+When an item in the table is modified, StreamViewType determines what information is written to the stream for this table.
+
+**`default`** - streams are disabled unless `replicationRegions` is specified
+
+**`stability`** stable
+
+#### Inherited from
+
+[ServerlessConstructProps](ServerlessConstructProps).[stream](ServerlessConstructProps#stream)
+
+#### Defined in
+
+node_modules/@aws-cdk/aws-dynamodb/lib/table.d.ts:237
+
+___
+
 ### synthesizer
 
 • `Optional` `Readonly` **synthesizer**: `IStackSynthesizer`
@@ -1789,7 +2031,7 @@ is set, `LegacyStackSynthesizer` otherwise.
 
 #### Inherited from
 
-StackProps.synthesizer
+Omit.synthesizer
 
 #### Defined in
 
@@ -1801,12 +2043,11 @@ ___
 
 • `Optional` **table**: `string` \| `ITable`
 
-**`description`** To add a table to the function, either provide:
-
-`table: Table` OR `table: string and tables: DynamoTables`
-
-When using table as a string will pull the table named the same as the string and associate that with the function.
-Supports for backwards compatibility with LambdasAndLogGroups.
+Associates a table with the lambda function.  Can be passed as a Table or
+a string. When using a string must also pass a Tables object to the
+`tables` prop.  This is mostly a convention for use with the Lambdas and
+Tables constructs so its easier to created the lambda definitions.  See
+the LambdasProps.tables for more information.
 
 #### Inherited from
 
@@ -1814,7 +2055,7 @@ Supports for backwards compatibility with LambdasAndLogGroups.
 
 #### Defined in
 
-[src/constructs/Lambda.ts:96](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L96)
+[src/constructs/Lambda.ts:163](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L163)
 
 ___
 
@@ -1822,19 +2063,30 @@ ___
 
 • `Optional` **tableEnvKey**: `string`
 
+By default, this construct sets the tableName to the environment for you.
+
+If a name of 'good-stuff-table' is used, will set environment variables as:
+  - `process.env.TABLE_NAME = "full-table-name-for-sdk"`
+  - `process.env.GOOD_STUFF_TABLE = "full-table-name-for-sdk"`
+
+You can override this with `tableEnvKey: "SOME_ENV_KEY"` to create the
+environment variables as:
+  - `process.env.TABLE_NAME = "full-table-name-for-sdk"`
+  - `process.env.SOME_ENV_KEY = "full-table-name-for-sdk"`
+
 #### Inherited from
 
 [ServerlessConstructProps](ServerlessConstructProps).[tableEnvKey](ServerlessConstructProps#tableenvkey)
 
 #### Defined in
 
-[src/constructs/Lambda.ts:98](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L98)
+[src/constructs/Lambda.ts:184](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L184)
 
 ___
 
 ### tables
 
-• `Optional` **tables**: [`TableProps`](TableProps)[]
+• `Optional` **tables**: `TableProps`[]
 
 #### Inherited from
 
@@ -1842,7 +2094,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Tables.ts:43](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Tables.ts#L43)
+[src/constructs/Tables.ts:9](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Tables.ts#L9)
 
 ___
 
@@ -1862,7 +2114,7 @@ Stack tags that will be applied to all the taggable resources and the stack itse
 
 #### Inherited from
 
-StackProps.tags
+Omit.tags
 
 #### Defined in
 
@@ -1882,11 +2134,31 @@ Whether to enable termination protection for this stack.
 
 #### Inherited from
 
-StackProps.terminationProtection
+Omit.terminationProtection
 
 #### Defined in
 
 node_modules/@aws-cdk/core/lib/stack.d.ts:118
+
+___
+
+### timeToLiveAttribute
+
+• `Optional` `Readonly` **timeToLiveAttribute**: `string`
+
+The name of TTL attribute.
+
+**`default`** - TTL is disabled
+
+**`stability`** stable
+
+#### Inherited from
+
+[ServerlessConstructProps](ServerlessConstructProps).[timeToLiveAttribute](ServerlessConstructProps#timetoliveattribute)
+
+#### Defined in
+
+node_modules/@aws-cdk/aws-dynamodb/lib/table.d.ts:230
 
 ___
 
@@ -1937,13 +2209,17 @@ ___
 
 • `Optional` **userPool**: `IUserPool`
 
+UserPool to create a gateway authorizer.  It is not required to be added
+when running the constructor.  Can also add a cognito authorizer with
+the api.attachCognitoAuthorizer() method
+
 #### Inherited from
 
 [ServerlessConstructProps](ServerlessConstructProps).[userPool](ServerlessConstructProps#userpool)
 
 #### Defined in
 
-[src/constructs/Api.ts:26](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Api.ts#L26)
+[src/constructs/Api.ts:52](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L52)
 
 ___
 
@@ -2014,9 +2290,45 @@ node_modules/@aws-cdk/aws-lambda/lib/function.d.ts:149
 
 ___
 
+### waitForReplicationToFinish
+
+• `Optional` `Readonly` **waitForReplicationToFinish**: false \| true
+
+Indicates whether CloudFormation stack waits for replication to finish.
+
+If set to false, the CloudFormation resource will mark the resource as
+created and replication will be completed asynchronously. This property is
+ignored if replicationRegions property is not set.
+
+DO NOT UNSET this property if adding/removing multiple replicationRegions
+in one deployment, as CloudFormation only supports one region replication
+at a time. CDK overcomes this limitation by waiting for replication to
+finish before starting new replicationRegion.
+
+**`default`** true
+
+**`see`** https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-globaltable.html#cfn-dynamodb-globaltable-replicas
+
+**`stability`** stable
+
+#### Inherited from
+
+[ServerlessConstructProps](ServerlessConstructProps).[waitForReplicationToFinish](ServerlessConstructProps#waitforreplicationtofinish)
+
+#### Defined in
+
+node_modules/@aws-cdk/aws-dynamodb/lib/table.d.ts:275
+
+___
+
 ### warmingEvent
 
 • `Optional` **warmingEvent**: `Rule`
+
+simplifies warming the function. Timing will be base by the Rule that gets
+passed.  Event will emit the { warmer: true } object to the function
+
+code can easily check for warming event and return early
 
 #### Inherited from
 
@@ -2024,4 +2336,29 @@ ___
 
 #### Defined in
 
-[src/constructs/Lambda.ts:80](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L80)
+[src/constructs/Lambda.ts:119](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L119)
+
+___
+
+### writeCapacity
+
+• `Optional` `Readonly` **writeCapacity**: `number`
+
+The write capacity for the table.
+
+Careful if you add Global Secondary Indexes, as
+those will share the table's provisioned throughput.
+
+Can only be provided if billingMode is Provisioned.
+
+**`default`** 5
+
+**`stability`** stable
+
+#### Inherited from
+
+[ServerlessConstructProps](ServerlessConstructProps).[writeCapacity](ServerlessConstructProps#writecapacity)
+
+#### Defined in
+
+node_modules/@aws-cdk/aws-dynamodb/lib/table.d.ts:180

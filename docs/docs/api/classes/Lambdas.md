@@ -32,7 +32,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/constructs/Lambdas.ts:27](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambdas.ts#L27)
+[src/constructs/Lambdas.ts:72](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambdas.ts#L72)
 
 ## Properties
 
@@ -42,17 +42,17 @@ Construct.constructor
 
 #### Defined in
 
-[src/constructs/Lambdas.ts:23](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambdas.ts#L23)
+[src/constructs/Lambdas.ts:68](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambdas.ts#L68)
 
 ___
 
 ### globalProps
 
-• `Private` **globalProps**: `Pick`<[`LambdasProps`](../interfaces/LambdasProps), ``"prefix"`` \| ``"role"`` \| ``"events"`` \| ``"runtime"`` \| ``"layers"`` \| ``"timeout"`` \| ``"environment"`` \| ``"memorySize"`` \| ``"initialPolicy"`` \| ``"vpc"`` \| ``"vpcSubnets"`` \| ``"securityGroup"`` \| ``"securityGroups"`` \| ``"allowAllOutbound"`` \| ``"deadLetterQueueEnabled"`` \| ``"deadLetterQueue"`` \| ``"tracing"`` \| ``"profiling"`` \| ``"profilingGroup"`` \| ``"insightsVersion"`` \| ``"reservedConcurrentExecutions"`` \| ``"logRetention"`` \| ``"logRetentionRole"`` \| ``"logRetentionRetryOptions"`` \| ``"currentVersionOptions"`` \| ``"filesystem"`` \| ``"allowPublicSubnet"`` \| ``"environmentEncryption"`` \| ``"codeSigningConfig"`` \| ``"architectures"`` \| ``"architecture"`` \| ``"onFailure"`` \| ``"onSuccess"`` \| ``"maxEventAge"`` \| ``"retryAttempts"`` \| ``"externalId"`` \| ``"externalIds"`` \| ``"managedPolicies"`` \| ``"inlinePolicies"`` \| ``"path"`` \| ``"permissionsBoundary"`` \| ``"maxSessionDuration"`` \| ``"users"`` \| ``"groups"`` \| ``"statements"`` \| ``"force"`` \| ``"document"`` \| ``"encryptionKey"`` \| ``"retention"`` \| ``"removalPolicy"`` \| ``"table"`` \| ``"tables"`` \| ``"tableEnvKey"`` \| ``"dontOverrideLogicalId"`` \| ``"loggingLevel"`` \| ``"canInvoke"`` \| ``"warmingEvent"`` \| ``"api"`` \| ``"buildDevServer"`` \| ``"existingLogGroups"``\> & { `code?`: `Code`  }
+• `Private` **globalProps**: `Pick`<[`LambdasProps`](../interfaces/LambdasProps), ``"prefix"`` \| ``"role"`` \| ``"events"`` \| ``"layers"`` \| ``"runtime"`` \| ``"timeout"`` \| ``"environment"`` \| ``"memorySize"`` \| ``"initialPolicy"`` \| ``"vpc"`` \| ``"vpcSubnets"`` \| ``"securityGroup"`` \| ``"securityGroups"`` \| ``"allowAllOutbound"`` \| ``"deadLetterQueueEnabled"`` \| ``"deadLetterQueue"`` \| ``"tracing"`` \| ``"profiling"`` \| ``"profilingGroup"`` \| ``"insightsVersion"`` \| ``"reservedConcurrentExecutions"`` \| ``"logRetention"`` \| ``"logRetentionRole"`` \| ``"logRetentionRetryOptions"`` \| ``"currentVersionOptions"`` \| ``"filesystem"`` \| ``"allowPublicSubnet"`` \| ``"environmentEncryption"`` \| ``"codeSigningConfig"`` \| ``"architectures"`` \| ``"architecture"`` \| ``"onFailure"`` \| ``"onSuccess"`` \| ``"maxEventAge"`` \| ``"retryAttempts"`` \| ``"externalId"`` \| ``"externalIds"`` \| ``"managedPolicies"`` \| ``"inlinePolicies"`` \| ``"path"`` \| ``"permissionsBoundary"`` \| ``"maxSessionDuration"`` \| ``"users"`` \| ``"groups"`` \| ``"statements"`` \| ``"force"`` \| ``"document"`` \| ``"encryptionKey"`` \| ``"retention"`` \| ``"removalPolicy"`` \| ``"table"`` \| ``"tables"`` \| ``"tableEnvKey"`` \| ``"dontOverrideLogicalId"`` \| ``"canInvoke"`` \| ``"warmingEvent"`` \| ``"loggingLevel"`` \| ``"api"`` \| ``"existingLogGroups"``\> & { `code?`: `Code`  }
 
 #### Defined in
 
-[src/constructs/Lambdas.ts:25](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambdas.ts#L25)
+[src/constructs/Lambdas.ts:70](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambdas.ts#L70)
 
 ___
 
@@ -84,7 +84,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Lambdas.ts:22](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambdas.ts#L22)
+[src/constructs/Lambdas.ts:67](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambdas.ts#L67)
 
 ## Methods
 
@@ -96,7 +96,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `props` | [`LambdaProps`](../interfaces/LambdaProps) |
+| `props` | `LambdasPropsOptionalRuntimeAndCode` |
 
 #### Returns
 
@@ -104,7 +104,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Lambdas.ts:41](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambdas.ts#L41)
+[src/constructs/Lambdas.ts:86](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambdas.ts#L86)
 
 ___
 

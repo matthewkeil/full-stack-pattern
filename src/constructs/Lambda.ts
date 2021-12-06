@@ -342,7 +342,7 @@ export class Lambda extends Construct {
    * and adds the necessary permissions.
    *
    * - builds an express server to server the lambdas during development. devServer
-   * supports hot reload and watch functionality. see [convert-lambda-to-express]()
+   * supports hot reload and watch functionality. see [convert-lambda-to-express](https://www.npmjs.com/package/convert-lambda-to-express)
    * for more information
    *
    * - can, optionally, pass in the RestApi that you want associated to the function

@@ -47,7 +47,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:60](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L60)
+[src/stacks/cognito/CognitoConstruct.ts:68](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/cognito/CognitoConstruct.ts#L68)
 
 ___
 
@@ -61,21 +61,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:59](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L59)
-
-___
-
-### certificateArn
-
-• `Optional` **certificateArn**: `string`
-
-#### Inherited from
-
-[CognitoConstructProps](CognitoConstructProps).[certificateArn](CognitoConstructProps#certificatearn)
-
-#### Defined in
-
-[src/stacks/cognito/CognitoConstruct.ts:54](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L54)
+[src/stacks/cognito/CognitoConstruct.ts:67](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/cognito/CognitoConstruct.ts#L67)
 
 ___
 
@@ -89,7 +75,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:66](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L66)
+[src/stacks/cognito/CognitoConstruct.ts:75](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/cognito/CognitoConstruct.ts#L75)
 
 ___
 
@@ -123,7 +109,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:44](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L44)
+[src/stacks/cognito/CognitoConstruct.ts:53](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/cognito/CognitoConstruct.ts#L53)
 
 ___
 
@@ -218,13 +204,13 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:64](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L64)
+[src/stacks/cognito/CognitoConstruct.ts:73](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/cognito/CognitoConstruct.ts#L73)
 
 ___
 
 ### identityPool
 
-• `Optional` **identityPool**: `IdentityPoolConfig`
+• `Optional` **identityPool**: `CfnIdentityPoolProps` & { `removalPolicy?`: `DESTROY` \| `RETAIN` \| `SNAPSHOT`  } & `WithLogicalId`
 
 #### Inherited from
 
@@ -232,13 +218,13 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:58](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L58)
+[src/stacks/cognito/CognitoConstruct.ts:66](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/cognito/CognitoConstruct.ts#L66)
 
 ___
 
 ### prefix
 
-• **prefix**: `string`
+• `Optional` **prefix**: `string`
 
 #### Inherited from
 
@@ -246,7 +232,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:43](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L43)
+[src/stacks/cognito/CognitoConstruct.ts:52](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/cognito/CognitoConstruct.ts#L52)
 
 ___
 
@@ -260,21 +246,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:68](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L68)
-
-___
-
-### rootDomain
-
-• `Optional` **rootDomain**: `string`
-
-#### Inherited from
-
-[CognitoConstructProps](CognitoConstructProps).[rootDomain](CognitoConstructProps#rootdomain)
-
-#### Defined in
-
-[src/stacks/cognito/CognitoConstruct.ts:52](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L52)
+[src/stacks/cognito/CognitoConstruct.ts:77](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/cognito/CognitoConstruct.ts#L77)
 
 ___
 
@@ -295,20 +267,6 @@ StackProps.stackName
 #### Defined in
 
 node_modules/@aws-cdk/core/lib/stack.d.ts:94
-
-___
-
-### subDomain
-
-• `Optional` **subDomain**: `string`
-
-#### Inherited from
-
-[CognitoConstructProps](CognitoConstructProps).[subDomain](CognitoConstructProps#subdomain)
-
-#### Defined in
-
-[src/stacks/cognito/CognitoConstruct.ts:53](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L53)
 
 ___
 
@@ -379,7 +337,7 @@ ___
 
 ### userPool
 
-• `Optional` **userPool**: `UserPoolProps`
+• `Optional` **userPool**: `UserPoolProps` & `WithLogicalId`
 
 #### Inherited from
 
@@ -387,13 +345,13 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:49](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L49)
+[src/stacks/cognito/CognitoConstruct.ts:58](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/cognito/CognitoConstruct.ts#L58)
 
 ___
 
 ### userPoolClient
 
-• `Optional` **userPoolClient**: `Pick`<`UserPoolClientProps`, ``"userPoolClientName"`` \| ``"generateSecret"`` \| ``"authFlows"`` \| ``"disableOAuth"`` \| ``"oAuth"`` \| ``"preventUserExistenceErrors"`` \| ``"supportedIdentityProviders"`` \| ``"idTokenValidity"`` \| ``"refreshTokenValidity"`` \| ``"accessTokenValidity"`` \| ``"readAttributes"`` \| ``"writeAttributes"`` \| ``"enableTokenRevocation"``\>
+• `Optional` **userPoolClient**: `Pick`<`UserPoolClientProps`, ``"userPoolClientName"`` \| ``"generateSecret"`` \| ``"authFlows"`` \| ``"disableOAuth"`` \| ``"oAuth"`` \| ``"preventUserExistenceErrors"`` \| ``"supportedIdentityProviders"`` \| ``"idTokenValidity"`` \| ``"refreshTokenValidity"`` \| ``"accessTokenValidity"`` \| ``"readAttributes"`` \| ``"writeAttributes"`` \| ``"enableTokenRevocation"``\> & `WithLogicalId`
 
 #### Inherited from
 
@@ -401,7 +359,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:51](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L51)
+[src/stacks/cognito/CognitoConstruct.ts:60](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/cognito/CognitoConstruct.ts#L60)
 
 ___
 
@@ -415,7 +373,21 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:50](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L50)
+[src/stacks/cognito/CognitoConstruct.ts:59](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/cognito/CognitoConstruct.ts#L59)
+
+___
+
+### userPoolDomain
+
+• `Optional` **userPoolDomain**: `UserPoolDomainProps`
+
+#### Inherited from
+
+[CognitoConstructProps](CognitoConstructProps).[userPoolDomain](CognitoConstructProps#userpooldomain)
+
+#### Defined in
+
+[src/stacks/cognito/CognitoConstruct.ts:61](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/cognito/CognitoConstruct.ts#L61)
 
 ___
 
@@ -429,4 +401,4 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:48](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L48)
+[src/stacks/cognito/CognitoConstruct.ts:57](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/cognito/CognitoConstruct.ts#L57)

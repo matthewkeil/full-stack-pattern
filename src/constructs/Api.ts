@@ -83,7 +83,6 @@ export interface ApiProps extends Mutable<Omit<RestApiProps, 'restApiName'>> {
   dontOverrideLogicalId?: boolean;
 }
 
-const a: ApiProps = {};
 export class Api extends Construct {
   public api: RestApi;
 

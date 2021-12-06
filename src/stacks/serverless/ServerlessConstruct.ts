@@ -11,9 +11,9 @@ export type AddConfigFileProps = ConfigFileProps & {
 };
 
 export interface ServerlessConstructProps
-  extends ApiProps,
-    Pick<TablesProps, 'tables' | 'existingTables'>,
-    Omit<LambdasProps, 'tables' | 'prefix'> {
+  extends Omit<ApiProps, 'description'>,
+    TablesProps,
+    Omit<LambdasProps, 'tables'> {
   configFile?: AddConfigFileProps;
 }
 
