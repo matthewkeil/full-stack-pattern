@@ -32,7 +32,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:79](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cognito/CognitoConstruct.ts#L79)
+[src/stacks/cognito/CognitoConstruct.ts:79](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L79)
 
 ## Properties
 
@@ -42,7 +42,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:76](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cognito/CognitoConstruct.ts#L76)
+[src/stacks/cognito/CognitoConstruct.ts:76](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L76)
 
 ___
 
@@ -56,7 +56,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:77](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cognito/CognitoConstruct.ts#L77)
+[src/stacks/cognito/CognitoConstruct.ts:77](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L77)
 
 ___
 
@@ -66,7 +66,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:75](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cognito/CognitoConstruct.ts#L75)
+[src/stacks/cognito/CognitoConstruct.ts:75](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L75)
 
 ___
 
@@ -94,7 +94,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:72](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cognito/CognitoConstruct.ts#L72)
+[src/stacks/cognito/CognitoConstruct.ts:72](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L72)
 
 ___
 
@@ -104,7 +104,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:73](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cognito/CognitoConstruct.ts#L73)
+[src/stacks/cognito/CognitoConstruct.ts:73](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L73)
 
 ___
 
@@ -114,7 +114,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:74](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cognito/CognitoConstruct.ts#L74)
+[src/stacks/cognito/CognitoConstruct.ts:74](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L74)
 
 ## Methods
 
@@ -134,7 +134,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:304](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cognito/CognitoConstruct.ts#L304)
+[src/stacks/cognito/CognitoConstruct.ts:304](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L304)
 
 ___
 
@@ -148,7 +148,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:242](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cognito/CognitoConstruct.ts#L242)
+[src/stacks/cognito/CognitoConstruct.ts:242](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L242)
 
 ___
 
@@ -171,7 +171,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:189](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cognito/CognitoConstruct.ts#L189)
+[src/stacks/cognito/CognitoConstruct.ts:189](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L189)
 
 ___
 
@@ -185,7 +185,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:106](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cognito/CognitoConstruct.ts#L106)
+[src/stacks/cognito/CognitoConstruct.ts:106](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L106)
 
 ___
 

@@ -32,7 +32,7 @@ Stack.constructor
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessStack.ts:20](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/serverless/ServerlessStack.ts#L20)
+[src/stacks/serverless/ServerlessStack.ts:20](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/serverless/ServerlessStack.ts#L20)
 
 ## Properties
 
@@ -97,7 +97,7 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessStack.ts:16](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/serverless/ServerlessStack.ts#L16)
+[src/stacks/serverless/ServerlessStack.ts:16](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/serverless/ServerlessStack.ts#L16)
 
 ___
 
@@ -125,7 +125,7 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessStack.ts:18](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/serverless/ServerlessStack.ts#L18)
+[src/stacks/serverless/ServerlessStack.ts:18](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/serverless/ServerlessStack.ts#L18)
 
 ___
 
@@ -165,7 +165,7 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessStack.ts:14](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/serverless/ServerlessStack.ts#L14)
+[src/stacks/serverless/ServerlessStack.ts:14](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/serverless/ServerlessStack.ts#L14)
 
 ___
 
@@ -266,7 +266,7 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessStack.ts:15](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/serverless/ServerlessStack.ts#L15)
+[src/stacks/serverless/ServerlessStack.ts:15](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/serverless/ServerlessStack.ts#L15)
 
 ___
 
@@ -743,7 +743,7 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessStack.ts:32](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/serverless/ServerlessStack.ts#L32)
+[src/stacks/serverless/ServerlessStack.ts:32](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/serverless/ServerlessStack.ts#L32)
 
 ___
 

@@ -64,7 +64,7 @@ Omit.dontOverrideLogicalId
 
 #### Defined in
 
-[src/constructs/Tables.ts:33](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Tables.ts#L33)
+[src/constructs/Tables.ts:38](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Tables.ts#L38)
 
 ___
 
@@ -119,7 +119,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Tables.ts:44](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Tables.ts#L44)
+[src/constructs/Tables.ts:44](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Tables.ts#L44)
 
 ___
 
@@ -169,7 +169,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Tables.ts:42](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Tables.ts#L42)
+[src/constructs/Tables.ts:42](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Tables.ts#L42)
 
 ___
 
@@ -307,7 +307,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Tables.ts:43](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Tables.ts#L43)
+[src/constructs/Tables.ts:43](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Tables.ts#L43)
 
 ___
 

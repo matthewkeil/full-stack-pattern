@@ -26,7 +26,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:60](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cognito/CognitoConstruct.ts#L60)
+[src/stacks/cognito/CognitoConstruct.ts:60](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L60)
 
 ___
 
@@ -40,7 +40,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:59](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cognito/CognitoConstruct.ts#L59)
+[src/stacks/cognito/CognitoConstruct.ts:59](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L59)
 
 ___
 
@@ -54,7 +54,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:54](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cognito/CognitoConstruct.ts#L54)
+[src/stacks/cognito/CognitoConstruct.ts:54](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L54)
 
 ___
 
@@ -68,7 +68,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:66](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cognito/CognitoConstruct.ts#L66)
+[src/stacks/cognito/CognitoConstruct.ts:66](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L66)
 
 ___
 
@@ -82,7 +82,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:44](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cognito/CognitoConstruct.ts#L44)
+[src/stacks/cognito/CognitoConstruct.ts:44](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L44)
 
 ___
 
@@ -98,7 +98,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:64](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cognito/CognitoConstruct.ts#L64)
+[src/stacks/cognito/CognitoConstruct.ts:64](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L64)
 
 ___
 
@@ -112,7 +112,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:58](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cognito/CognitoConstruct.ts#L58)
+[src/stacks/cognito/CognitoConstruct.ts:58](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L58)
 
 ___
 
@@ -177,7 +177,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:43](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cognito/CognitoConstruct.ts#L43)
+[src/stacks/cognito/CognitoConstruct.ts:43](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L43)
 
 ___
 
@@ -191,7 +191,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:68](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cognito/CognitoConstruct.ts#L68)
+[src/stacks/cognito/CognitoConstruct.ts:68](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L68)
 
 ___
 
@@ -205,7 +205,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:52](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cognito/CognitoConstruct.ts#L52)
+[src/stacks/cognito/CognitoConstruct.ts:52](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L52)
 
 ___
 
@@ -215,7 +215,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoNestedStack.ts:14](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cognito/CognitoNestedStack.ts#L14)
+[src/stacks/cognito/CognitoNestedStack.ts:14](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoNestedStack.ts#L14)
 
 ___
 
@@ -229,7 +229,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:53](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cognito/CognitoConstruct.ts#L53)
+[src/stacks/cognito/CognitoConstruct.ts:53](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L53)
 
 ___
 
@@ -243,7 +243,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:49](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cognito/CognitoConstruct.ts#L49)
+[src/stacks/cognito/CognitoConstruct.ts:49](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L49)
 
 ___
 
@@ -257,7 +257,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:51](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cognito/CognitoConstruct.ts#L51)
+[src/stacks/cognito/CognitoConstruct.ts:51](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L51)
 
 ___
 
@@ -271,7 +271,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:50](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cognito/CognitoConstruct.ts#L50)
+[src/stacks/cognito/CognitoConstruct.ts:50](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L50)
 
 ___
 
@@ -285,4 +285,4 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:48](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cognito/CognitoConstruct.ts#L48)
+[src/stacks/cognito/CognitoConstruct.ts:48](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cognito/CognitoConstruct.ts#L48)

@@ -281,6 +281,16 @@ node_modules/@aws-cdk/aws-apigateway/lib/restapi.d.ts:159
 
 ___
 
+### dontOverrideLogicalId
+
+• `Optional` **dontOverrideLogicalId**: false \| true
+
+#### Defined in
+
+[src/constructs/Api.ts:29](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Api.ts#L29)
+
+___
+
 ### endpointConfiguration
 
 • `Optional` `Readonly` **endpointConfiguration**: `EndpointConfiguration`
@@ -372,7 +382,17 @@ ___
 
 #### Defined in
 
-[src/constructs/Api.ts:26](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Api.ts#L26)
+[src/constructs/Api.ts:27](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Api.ts#L27)
+
+___
+
+### logicalId
+
+• `Optional` **logicalId**: `string`
+
+#### Defined in
+
+[src/constructs/Api.ts:28](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Api.ts#L28)
 
 ___
 
@@ -453,7 +473,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Api.ts:24](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Api.ts#L24)
+[src/constructs/Api.ts:25](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Api.ts#L25)
 
 ___
 
@@ -507,7 +527,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Api.ts:23](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Api.ts#L23)
+[src/constructs/Api.ts:24](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Api.ts#L24)
 
 ___
 
@@ -517,4 +537,4 @@ ___
 
 #### Defined in
 
-[src/constructs/Api.ts:25](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Api.ts#L25)
+[src/constructs/Api.ts:26](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Api.ts#L26)

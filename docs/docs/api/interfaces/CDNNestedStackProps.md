@@ -34,7 +34,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:93](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cdn/CDNConstruct.ts#L93)
+[src/stacks/cdn/CDNConstruct.ts:93](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cdn/CDNConstruct.ts#L93)
 
 ___
 
@@ -51,7 +51,7 @@ be used.
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:50](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cdn/CDNConstruct.ts#L50)
+[src/stacks/cdn/CDNConstruct.ts:50](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cdn/CDNConstruct.ts#L50)
 
 ___
 
@@ -70,7 +70,7 @@ which is the default behavior, autoDeleteObjects will be enabled.
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:91](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cdn/CDNConstruct.ts#L91)
+[src/stacks/cdn/CDNConstruct.ts:91](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cdn/CDNConstruct.ts#L91)
 
 ___
 
@@ -89,7 +89,7 @@ to the naked rootDomain. For non-production stages, this is a no-op.
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:73](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cdn/CDNConstruct.ts#L73)
+[src/stacks/cdn/CDNConstruct.ts:73](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cdn/CDNConstruct.ts#L73)
 
 ___
 
@@ -105,7 +105,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:83](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cdn/CDNConstruct.ts#L83)
+[src/stacks/cdn/CDNConstruct.ts:83](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cdn/CDNConstruct.ts#L83)
 
 ___
 
@@ -122,7 +122,7 @@ hosted via S3/CloudFront.
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:44](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cdn/CDNConstruct.ts#L44)
+[src/stacks/cdn/CDNConstruct.ts:44](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cdn/CDNConstruct.ts#L44)
 
 ___
 
@@ -138,7 +138,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:113](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cdn/CDNConstruct.ts#L113)
+[src/stacks/cdn/CDNConstruct.ts:113](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cdn/CDNConstruct.ts#L113)
 
 ___
 
@@ -152,7 +152,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:36](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cdn/CDNConstruct.ts#L36)
+[src/stacks/cdn/CDNConstruct.ts:36](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cdn/CDNConstruct.ts#L36)
 
 ___
 
@@ -168,7 +168,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:78](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cdn/CDNConstruct.ts#L78)
+[src/stacks/cdn/CDNConstruct.ts:78](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cdn/CDNConstruct.ts#L78)
 
 ___
 
@@ -233,7 +233,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:34](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cdn/CDNConstruct.ts#L34)
+[src/stacks/cdn/CDNConstruct.ts:34](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cdn/CDNConstruct.ts#L34)
 
 ___
 
@@ -247,7 +247,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:38](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cdn/CDNConstruct.ts#L38)
+[src/stacks/cdn/CDNConstruct.ts:38](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cdn/CDNConstruct.ts#L38)
 
 ___
 
@@ -265,7 +265,7 @@ If provided, must also provide a value for `stage`, `hostedZone` and `certificat
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:57](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cdn/CDNConstruct.ts#L57)
+[src/stacks/cdn/CDNConstruct.ts:57](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cdn/CDNConstruct.ts#L57)
 
 ___
 
@@ -275,7 +275,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNNestedStack.ts:10](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cdn/CDNNestedStack.ts#L10)
+[src/stacks/cdn/CDNNestedStack.ts:10](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cdn/CDNNestedStack.ts#L10)
 
 ___
 
@@ -295,4 +295,4 @@ ex. `www.example.com` and `example.com` will both be valid.
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:66](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/cdn/CDNConstruct.ts#L66)
+[src/stacks/cdn/CDNConstruct.ts:66](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/cdn/CDNConstruct.ts#L66)

@@ -275,12 +275,12 @@ export class CDNConstruct extends Construct {
       originConfigs.push({
         customOriginSource: {
           domainName: domain,
+          originProtocolPolicy: OriginProtocolPolicy.HTTPS_ONLY,
           originPath: !this.props.api.apiStage
             ? '/prod'
             : this.props.api.apiStage.startsWith('/')
             ? this.props.api.apiStage
-            : `/${this.props.api.apiStage}`,
-          originProtocolPolicy: OriginProtocolPolicy.HTTPS_ONLY
+            : `/${this.props.api.apiStage}`
         },
         behaviors: [
           {

@@ -94,7 +94,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Lambda.ts:81](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Lambda.ts#L81)
+[src/constructs/Lambda.ts:81](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L81)
 
 ___
 
@@ -188,7 +188,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Lambda.ts:83](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Lambda.ts#L83)
+[src/constructs/Lambda.ts:83](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L83)
 
 ___
 
@@ -202,7 +202,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Lambda.ts:79](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Lambda.ts#L79)
+[src/constructs/Lambda.ts:79](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L79)
 
 ___
 
@@ -256,7 +256,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Lambda.ts:73](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Lambda.ts#L73)
+[src/constructs/Lambda.ts:73](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L73)
 
 ___
 
@@ -290,7 +290,7 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessConstruct.ts:17](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/stacks/serverless/ServerlessConstruct.ts#L17)
+[src/stacks/serverless/ServerlessConstruct.ts:17](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/stacks/serverless/ServerlessConstruct.ts#L17)
 
 ___
 
@@ -576,7 +576,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Lambda.ts:72](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Lambda.ts#L72)
+[src/constructs/Api.ts:29](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Api.ts#L29)
 
 ___
 
@@ -802,7 +802,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Lambda.ts:82](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Lambda.ts#L82)
+[src/constructs/Lambda.ts:82](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L82)
 
 ___
 
@@ -816,7 +816,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Lambda.ts:84](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Lambda.ts#L84)
+[src/constructs/Lambda.ts:84](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L84)
 
 ___
 
@@ -830,7 +830,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Tables.ts:44](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Tables.ts#L44)
+[src/constructs/Tables.ts:44](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Tables.ts#L44)
 
 ___
 
@@ -959,7 +959,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Api.ts:26](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Api.ts#L26)
+[src/constructs/Api.ts:27](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Api.ts#L27)
 
 ___
 
@@ -1068,7 +1068,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Lambdas.ts:17](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Lambdas.ts#L17)
+[src/constructs/Lambdas.ts:17](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambdas.ts#L17)
 
 ___
 
@@ -1082,7 +1082,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Lambda.ts:74](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Lambda.ts#L74)
+[src/constructs/Lambda.ts:74](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L74)
 
 ___
 
@@ -1162,7 +1162,21 @@ ___
 
 #### Defined in
 
-[src/constructs/Lambda.ts:78](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Lambda.ts#L78)
+[src/constructs/Lambda.ts:78](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L78)
+
+___
+
+### logicalId
+
+• `Optional` **logicalId**: `string`
+
+#### Inherited from
+
+[ServerlessConstructProps](ServerlessConstructProps).[logicalId](ServerlessConstructProps#logicalid)
+
+#### Defined in
+
+[src/constructs/Api.ts:28](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Api.ts#L28)
 
 ___
 
@@ -1443,7 +1457,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Api.ts:24](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Api.ts#L24)
+[src/constructs/Api.ts:25](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Api.ts#L25)
 
 ___
 
@@ -1637,7 +1651,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Lambda.ts:77](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Lambda.ts#L77)
+[src/constructs/Lambda.ts:77](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L77)
 
 ___
 
@@ -1651,7 +1665,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Lambda.ts:75](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Lambda.ts#L75)
+[src/constructs/Lambda.ts:75](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L75)
 
 ___
 
@@ -1736,7 +1750,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Api.ts:23](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Api.ts#L23)
+[src/constructs/Api.ts:24](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Api.ts#L24)
 
 ___
 
@@ -1800,7 +1814,7 @@ Supports for backwards compatibility with LambdasAndLogGroups.
 
 #### Defined in
 
-[src/constructs/Lambda.ts:96](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Lambda.ts#L96)
+[src/constructs/Lambda.ts:96](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L96)
 
 ___
 
@@ -1814,7 +1828,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Lambda.ts:98](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Lambda.ts#L98)
+[src/constructs/Lambda.ts:98](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L98)
 
 ___
 
@@ -1828,7 +1842,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Tables.ts:43](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Tables.ts#L43)
+[src/constructs/Tables.ts:43](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Tables.ts#L43)
 
 ___
 
@@ -1929,7 +1943,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Api.ts:25](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Api.ts#L25)
+[src/constructs/Api.ts:26](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Api.ts#L26)
 
 ___
 
@@ -2010,4 +2024,4 @@ ___
 
 #### Defined in
 
-[src/constructs/Lambda.ts:80](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Lambda.ts#L80)
+[src/constructs/Lambda.ts:80](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Lambda.ts#L80)

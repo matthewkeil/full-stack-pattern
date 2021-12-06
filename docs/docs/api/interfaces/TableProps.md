@@ -60,7 +60,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Tables.ts:33](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Tables.ts#L33)
+[src/constructs/Tables.ts:38](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Tables.ts#L38)
 
 ___
 
@@ -115,7 +115,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Tables.ts:38](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Tables.ts#L38)
+[src/constructs/Tables.ts:36](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Tables.ts#L36)
 
 ___
 
@@ -141,11 +141,11 @@ ___
 
 ### logicalId
 
-• **logicalId**: `string`
+• `Optional` **logicalId**: `string`
 
 #### Defined in
 
-[src/constructs/Tables.ts:34](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Tables.ts#L34)
+[src/constructs/Tables.ts:37](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Tables.ts#L37)
 
 ___
 
@@ -155,7 +155,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Tables.ts:37](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Tables.ts#L37)
+[src/constructs/Tables.ts:35](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Tables.ts#L35)
 
 ___
 
@@ -165,7 +165,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Tables.ts:32](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Tables.ts#L32)
+[src/constructs/Tables.ts:32](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Tables.ts#L32)
 
 ___
 
@@ -175,7 +175,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Tables.ts:35](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Tables.ts#L35)
+[src/constructs/Tables.ts:33](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Tables.ts#L33)
 
 ___
 
@@ -313,7 +313,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Tables.ts:36](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Tables.ts#L36)
+[src/constructs/Tables.ts:34](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Tables.ts#L34)
 
 ___
 

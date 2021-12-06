@@ -32,7 +32,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/constructs/Tables.ts:55](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Tables.ts#L55)
+[src/constructs/Tables.ts:55](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Tables.ts#L55)
 
 ## Properties
 
@@ -42,7 +42,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/constructs/Tables.ts:53](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Tables.ts#L53)
+[src/constructs/Tables.ts:53](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Tables.ts#L53)
 
 ___
 
@@ -74,7 +74,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Tables.ts:52](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Tables.ts#L52)
+[src/constructs/Tables.ts:52](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Tables.ts#L52)
 
 ## Methods
 
@@ -94,7 +94,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Tables.ts:64](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Tables.ts#L64)
+[src/constructs/Tables.ts:64](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Tables.ts#L64)
 
 ___
 
@@ -114,7 +114,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Tables.ts:112](https://github.com/matthewkeil/full-stack-pattern/blob/ab0b703/src/constructs/Tables.ts#L112)
+[src/constructs/Tables.ts:112](https://github.com/matthewkeil/full-stack-pattern/blob/c8ba585/src/constructs/Tables.ts#L112)
 
 ___
 

@@ -1,5 +1,4 @@
 import { nanoid } from 'nanoid';
-import { addToDevServer } from 'convert-lambda-to-express';
 import { Stack, Construct, RemovalPolicy } from '@aws-cdk/core';
 import { ITable } from '@aws-cdk/aws-dynamodb';
 import { Rule, RuleTargetInput } from '@aws-cdk/aws-events';
@@ -28,7 +27,6 @@ import {
   Code,
   AssetCode,
   IEventSource,
-  Runtime,
   LayerVersion
 } from '@aws-cdk/aws-lambda';
 
@@ -62,39 +60,127 @@ function isApiEvent(obj: unknown): obj is ApiEvent {
 }
 
 export interface LambdaProps
-  extends Mutable<
-      Omit<FunctionProps, 'functionName' | 'role' | 'code' | 'events' | 'runtime' | 'layers'>
-    >,
+  extends Mutable<Omit<FunctionProps, 'functionName' | 'role' | 'code' | 'events' | 'layers'>>,
     Mutable<Omit<RoleProps, 'roleName' | 'assumedBy'>>,
     Mutable<Omit<PolicyProps, 'policyName' | 'roles'>>,
     Mutable<Omit<LogGroupProps, 'logGroupName'>> {
+  /**
+   * Code to use with the lambda.  Can pass a string to the absolute path of the code folder and the AssetCode
+   * will be created for you.  You can also pass in any Construct that extends Code
+   * ie. InlineCode, AssetCode, S3Code, etc.
+   */
+  code: string | Code;
+
+  /**
+   * The name of the resources to make.  Generally this is a few short words.  When passing `prefix` and
+   * `name` the physical name of resources will take the format of `${prefix}-${name}`.  If just name is passed
+   * they will just be the value of `name`
+   */
   name: string;
-  dontOverrideLogicalId?: boolean;
-  code?: string | Code;
-  layers?: (LayerVersion | string)[];
-  runtime?: Runtime;
+
+  /**
+   * The prefix to use for the resources.  Will prefix all resource names with this value. For more info, see
+   * [Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
+   */
+
   prefix?: string;
+
+  /**
+   * Option to not use fixed logicalId's for the RestApi resource. For more
+   * info, see [Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
+   *
+   * @default false (resources will have their logicalId's set by the library and not cdk)
+   */
+  dontOverrideLogicalId?: boolean;
+
+  /**
+   * LayerVersions to use with the lambda.  Can pass in a strings, that are absolute path to the layer folder,
+   * and the AssetCode will be made for the directory.  Can also pass in an array of LayerVersion constructs.
+   */
+  layers?: (LayerVersion | string)[];
+
+  /**
+   * The IRole or arn of the service role. If a LambdaProps.role is passed no IAM will be created
+   */
   role?: IRole | string;
-  loggingLevel?: LogLevel;
-  canInvoke?: Array<PrincipalBase | IRole | string>;
+
+  /**
+   * Array of principals that can invoke the lambda. Can pass a string arn, an IRole, or any Principal construct
+   * and will create the AWS::Lambda::Permission for you.
+   */
+  canInvoke?: (PrincipalBase | IRole | string)[];
+
+  /**
+   * simplifies warming the function. Timing will be base by the Rule that gets
+   * passed.  Event will emit the { warmer: true } object to the function
+   *
+   * code can easily check for warming event and return early
+   */
   warmingEvent?: Rule;
-  api?: Api;
+
+  /**
+   * Adds process.env.LOGGING_LEVEL to the lambda environment. Can be set to:
+   * 'DEBUG' | 'INFO' | 'WARNING' | 'ERROR' | 'CRITICAL'
+   */
+  loggingLevel?: LogLevel;
+
+  /**
+   * Similar to the underlying LambdaProps.events but adds support for the
+   * ApiEvent from this library.  Works in conjunction with the Api construct.
+   *
+   * ApiEvents will build a dev server that can be run locally through the use
+   * of [convert-lambda-to-express](https://www.npmjs.com/package/convert-lambda-to-express) library
+   *
+   * See [convert-lambda-to-express](https://www.npmjs.com/package/convert-lambda-to-express) for more information about
+   * how to use this feature.
+   */
   events?: (IEventSource | ApiEvent)[];
-  buildDevServer?: boolean;
+
+  /**
+   * The Api to use with all ApiEvents. If no api is passed it looks at
+   * Stack.of(this).node.tryFindChild('Api') base stack and will use the first
+   * RestApi it finds if one exists.  If no api is passed to the constructor,
+   * nor is there a RestApi resource in the stack, one will be created. It will
+   * be built so all subsequent Lambdas will be able to find and use the same api.
+   */
+  api?: Api;
+
+  /**
+   * Handy feature to plug into existing logGroups.  Pass an array of strings
+   * that are the logGroup names in the target account and any log groups that
+   * exist will not be created. ie no thrown errors, and stack rollbacks, for
+   * log groups that exist
+   */
   existingLogGroups?: string[];
 
   /**
-   *
-   * @description To add a table to the function, either provide:
-   *
-   * `table: Table` OR `table: string and tables: DynamoTables`
-   *
-   * When using table as a string will pull the table named the same as the string and associate that with the function.
-   * Supports for backwards compatibility with LambdasAndLogGroups.
-   *
+   * Associates a table with the lambda function.  Can be passed as a Table or
+   * a string. When using a string must also pass a Tables object to the
+   * `tables` prop.  This is mostly a convention for use with the Lambdas and
+   * Tables constructs so its easier to created the lambda definitions.  See
+   * the LambdasProps.tables for more information.
    */
   table?: ITable | string;
+
+  /**
+   * Tables construct to make use of LambdaProps.table as a string.  Will do
+   * a lookup to find the table from the tables object using the string as the
+   * name
+   */
   tables?: Tables;
+
+  /**
+   * By default, this construct sets the tableName to the environment for you.
+   *
+   * If a name of 'good-stuff-table' is used, will set environment variables as:
+   *   - `process.env.TABLE_NAME = "full-table-name-for-sdk"`
+   *   - `process.env.GOOD_STUFF_TABLE = "full-table-name-for-sdk"`
+   *
+   * You can override this with `tableEnvKey: "SOME_ENV_KEY"` to create the
+   * environment variables as:
+   *   - `process.env.TABLE_NAME = "full-table-name-for-sdk"`
+   *   - `process.env.SOME_ENV_KEY = "full-table-name-for-sdk"`
+   */
   tableEnvKey?: string;
 }
 
@@ -107,28 +193,16 @@ export class Lambda extends Construct {
   public role!: IRole;
   public policy?: Policy;
   public api?: Api;
+  public code: Code;
 
   private pascalName: string;
   private kebabName: string;
-  private code: Code;
-  private buildDevServer: boolean;
 
-  constructor(scope: Construct, id: string, protected props: LambdaProps) {
+  constructor(scope: Construct, id: string, public readonly props: LambdaProps) {
     super(scope, id);
     const name = props.prefix ? `${props.prefix}-${props.name}` : props.name;
     this.pascalName = toPascal(name);
     this.kebabName = toKebab(name).substr(0, 64);
-
-    const code = typeof props.code === 'string' ? new AssetCode(props.code) : props.code;
-    if (!code) {
-      throw new Error('Must provide either code or asset');
-    }
-    this.code = code;
-    this.buildDevServer = props.buildDevServer ?? this.code instanceof AssetCode;
-    const runtime = props.runtime;
-    if (!runtime) {
-      throw new Error('Must provide runtime');
-    }
 
     const logGroupName = `/aws/lambda/${this.kebabName}`;
     if (this.props.existingLogGroups?.find(name => name === logGroupName)) {
@@ -164,12 +238,13 @@ export class Lambda extends Construct {
       }
     }
 
+    this.code = typeof props.code === 'string' ? new AssetCode(props.code) : props.code;
+
     this.function = new BaseLambda(this, 'Function', {
       ...props,
       events: undefined,
       layers,
-      code,
-      runtime,
+      code: this.code,
       functionName: this.kebabName,
       role: this.role
     });
@@ -222,6 +297,13 @@ export class Lambda extends Construct {
     }
   }
 
+  /**
+   * simplifies the underlying `lambda.Function.prototype.addPermission`
+   *
+   * - adds ability to just pass and arn as a string. automatically sets up
+   *   the principal
+   * - adds the invoke action
+   */
   public addPermission(
     principalOrArn: PrincipalBase | string,
     permission: Partial<Permission> = {}
@@ -237,6 +319,12 @@ export class Lambda extends Construct {
     return this;
   }
 
+  /**
+   * simplifies warming the function. Timing will be base by the Rule that gets
+   * passed.  Event will emit the { warmer: true } object to the function
+   *
+   * code can easily check for warming event and return early
+   */
   public addWarmingEvent(rule: Rule) {
     rule.addTarget(
       new LambdaFunction(this.function, {
@@ -249,6 +337,30 @@ export class Lambda extends Construct {
     return this;
   }
 
+  /**
+   * - adds an api event to the lambda: hooks up apiGateway to trigger the lambda
+   * and adds the necessary permissions.
+   *
+   * - builds an express server to server the lambdas during development. devServer
+   * supports hot reload and watch functionality. see [convert-lambda-to-express]()
+   * for more information
+   *
+   * - can, optionally, pass in the RestApi that you want associated to the function
+   * through the LambdaProps.api property when new'ing the Lambda.  If no api is
+   * passed it looks at Stack.of(this).node.tryFindChild('Api') base stack and will
+   * use the first RestApi it finds if one exists.  If no api is passed to the
+   * constructor, nor is there a RestApi resource in the stack, one will be
+   * created. It will be built so all subsequent Lambdas will be able to find
+   * and use the same api.
+   *
+   * If api is looked up then it can be anywhere in your code as long as its built
+   * before trying to add an ApiEvent. Note that building the Lambda with an event in
+   * the constructor props will call the .addApiEvent method under the hood. The
+   * logicalId for the lookup method must be 'Api'.
+   *
+   * If you want to use a different Api logicalId, you can pass in the Api object
+   * directly to the constructor
+   */
   public addApiEvent(pathConfig: ApiEvent): Lambda {
     if (!isApiEvent(pathConfig)) {
       throw new Error('apiEvent must be an object with path, method and optional options');
@@ -259,18 +371,17 @@ export class Lambda extends Construct {
   }
 
   /**
-   * @description Associates a table with the function.
+   * Applies table.grantReadWriteData(role) for the function role if one was created.
    *
-   * Applies grantReadWriteData for the function role if one was created.
+   * Adds table name to environment variables. As an example when passing in
+   * `table: "good-stuff-table"` will, by default, set actual tableName as:
+   *   - `process.env.TABLE_NAME=client-project-env-good-stuff-table`
+   *   - `process.env.GOOD_STUFF_TABLE=client-project-env-good-stuff-table`
    *
-   * Adds table name to environment variables. As an example when passing in `table: "admin-table"` will set actual
-   * prefixed tableName as `process.env.TABLE_NAME=client-project-env-admin-table` and
-   * `process.env.ADMIN_TABLE=client-project-env-admin-table` by default.  You can override this with `tableEnvKey`
-   * to create the environment variables as `TABLE_NAME` and the `TABLE_ENV_KEY` that was passed in.
-   *
-   * Is backwards compatible with passing `table: string` like LambdasAndLogGroups.  Need to pass in DynamoTables
-   * construct for this functionality.  Can also be used with `table: string` when using Lambdas construct as
-   * it will pass in the DynamoTables object for you.
+   * You can override this with `tableEnvKey: TABLE_ENV_KEY` to create the
+   * environment variables as:
+   * `process.env.TABLE_NAME`
+   * `process.env.TABLE_ENV_KEY`
    */
   public associateTable({
     table,
@@ -399,26 +510,7 @@ root where it can be found, before attempting to add api resources`);
       this.api = this._getApi();
     }
     const { path, method, options } = apiEvent;
-    this.api.addLambda({ path, method, lambda: this.function, options });
-
-    if (this.buildDevServer) {
-      if (!(this.code instanceof AssetCode)) {
-        throw new Error('cannot buildDevServer if code is not props.code is an AssetCode class');
-      }
-
-      addToDevServer({
-        functionName: this.kebabName,
-        memorySize: this.props.memorySize,
-        resourcePath: path,
-        method,
-        handler: this.props.handler,
-        timeoutInSeconds: this.props.timeout?.toSeconds(),
-        region: Stack.of(this).region,
-        accountId: Stack.of(this).account,
-        codeDirectory: this.code.path,
-        environment: this.props.environment
-      });
-    }
+    this.api.addLambda({ path, method, lambda: this, options });
 
     return this;
   }

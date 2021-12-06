@@ -1,4 +1,4 @@
-import { CfnOutput, Construct, Fn, IResolvable, RemovalPolicy, Stack } from '@aws-cdk/core';
+import { CfnOutput, Construct, Fn, RemovalPolicy, Stack } from '@aws-cdk/core';
 import {
   Role,
   IRole,
@@ -28,36 +28,45 @@ import {
   CfnUserPoolUserToGroupAttachment
 } from '@aws-cdk/aws-cognito';
 import { toKebab, toPascal, Mutable } from '../../../lib';
-import { Group } from 'aws-sdk/clients/budgets';
+import { nanoid } from 'nanoid';
 
 interface GroupConfig {
   groupName: string;
+  logicalId?: string;
   noRole?: boolean;
   role?: IRole | string;
   policyStatements?: PolicyStatement[];
   userEmail?: string;
 }
 type IdentityPoolConfig = CfnIdentityPoolProps & { removalPolicy?: RemovalPolicy };
+interface WithLogicalId {
+  logicalId?: string;
+}
+interface UserPoolDomainProps extends WithLogicalId {
+  rootDomain?: string;
+  subDomain?: string;
+  certificateArn?: string;
+}
 
 export interface CognitoConstructProps {
-  prefix: string;
+  prefix?: string;
   dontOverrideLogicalId?: boolean;
   /**
    *
    */
   userPoolId?: string;
-  userPool?: UserPoolProps;
+  userPool?: UserPoolProps & WithLogicalId;
   userPoolClientId?: string;
-  userPoolClient?: Omit<UserPoolClientProps, 'userPool'>;
-  rootDomain?: string;
-  subDomain?: string;
-  certificateArn?: string;
+  userPoolClient?: Omit<UserPoolClientProps, 'userPool'> & WithLogicalId;
+  userPoolDomain?: UserPoolDomainProps;
+
   /**
    *
    */
-  identityPool?: IdentityPoolConfig;
+  identityPool?: IdentityPoolConfig & WithLogicalId;
   authenticatedRole?: IRole | string;
   authenticatedPolicyStatements?: PolicyStatement[];
+
   /**
    * @description Create groups for the user pool and, optionally, the identity pool
    */
@@ -90,7 +99,7 @@ export class CognitoConstruct extends Construct {
 
     if (this.props.groups) {
       for (const group of this.props.groups) {
-        this.buildGroup(group);
+        this.addGroup(group);
       }
     }
 
@@ -105,6 +114,9 @@ export class CognitoConstruct extends Construct {
 
   private buildUserPool() {
     const userPoolName = this.props.userPool?.userPoolName ?? this.props.prefix;
+    if (!userPoolName) {
+      throw new Error('must provide either a userPoolName or prefix');
+    }
     this.userPool = this.props.userPoolId
       ? UserPool.fromUserPoolId(this, 'UserPool', this.props.userPoolId)
       : new UserPool(this, 'UserPool', {
@@ -127,24 +139,32 @@ export class CognitoConstruct extends Construct {
             this.props.userPool?.removalPolicy ?? this.props.removalPolicy ?? RemovalPolicy.DESTROY
         });
     if (this.props.dontOverrideLogicalId !== true) {
-      (this.userPool.node.defaultChild as CfnUserPool).overrideLogicalId('UserPool');
+      (this.userPool.node.defaultChild as CfnUserPool).overrideLogicalId(
+        this.props.userPool?.logicalId ? this.props.userPool.logicalId : 'UserPool'
+      );
     }
     new CfnOutput(this, 'UserPoolId', {
       value: this.userPool.userPoolId
     });
 
+    const userPoolClientName = this.props.userPoolClient?.userPoolClientName ?? this.props.prefix;
+    if (!userPoolClientName) {
+      throw new Error('must provide either a userPoolClientName or prefix');
+    }
     this.userPoolClient = this.props.userPoolClientId
       ? UserPoolClient.fromUserPoolClientId(this, 'UserPoolClient', this.props.userPoolClientId)
       : new UserPoolClient(this, 'UserPoolClient', {
           generateSecret: false,
           supportedIdentityProviders: [UserPoolClientIdentityProvider.COGNITO],
           ...(this.props.userPoolClient ?? {}),
-          userPoolClientName: this.props.userPoolClient?.userPoolClientName ?? this.props.prefix,
+          userPoolClientName,
           userPool: this.userPool
         });
     if (this.props.dontOverrideLogicalId !== true) {
       (this.userPoolClient.node.defaultChild as CfnUserPoolClient).overrideLogicalId(
-        'UserPoolClient'
+        this.props.userPoolClient?.logicalId
+          ? this.props.userPoolClient.logicalId
+          : 'UserPoolClient'
       );
     }
     if (this.userPoolClient instanceof UserPoolClient) {
@@ -156,29 +176,37 @@ export class CognitoConstruct extends Construct {
 
     if (this.userPool instanceof UserPool) {
       let domain: string;
-      if (this.props.rootDomain) {
-        domain = this.props.subDomain
-          ? `${this.props.subDomain}.${this.props.rootDomain}`
-          : `auth.${this.props.rootDomain}`;
+      if (this.props.userPoolDomain?.rootDomain) {
+        domain = this.props.userPoolDomain.subDomain
+          ? `${this.props.userPoolDomain.subDomain}.${this.props.userPoolDomain.rootDomain}`
+          : `auth.${this.props.userPoolDomain.rootDomain}`;
       } else {
-        if (!this.props.subDomain) {
-          throw new Error('must provide a subDomain when not using a custom rootDomain');
+        if (!this.props.userPoolDomain?.subDomain) {
+          throw new Error(
+            'must provide a userPoolDomain.subDomain, userPoolDomain.rootDomain or both when building a user pool'
+          );
         }
-        domain = this.props.subDomain;
+        domain = this.props.userPoolDomain.subDomain;
       }
 
       const domainProps: Mutable<CfnUserPoolDomainProps> = {
         userPoolId: this.userPool.userPoolId,
         domain
       };
-      if (this.props.certificateArn) {
-        domainProps.customDomainConfig = { certificateArn: this.props.certificateArn };
+      if (this.props.userPoolDomain?.certificateArn) {
+        domainProps.customDomainConfig = {
+          certificateArn: this.props.userPoolDomain.certificateArn
+        };
       }
 
       this.userPoolDomain = new CfnUserPoolDomain(this, 'UserPoolDomain', domainProps);
       this.userPoolDomain.applyRemovalPolicy(this.props.removalPolicy ?? RemovalPolicy.DESTROY);
       if (this.props.dontOverrideLogicalId !== true) {
-        this.userPoolDomain.overrideLogicalId('UserPoolDomain');
+        this.userPoolDomain.overrideLogicalId(
+          this.props.userPoolDomain?.logicalId
+            ? this.props.userPoolDomain.logicalId
+            : 'UserPoolDomain'
+        );
       }
       new CfnOutput(this, 'UserPoolDomain', {
         value: this.userPoolDomain.domain
@@ -210,9 +238,11 @@ export class CognitoConstruct extends Construct {
     }
 
     if (!name) {
-      throw new Error('must provide a name for the role');
+      throw new Error('must provide a name for roles');
     }
-    const roleName = `${this.props.prefix}-${toKebab(name)}`;
+    const roleName = this.props.prefix
+      ? `${this.props.prefix}-${toKebab(name)}`
+      : `${toKebab(name)}${nanoid()}`;
     const roleProps: Mutable<RoleProps> = {
       roleName: roleName.substr(0, 63),
       assumedBy: new FederatedPrincipal(
@@ -240,6 +270,10 @@ export class CognitoConstruct extends Construct {
   }
 
   private buildIdentityPool() {
+    const identityPoolName = this.props.identityPool?.identityPoolName ?? this.props.prefix;
+    if (!identityPoolName) {
+      throw new Error('must provide either a identityPoolName or prefix');
+    }
     this.identityPool = new CfnIdentityPool(this, 'IdentityPool', {
       allowUnauthenticatedIdentities: false,
       cognitoIdentityProviders: [
@@ -258,14 +292,16 @@ export class CognitoConstruct extends Construct {
         }
       ],
       ...(this.props.identityPool ?? {}),
-      identityPoolName: this.props.identityPool?.identityPoolName ?? this.props.prefix
+      identityPoolName
     });
     this.identityPool.applyRemovalPolicy(
       this.props.identityPool?.removalPolicy ?? this.props.removalPolicy ?? RemovalPolicy.DESTROY
     );
 
     if (this.props.dontOverrideLogicalId !== true) {
-      this.identityPool.overrideLogicalId('IdentityPool');
+      this.identityPool.overrideLogicalId(
+        this.props.identityPool?.logicalId ? this.props.identityPool.logicalId : 'IdentityPool'
+      );
     }
     new CfnOutput(this, 'IdentityPoolId', {
       value: this.identityPool.ref
@@ -301,15 +337,22 @@ export class CognitoConstruct extends Construct {
     });
   }
 
-  private buildGroup({ groupName, policyStatements, role, noRole, userEmail }: GroupConfig) {
+  public addGroup({
+    groupName,
+    logicalId,
+    policyStatements,
+    role,
+    noRole,
+    userEmail
+  }: GroupConfig) {
     const _role = noRole
       ? undefined
       : this.buildRole({
           role,
           policyStatements,
-          name: `${this.props.prefix}-${groupName}-group`
+          name: `${groupName}-group`
         });
-    const groupLogicalId = `${toPascal(groupName)}Group`;
+    const groupLogicalId = logicalId ? logicalId : `${toPascal(groupName)}Group`;
     const group = new CfnUserPoolGroup(this, groupLogicalId, {
       groupName,
       precedence: 0,
@@ -322,8 +365,7 @@ export class CognitoConstruct extends Construct {
     }
 
     if (userEmail) {
-      const userLogicalId = `${toPascal(groupName)}User`;
-      const user = new CfnUserPoolUser(this, userLogicalId, {
+      const user = new CfnUserPoolUser(this, `${toPascal(groupName)}User`, {
         userPoolId: this.userPool.userPoolId,
         username: userEmail,
         desiredDeliveryMediums: ['EMAIL'],
@@ -332,20 +374,17 @@ export class CognitoConstruct extends Construct {
           { name: 'email_verified', value: 'true' }
         ]
       });
-      if (this.props.dontOverrideLogicalId !== true) {
-        user.overrideLogicalId(userLogicalId);
-      }
       user.applyRemovalPolicy(this.props.removalPolicy ?? RemovalPolicy.DESTROY);
 
-      const attachmentLogicalId = `${toPascal(groupName)}UserAttachment`;
-      const groupAttachment = new CfnUserPoolUserToGroupAttachment(this, attachmentLogicalId, {
-        groupName,
-        userPoolId: this.userPool.userPoolId,
-        username: userEmail
-      });
-      if (this.props.dontOverrideLogicalId !== true) {
-        groupAttachment.overrideLogicalId(attachmentLogicalId);
-      }
+      const groupAttachment = new CfnUserPoolUserToGroupAttachment(
+        this,
+        `${toPascal(groupName)}UserAttachment`,
+        {
+          groupName,
+          userPoolId: this.userPool.userPoolId,
+          username: userEmail
+        }
+      );
       groupAttachment.addDependsOn(group);
       groupAttachment.addDependsOn(user);
     }
