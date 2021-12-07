@@ -20,15 +20,13 @@ import {
   CfnBucket
 } from '@aws-cdk/aws-s3';
 import { ICertificate } from '@aws-cdk/aws-certificatemanager';
-import { IRole, PolicyStatement, Effect } from '@aws-cdk/aws-iam';
+import { IRole } from '@aws-cdk/aws-iam';
 import { ARecord, IHostedZone, RecordTarget } from '@aws-cdk/aws-route53';
 import { CloudFrontTarget } from '@aws-cdk/aws-route53-targets';
 
 import { Mutable, toKebab, toPascal } from '../../../lib';
 import { IRestApi } from '@aws-cdk/aws-apigateway';
-import { Lambda, LambdaProps } from '../../constructs/Lambda';
-import { AssetCode, Runtime } from '@aws-cdk/aws-lambda';
-import { resolve } from 'path';
+import { Lambda } from '../../constructs/Lambda';
 
 export interface CDNConstructProps {
   removalPolicy?: RemovalPolicy;
@@ -187,6 +185,7 @@ export class CDNConstruct extends Construct {
   public bucket: IBucket;
   public distribution: CloudFrontWebDistribution;
   public configFileProvider: Lambda;
+  public configFileServiceToken: string;
   public urls?: string[];
 
   private originAccessIdentity: OriginAccessIdentity;
@@ -210,6 +209,7 @@ export class CDNConstruct extends Construct {
     this.bucket = this.buildBucket();
     this.distribution = this.buildDistribution();
     this.configFileProvider = this.buildCodeDeployment();
+    this.configFileServiceToken = this.configFileProvider.function.functionArn;
 
     for (const url of this.urls ?? []) {
       if (!this.props.hostedZone) {
@@ -466,29 +466,5 @@ export class CDNConstruct extends Construct {
     }
 
     new BucketDeployment(this, 'BucketDeployment', baseBucketDeploymentProps);
-
-    const customResourceProviderProps: Mutable<LambdaProps> = {
-      prefix: this.props.prefix,
-      name: 'config-file-provider',
-      // in order for the library to be importable this path should be from the dist
-      // output of this file to the dist output of the folder with the webpacked bundle
-      code: new AssetCode(resolve(__dirname, '..', '..', '..', 'providers', 'configFileProvider')),
-      handler: 'index.handler',
-      runtime: Runtime.NODEJS_14_X
-    };
-
-    if (this.props.deploymentRole) {
-      customResourceProviderProps.role = this.props.deploymentRole;
-    } else {
-      customResourceProviderProps.statements = [
-        new PolicyStatement({
-          effect: Effect.ALLOW,
-          actions: ['s3:PutObject', 's3:DeleteObject'],
-          resources: [this.bucket.bucketArn, this.bucket.arnForObjects('*')]
-        })
-      ];
-    }
-
-    return new Lambda(this, 'ConfigFileProvider', customResourceProviderProps);
   }
 }

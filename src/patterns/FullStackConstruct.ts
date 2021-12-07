@@ -19,9 +19,8 @@ import { ServerlessStack } from '../stacks/serverless/ServerlessStack';
 import { getCertArnForDomain } from '../../lib/aws/certificateManager';
 import { getHostedZoneIdForDomain } from '../../lib/aws/route53';
 import { bucketExists } from '../../lib/aws/s3';
-import { listTableNames } from '../../lib/aws/dynamodb';
 import { existingLogGroups } from '../../lib/aws/cwLogs';
-import { ConfigFileProps } from '../../providers/configFileProvider';
+import { ConfigFile, ConfigFileProps } from '../constructs/ConfigFile';
 
 type Core = Omit<CoreConstructProps, 'rootDomain'>;
 type Frontend = Omit<CDNConstructProps, 'prefix' | 'stage' | 'rootDomain'>;
@@ -175,10 +174,23 @@ export class FullStackConstruct extends Construct {
         });
   }
 
-  public addConfigFile(configProps: ConfigFileProps) {
-    this.backend.addConfigFile({
-      ...configProps,
-      serviceToken: this.frontend.configFileProvider.function.functionArn
+  public addConfigFile({
+    config,
+    fileName,
+    mergeExisting,
+    deploymentRole
+  }: Pick<
+    ConfigFileProps<Record<string, unknown>>,
+    'fileName' | 'mergeExisting' | 'config' | 'deploymentRole'
+  >) {
+    new ConfigFile(this, 'ConfigFile', {
+      config,
+      fileName,
+      mergeExisting,
+      deploymentRole,
+      env: this.props.env,
+      prefix: this.props.prefix,
+      bucket: this.frontend.bucket
     });
   }
 

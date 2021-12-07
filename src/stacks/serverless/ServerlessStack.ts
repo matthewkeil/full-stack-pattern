@@ -2,11 +2,7 @@ import { StackProps, Stack, Construct } from '@aws-cdk/core';
 import { Api } from '../../constructs/Api';
 import { Tables } from '../../constructs/Tables';
 import { Lambdas } from '../../constructs/Lambdas';
-import {
-  AddConfigFileProps,
-  ServerlessConstruct,
-  ServerlessConstructProps
-} from './ServerlessConstruct';
+import { ServerlessConstruct, ServerlessConstructProps } from './ServerlessConstruct';
 
 export interface ServerlessStackProps
   extends Omit<StackProps, 'description'>,
@@ -29,9 +25,7 @@ export class ServerlessStack extends Stack {
     this.lambdas = lambdas;
     this.tables = tables;
     this.api = api;
-  }
 
-  public addConfigFile(configProps: AddConfigFileProps) {
-    this.construct.addConfigFile(configProps);
+    this.lambdas?.resources['name'].props.events?.forEach(event => {ev})
   }
 }

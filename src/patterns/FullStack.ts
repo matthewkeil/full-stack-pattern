@@ -2,7 +2,7 @@ import { Construct } from '@aws-cdk/core';
 import { FullStackConstruct, FullStackProps } from './FullStackConstruct';
 
 export class FullStack extends FullStackConstruct {
-  constructor(scope: Construct, id: string, props: FullStackProps) {
+  constructor(scope: Construct, id: string, props: Omit<FullStackProps, 'nested'>) {
     super(scope, id, {
       ...props,
       nested: false

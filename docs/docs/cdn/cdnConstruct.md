@@ -1,19 +1,11 @@
 ---
-sidebar_position: 7
+sidebar_position: 1
 ---
 
 # CDNConstruct
 
 This is a static asset hosting construct and the basis for the CDNStack and CDNNestedStack. If you are looking for a CDN stack check those docs out.
 
-Creates the following resources:
-
-- **AWS::CloudFront::OriginAccessIdentity**
-- **AWS::CloudFront::Distribution**
-- cdk **BucketDeployment**
-- **Custom::ConfigFile** Custom Resource Provider
-- _Optional:_ **AWS::S3::Bucket**
-- _Optional:_ **AWS:Route53::RecordSet**
 
 Assets are stored in S3 and globally edge-hosted using CloudFront. Will optionally setup AliasRecords if passed a HostedZone. Will optionally use a passed Certificate for TLS/SSL.
 
@@ -24,6 +16,15 @@ Handles creating the `new AssetCode()` for your assets, just pass in the absolut
 Can also add additional behavior to the Distribution to accommodate hosting your api backend from the frontend url to avoid cors issues.
 
 Sets up a custom resource for uploading a config file to the frontend. Useful when needing to upload login information (userPoolId, userPoolClientId, etc) once the auth stack is built. Can handle json, yaml or js config files.
+
+#### Resource types that are deployed
+
+- AWS::Route53::RecordSet
+- AWS::CloudFront::Distribution
+- AWS::CloudFront::OriginAccessIdentity
+- AWS::S3::BucketPolicy
+- AWS::S3::Bucket
+- cdk BucketDeployment
 
 ## CDNConstructProps
 
@@ -132,6 +133,7 @@ interface FancyStackProps {
   prefix: string;
   hostedZone: IHostedZone;
   certificate: ICertificate;
+  config: Record<string, unknown>;
 }
 
 class FancyStack extends Stack {
@@ -139,7 +141,7 @@ class FancyStack extends Stack {
     super(scope, id, props);
 
     // this example will serve the contents of the codePath directory
-    // at `https://dev.example.com`
+    // from `https://dev.example.com`
     const cdn = new CDNConstruct(this, 'CDNConstruct', {
       stage: 'dev',
       rootDomain: 'example.com',
@@ -148,20 +150,6 @@ class FancyStack extends Stack {
       prefix: props.prefix,
       hostedZone: props.hostedZone,
       certificate: props.certificate
-    });
-
-    new CustomResource(this, 'ConfigFile', {
-      serviceToken: cdn.configFileProvider.function.functionArn,
-      resourceType: 'Custom::ConfigFile',
-      properties: {
-        bucketName: cdn.bucket.bucketName,
-        filename: 'config.json',
-        IDEMOPOTENCY_TOKEN: Date.now(), // makes sure config file is updated
-        config: {
-          userPoolId: 'us-east-1_abcdefghi',
-          userPoolClientId: 'abcdefghi'
-        }
-      }
     });
   }
 }

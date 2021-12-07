@@ -14,7 +14,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[providers/configFileProvider/index.ts:16](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/providers/configFileProvider/index.ts#L16)
+[providers/configFileProvider/index.ts:16](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/providers/configFileProvider/index.ts#L16)
 
 ___
 
@@ -24,7 +24,7 @@ ___
 
 #### Defined in
 
-[providers/configFileProvider/index.ts:19](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/providers/configFileProvider/index.ts#L19)
+[providers/configFileProvider/index.ts:19](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/providers/configFileProvider/index.ts#L19)
 
 ___
 
@@ -34,7 +34,7 @@ ___
 
 #### Defined in
 
-[providers/configFileProvider/index.ts:17](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/providers/configFileProvider/index.ts#L17)
+[providers/configFileProvider/index.ts:17](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/providers/configFileProvider/index.ts#L17)
 
 ___
 
@@ -44,4 +44,4 @@ ___
 
 #### Defined in
 
-[providers/configFileProvider/index.ts:18](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/providers/configFileProvider/index.ts#L18)
+[providers/configFileProvider/index.ts:18](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/providers/configFileProvider/index.ts#L18)

@@ -81,7 +81,7 @@ Omit.dontOverrideLogicalId
 
 #### Defined in
 
-[src/constructs/Table.ts:112](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Table.ts#L112)
+[src/constructs/Table.ts:112](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/constructs/Table.ts#L112)
 
 ___
 
@@ -183,7 +183,7 @@ Omit.prefix
 
 #### Defined in
 
-[src/constructs/Table.ts:42](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Table.ts#L42)
+[src/constructs/Table.ts:42](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/constructs/Table.ts#L42)
 
 ___
 
@@ -323,7 +323,7 @@ Array of tablesProps to use for creation of multiple tables.
 
 #### Defined in
 
-[src/constructs/Tables.ts:25](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Tables.ts#L25)
+[src/constructs/Tables.ts:25](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/constructs/Tables.ts#L25)
 
 ___
 

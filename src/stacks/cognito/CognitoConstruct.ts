@@ -31,49 +31,152 @@ import { toKebab, toPascal, Mutable } from '../../../lib';
 import { nanoid } from 'nanoid';
 
 interface GroupConfig {
+  /**
+   * The name of the group
+   */
   groupName: string;
+
+  /**
+   * LogicalId for the RestApi resource for in-place upgrades. For more
+   * info, see [Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
+   */
   logicalId?: string;
-  noRole?: boolean;
+
+  /**
+   * Prevents IAM from being created
+   */
+  noIam?: boolean;
+
+  /**
+   * Can pass in a IRole or role arn to use for the group Role
+   */
   role?: IRole | string;
+
+  /**
+   * PolicyStatements to add to the group role
+   */
   policyStatements?: PolicyStatement[];
-  userEmail?: string;
+
+  /**
+   * For each userEmail, will add a user to the UserPool and attach the user
+   * to the group
+   */
+  userEmails?: string[];
 }
+
 type IdentityPoolConfig = CfnIdentityPoolProps & { removalPolicy?: RemovalPolicy };
+
 interface WithLogicalId {
   logicalId?: string;
 }
+
 interface UserPoolDomainProps extends WithLogicalId {
+  /**
+   * The root domain to use for the UserPoolDomain
+   * @example 'example.com'
+   */
   rootDomain?: string;
+
+  /**
+   * The subDomain to user for the UserPoolDomain
+   * @example 'auth' will create UserPoolDomain at 'auth.example.com'
+   * @default 'auth'
+   */
   subDomain?: string;
+
+  /**
+   * ACM Certificate to use for the UserPoolDomain TLS/SSL
+   */
   certificateArn?: string;
 }
 
 export interface CognitoConstructProps {
-  prefix?: string;
-  dontOverrideLogicalId?: boolean;
   /**
-   *
+   * The prefix to use with resource names. If `prefix` and `name` are
+   * provided then the apiName will be `${prefix}-${name}`.  If no name
+   * is provided then the apiName will be `prefix`. For more info, see
+   * [Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
+   */
+  prefix?: string;
+
+  /**
+   * Option to not use fixed logicalId's for the RestApi resource. For more
+   * info, see [Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
+   */
+  dontOverrideLogicalId?: boolean;
+
+  /**
+   * Will reuse an existing UserPool by passing in the `userPoolId`.  Will
+   * ignore the `userPool` prop when using an existing UserPool
    */
   userPoolId?: string;
+
+  /**
+   * Full configuration of the UserPool that will be created in addition
+   * to having control over the logicalId
+   */
   userPool?: UserPoolProps & WithLogicalId;
+
+  /**
+   * Will reuse an existing UserPoolClient by passing in the `userPoolClientId`
+   * Will ignore the `userPoolClient` prop when using an existing UserPoolClient
+   */
   userPoolClientId?: string;
+
+  /**
+   * Full configuration of the UserPoolClient that will be created in addition
+   * to having control over the logicalId
+   */
   userPoolClient?: Omit<UserPoolClientProps, 'userPool'> & WithLogicalId;
+
+  /**
+   * Full configuration of the UserPoolDomain that will be created
+   */
   userPoolDomain?: UserPoolDomainProps;
 
   /**
-   *
+   * Full configuration of the IdentityPool that will be created in addition
+   * to having control over the logicalId
    */
   identityPool?: IdentityPoolConfig & WithLogicalId;
+
+  /**
+   * Takes an IRole or an arn instead of building an AuthenticatedRole when
+   * an IdentityPool is created.  If IdentityPool is not created, this will
+   * trigger the creation of one and associate this role
+   */
   authenticatedRole?: IRole | string;
+
+  /**
+   * PolicyStatements to attach when building an AuthenticatedRole. If an
+   * authenticatedRole is not provided, one will be created.  If the
+   * IdentityPool is not created, this will trigger the creation of one and
+   * associate the authenticatedRole
+   */
   authenticatedPolicyStatements?: PolicyStatement[];
 
   /**
-   * @description Create groups for the user pool and, optionally, the identity pool
+   * Create groups for the user pool and, optionally, the identity pool
    */
   groups?: GroupConfig[];
 
+  /**
+   * Will provision the users in the UserPool.  Sets userEmail as the username
+   * and optionally attaches the user to any number of groups
+   */
+  users?: { userEmail: string; groupNames: string[] }[];
+
+  /**
+   * CSS string to be used for the user pool UI customization.
+   * For more info see [Cognito UI Customizations](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpooluicustomizationattachment.html#cfn-cognito-userpooluicustomizationattachment-css)
+   */
   css?: string;
 
+  /**
+   * RemovalPolicy to apply to all resources.  If a RemovalPolicy prop is provided
+   * for a specific resource, ie the `props.userPool.removalPolicy`, it will
+   * override this value
+   */
   removalPolicy?: RemovalPolicy;
 }
 
@@ -100,6 +203,12 @@ export class CognitoConstruct extends Construct {
     if (this.props.groups) {
       for (const group of this.props.groups) {
         this.addGroup(group);
+      }
+    }
+
+    if (this.props.users) {
+      for (const { userEmail, groupNames } of this.props.users) {
+        this.addUser({ userEmail, groupNames });
       }
     }
 
@@ -337,15 +446,54 @@ export class CognitoConstruct extends Construct {
     });
   }
 
+  private addUserToGroup({ group, user }: { group: CfnUserPoolGroup; user: CfnUserPoolUser }) {
+    const groupAttachment = new CfnUserPoolUserToGroupAttachment(
+      this,
+      toPascal(`${group.groupName}UserAttachment${nanoid()}`),
+      {
+        userPoolId: this.userPool.userPoolId,
+        groupName: group.groupName as string,
+        username: user.username as string
+      }
+    );
+    groupAttachment.addDependsOn(group);
+    groupAttachment.addDependsOn(user);
+  }
+
+  public addUser({ userEmail, groupNames }: { userEmail: string; groupNames?: string[] }) {
+    const user = new CfnUserPoolUser(this, `User${nanoid()}`, {
+      userPoolId: this.userPool.userPoolId,
+      username: userEmail,
+      desiredDeliveryMediums: ['EMAIL'],
+      userAttributes: [
+        { name: 'email', value: userEmail },
+        { name: 'email_verified', value: 'true' }
+      ]
+    });
+    user.applyRemovalPolicy(this.props.removalPolicy ?? RemovalPolicy.DESTROY);
+
+    if (this.groups) {
+      for (const groupName of groupNames ?? []) {
+        const group = this.groups[groupName];
+        if (!group) {
+          throw new Error(`group ${groupName} does not exist`);
+        }
+        this.addUserToGroup({ user, group: group.group });
+      }
+    }
+
+    return user;
+  }
+
   public addGroup({
     groupName,
     logicalId,
     policyStatements,
     role,
-    noRole,
-    userEmail
+    noIam,
+    userEmails
   }: GroupConfig) {
-    const _role = noRole
+    const _role = noIam
       ? undefined
       : this.buildRole({
           role,
@@ -353,6 +501,7 @@ export class CognitoConstruct extends Construct {
           name: `${groupName}-group`
         });
     const groupLogicalId = logicalId ? logicalId : `${toPascal(groupName)}Group`;
+
     const group = new CfnUserPoolGroup(this, groupLogicalId, {
       groupName,
       precedence: 0,
@@ -364,34 +513,13 @@ export class CognitoConstruct extends Construct {
       group.overrideLogicalId(groupLogicalId);
     }
 
-    if (userEmail) {
-      const user = new CfnUserPoolUser(this, `${toPascal(groupName)}User`, {
-        userPoolId: this.userPool.userPoolId,
-        username: userEmail,
-        desiredDeliveryMediums: ['EMAIL'],
-        userAttributes: [
-          { name: 'email', value: userEmail },
-          { name: 'email_verified', value: 'true' }
-        ]
-      });
-      user.applyRemovalPolicy(this.props.removalPolicy ?? RemovalPolicy.DESTROY);
-
-      const groupAttachment = new CfnUserPoolUserToGroupAttachment(
-        this,
-        `${toPascal(groupName)}UserAttachment`,
-        {
-          groupName,
-          userPoolId: this.userPool.userPoolId,
-          username: userEmail
-        }
-      );
-      groupAttachment.addDependsOn(group);
-      groupAttachment.addDependsOn(user);
-    }
-
     if (!this.groups) {
       this.groups = {};
     }
     this.groups[groupName] = { group, role: _role };
+
+    for (const userEmail of userEmails ?? []) {
+      this.addUser({ userEmail, groupNames: [groupName] });
+    }
   }
 }

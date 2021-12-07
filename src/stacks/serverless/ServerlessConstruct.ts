@@ -1,21 +1,14 @@
 import { nanoid } from 'nanoid';
-import { Construct, CustomResource } from '@aws-cdk/core';
+import { Construct } from '@aws-cdk/core';
 import { AssetCode, LayerVersion } from '@aws-cdk/aws-lambda';
 import { Api, ApiProps } from '../../constructs/Api';
 import { Tables, TablesProps } from '../../constructs/Tables';
 import { Lambdas, LambdasProps } from '../../constructs/Lambdas';
-import { ConfigFileProps } from '../../../providers/configFileProvider';
-
-export type AddConfigFileProps = ConfigFileProps & {
-  serviceToken: string;
-};
 
 export interface ServerlessConstructProps
   extends Omit<ApiProps, 'description'>,
     TablesProps,
-    Omit<LambdasProps, 'tables'> {
-  configFile?: AddConfigFileProps;
-}
+    Omit<LambdasProps, 'tables'> {}
 
 export class ServerlessConstruct extends Construct {
   public lambdas?: Lambdas;
@@ -64,24 +57,5 @@ export class ServerlessConstruct extends Construct {
         this.api = undefined;
       }
     }
-
-    if (this.props.configFile) {
-      this.addConfigFile(this.props.configFile);
-    }
-  }
-
-  public addConfigFile(configProps: AddConfigFileProps) {
-    const configFileProps = { ...configProps };
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-    // @ts-ignore
-    delete configFileProps.serviceToken;
-    new CustomResource(this, 'ConfigFile', {
-      serviceToken: configProps.serviceToken,
-      resourceType: 'Custom::ConfigFile',
-      properties: {
-        ...configFileProps,
-        IDEMOPOTENCY_TOKEN: Date.now() // makes sure config file is updated
-      }
-    });
   }
 }

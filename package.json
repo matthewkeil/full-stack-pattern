@@ -23,6 +23,16 @@
     "preversion": "npm run build && npm run lint",
     "postversion": "git push && git push --tags"
   },
+  "dependencies": {
+    "convert-lambda-to-express": "^1.1.2",
+    "cors": "^2.8.5",
+    "custom-resource-provider": "0.0.5",
+    "express": "^4.17.1",
+    "helmet": "^4.6.0",
+    "morgan": "^1.10.0",
+    "nanoid": "^3.1.30",
+    "yaml": "^1.10.2"
+  },
   "devDependencies": {
     "@aws-cdk/aws-apigateway": "1.134.0",
     "@aws-cdk/aws-certificatemanager": "1.134.0",
@@ -80,16 +90,5 @@
     "*.{js,jsx,vue,ts,tsx}": [
       "git add"
     ]
-  },
-  "dependencies": {
-    "convert-lambda-to-express": "^1.1.2",
-    "cors": "^2.8.5",
-    "custom-resource-provider": "0.0.5",
-    "deepmerge": "^4.2.2",
-    "express": "^4.17.1",
-    "helmet": "^4.6.0",
-    "morgan": "^1.10.0",
-    "nanoid": "^3.1.30",
-    "yaml": "^1.10.2"
   }
 }

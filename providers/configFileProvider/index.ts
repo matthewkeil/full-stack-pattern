@@ -1,5 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import YAML from 'yaml';
-import deepMerge from 'deepmerge';
 import { S3 } from 'aws-sdk';
 import {
   buildHandler,
@@ -7,19 +7,56 @@ import {
   CustomResourceProvider,
   UpdateEventHandler
 } from 'custom-resource-provider';
-import { toKebab } from '../../lib/changeCase';
+import { mergeProps, toKebab } from '../../lib';
 
 const s3 = new S3();
-const FILE_NAME = 'config';
 
-export interface ConfigFileProps {
+type FileType = 'js' | 'json' | 'yaml';
+
+export interface ConfigFileProps<T extends Record<string, unknown>> {
+  /**
+   * The bucketName of where to upload the file
+   */
   bucketName: string;
-  fileName?: string;
-  fileType?: 'js' | 'json' | 'yaml';
-  config: object;
+
+  /**
+   * The filename for the config file.  Supports .yml, .yaml, .json, or .js
+   * extensions.
+   */
+  fileName: string;
+
+  /**
+   * Will go to the file in S3 and merge the passed configuration with the
+   * existing configuration that is already in the file in S3.  Useful when
+   * only part of the config changes by environment but the rest is fixed
+   * and complex
+   */
+  mergeExisting?: boolean;
+
+  /**
+   * The actual configuration that will get turned into the file.  Library
+   *
+   * - uses YAML.stringify(config) for .yaml and .yml files
+   * - uses JSON.stringify(config) for .json files
+   * - creates a js file by stringifying the object with JSON.stringify and
+   *   wrapping it with `var CONFIG_FILE = JSON.parse('${stringified}');`.
+   *   Makes it globally available to the code in the browser via
+   *   <head><script type="text/javascript" src="/config.js" /></head>
+   */
+  config: T;
 }
 
-function buildFile({ config, fileType }: Pick<ConfigFileProps, 'config' | 'fileType'>) {
+interface PrivateConfigFileProps extends ConfigFileProps<any> {
+  IDEMOPOTENCY_TOKEN: string;
+}
+
+function buildUpload({
+  config,
+  fileType
+}: {
+  config: ConfigFileProps<any>['config'];
+  fileType: FileType;
+}) {
   const stringified =
     fileType === 'yaml'
       ? YAML.stringify(config)
@@ -32,88 +69,118 @@ function buildFile({ config, fileType }: Pick<ConfigFileProps, 'config' | 'fileT
     case 'yaml':
       return { Body: stringified, ContentType: 'text/yaml' };
     case 'js':
-      return { Body: `var CONFIG = JSON.parse('${stringified}');`, ContentType: 'text/javascript' };
+      return {
+        Body: `var CONFIG_FILE = JSON.parse('${stringified}');`,
+        ContentType: 'text/javascript'
+      };
     default:
       throw new Error(fileType + ' is an invalid filetype');
   }
 }
 
-async function buildAndUploadFile(props: Required<ConfigFileProps>) {
-  let merged: object;
-  try {
-    const { Body } = await s3
-      .getObject({
-        Bucket: props.bucketName,
-        Key: props.fileName
-      })
-      .promise();
+async function buildAndUploadFile({
+  fileName,
+  fileType,
+  config,
+  bucketName,
+  mergeExisting
+}: Required<ConfigFileProps<any>> & { fileType: FileType }) {
+  let merged: Record<string, unknown>;
+  if (!mergeExisting) {
+    merged = config;
+  } else {
+    try {
+      const { Body } = await s3
+        .getObject({
+          Bucket: bucketName,
+          Key: fileName
+        })
+        .promise();
 
-    const config =
-      props.fileType === 'json'
-        ? JSON.parse(Body?.toString() ?? '{}')
-        : props.fileType === 'yaml'
-        ? YAML.parse(Body?.toString() ?? '')
-        : {};
+      const existing =
+        fileType === 'json'
+          ? JSON.parse(Body?.toString() ?? '{}')
+          : fileType === 'yaml'
+          ? YAML.parse(Body?.toString() ?? '')
+          : {};
 
-    merged = deepMerge(props.config, config);
-  } catch {
-    merged = { ...props.config };
+      merged = mergeProps(existing, config);
+    } catch {
+      merged = config;
+    }
   }
 
-  const { Body, ContentType } = buildFile({ config: merged, fileType: props.fileType });
+  const { Body, ContentType } = buildUpload({ config: merged, fileType });
   console.log({ Body });
+
   return s3
     .putObject({
-      Bucket: props.bucketName,
-      Key: props.fileName,
+      Bucket: bucketName,
+      Key: fileName,
       ContentType,
       Body
     })
     .promise();
 }
 
-function getFileInfo(props: ConfigFileProps) {
-  const fileType = props.fileType ?? 'js';
-  return {
-    fileType,
-    fileName: props.fileName ?? `${FILE_NAME}.${fileType}`
-  };
+function getFileType(props: PrivateConfigFileProps): FileType {
+  const extension = props.fileName?.split('.')[1];
+  if (!extension) {
+    return 'js';
+  }
+  switch (extension) {
+    case 'js':
+    case 'ts':
+      return 'js';
+    case 'json':
+      return 'json';
+    case 'yaml':
+    case 'yml':
+      return 'yaml';
+    default:
+      throw new Error(extension + ' is an invalid filetype');
+  }
 }
 
-const updateFile: UpdateEventHandler<ConfigFileProps> = async event => {
+const upsertFile: UpdateEventHandler<PrivateConfigFileProps> = async event => {
   const { ResourceProperties } = event;
-  const { fileName, fileType } = getFileInfo(ResourceProperties);
-  const PhysicalResourceId =
-    event.PhysicalResourceId ?? toKebab(`${ResourceProperties.bucketName}-${fileName}`);
+  const { fileName, bucketName, config, mergeExisting = false } = ResourceProperties;
+  const fileType = getFileType(ResourceProperties);
 
+  const PhysicalResourceId = event.PhysicalResourceId ?? toKebab(`${bucketName}-${fileName}`);
   console.log('handling: ' + PhysicalResourceId);
+
   await buildAndUploadFile({
-    ...ResourceProperties,
     fileName,
-    fileType
+    fileType,
+    bucketName,
+    config,
+    mergeExisting
   });
+
   return {
     Status: 'SUCCESS',
     PhysicalResourceId
   };
 };
 
-const ConfigFile = new CustomResourceProvider<ConfigFileProps>({
-  create: (updateFile as unknown) as CreateEventHandler<ConfigFileProps>,
-  update: updateFile,
+const ConfigFile = new CustomResourceProvider<PrivateConfigFileProps>({
+  create: (upsertFile as unknown) as CreateEventHandler<PrivateConfigFileProps>,
+  update: upsertFile,
   delete: async event => {
-    const { ResourceProperties } = event;
-    const { fileName } = getFileInfo(ResourceProperties);
-    console.log(`deleting s3://${ResourceProperties.bucketName}/${fileName}`);
+    const {
+      ResourceProperties: { fileName, bucketName }
+    } = event;
+    console.log(`deleting s3://${bucketName}/${fileName}`);
     try {
       await s3
         .deleteObject({
-          Bucket: ResourceProperties.bucketName,
+          Bucket: bucketName,
           Key: fileName
         })
         .promise();
     } catch {
-      console.log(`s3://${ResourceProperties.bucketName}/${fileName} was not found`);
+      console.log(`s3://${bucketName}/${fileName} was not found`);
     }
     return {
       Status: 'SUCCESS'

@@ -22,11 +22,11 @@ custom_edit_url: null
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `apiPathPattern?` | `string` |
-| `apiStage?` | `string` |
-| `restApi` | `IRestApi` |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `apiPathPattern?` | `string` | The url paths that will be forwarded to the api.  **`default`** "/api/*" |
+| `apiStage?` | `string` | The api stage (path suffix) at the end of the execute domain.  **`default`** "/prod" |
+| `restApi` | `IRestApi` | The RestApi that is being hit via CloudFront. |
 
 #### Inherited from
 
@@ -34,7 +34,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:93](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/cdn/CDNConstruct.ts#L93)
+[src/stacks/cdn/CDNConstruct.ts:102](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/cdn/CDNConstruct.ts#L102)
 
 ___
 
@@ -42,7 +42,7 @@ ___
 
 • `Optional` **bucketName**: `string`
 
-**`description`** When using an existing bucket, pass in the bucketName that should
+When using an existing bucket, pass in the bucketName that should
 be used.
 
 #### Inherited from
@@ -51,7 +51,7 @@ be used.
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:50](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/cdn/CDNConstruct.ts#L50)
+[src/stacks/cdn/CDNConstruct.ts:58](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/cdn/CDNConstruct.ts#L58)
 
 ___
 
@@ -59,7 +59,7 @@ ___
 
 • `Optional` **bucketProps**: `Pick`<`BucketProps`, ``"bucketName"`` \| ``"encryptionKey"`` \| ``"encryption"`` \| ``"enforceSSL"`` \| ``"bucketKeyEnabled"`` \| ``"versioned"`` \| ``"lifecycleRules"`` \| ``"websiteIndexDocument"`` \| ``"websiteErrorDocument"`` \| ``"websiteRedirect"`` \| ``"websiteRoutingRules"`` \| ``"accessControl"`` \| ``"publicReadAccess"`` \| ``"blockPublicAccess"`` \| ``"metrics"`` \| ``"cors"`` \| ``"serverAccessLogsBucket"`` \| ``"serverAccessLogsPrefix"`` \| ``"inventories"`` \| ``"objectOwnership"``\>
 
-**`description`** Optional. If creating the hosting bucket, these props will be
+Optional. If creating the hosting bucket, these props will be
 passed to the Bucket construct. To set removal policy use
 `CDNConstructProps.removalPolicy`.  When removalPolicy is set to DESTROY,
 which is the default behavior, autoDeleteObjects will be enabled.
@@ -70,7 +70,7 @@ which is the default behavior, autoDeleteObjects will be enabled.
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:91](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/cdn/CDNConstruct.ts#L91)
+[src/stacks/cdn/CDNConstruct.ts:100](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/cdn/CDNConstruct.ts#L100)
 
 ___
 
@@ -78,10 +78,10 @@ ___
 
 • `Optional` **buildWwwSubdomain**: false \| true
 
-**`default`** true
-
-**`description`** will build www.{rootDomain} alias on `prod` stage in addition
+will build www.{rootDomain} alias on `prod` stage in addition
 to the naked rootDomain. For non-production stages, this is a no-op.
+
+**`default`** true
 
 #### Inherited from
 
@@ -89,7 +89,7 @@ to the naked rootDomain. For non-production stages, this is a no-op.
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:73](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/cdn/CDNConstruct.ts#L73)
+[src/stacks/cdn/CDNConstruct.ts:82](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/cdn/CDNConstruct.ts#L82)
 
 ___
 
@@ -97,7 +97,7 @@ ___
 
 • `Optional` **certificate**: `ICertificate`
 
-**`description`** The TLS/SSL certificate to use for the distribution.
+The TLS/SSL certificate to use for the distribution.
 
 #### Inherited from
 
@@ -105,7 +105,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:83](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/cdn/CDNConstruct.ts#L83)
+[src/stacks/cdn/CDNConstruct.ts:92](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/cdn/CDNConstruct.ts#L92)
 
 ___
 
@@ -113,7 +113,7 @@ ___
 
 • **codePaths**: `string`[]
 
-**`description`** The absolute paths for the code that will be uploaded and
+The absolute paths for the code that will be uploaded and
 hosted via S3/CloudFront.
 
 #### Inherited from
@@ -122,7 +122,7 @@ hosted via S3/CloudFront.
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:44](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/cdn/CDNConstruct.ts#L44)
+[src/stacks/cdn/CDNConstruct.ts:52](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/cdn/CDNConstruct.ts#L52)
 
 ___
 
@@ -130,7 +130,7 @@ ___
 
 • `Optional` **deploymentRole**: `IRole`
 
-**`description`** Optional. Deployment role to use when publishing files to S3.
+Deployment role to use when publishing files to S3.
 
 #### Inherited from
 
@@ -138,7 +138,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:113](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/cdn/CDNConstruct.ts#L113)
+[src/stacks/cdn/CDNConstruct.ts:124](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/cdn/CDNConstruct.ts#L124)
 
 ___
 
@@ -146,13 +146,16 @@ ___
 
 • `Optional` **dontOverrideLogicalId**: false \| true
 
+Option to not use fixed logicalId's for the RestApi resource. For more
+info, see [Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
+
 #### Inherited from
 
 [CDNConstructProps](CDNConstructProps).[dontOverrideLogicalId](CDNConstructProps#dontoverridelogicalid)
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:36](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/cdn/CDNConstruct.ts#L36)
+[src/stacks/cdn/CDNConstruct.ts:46](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/cdn/CDNConstruct.ts#L46)
 
 ___
 
@@ -160,7 +163,7 @@ ___
 
 • `Optional` **hostedZone**: `IHostedZone`
 
-**`description`** HostedZone to add Distribution AliasRecords to.
+HostedZone to add Distribution AliasRecords to.
 
 #### Inherited from
 
@@ -168,7 +171,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:78](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/cdn/CDNConstruct.ts#L78)
+[src/stacks/cdn/CDNConstruct.ts:87](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/cdn/CDNConstruct.ts#L87)
 
 ___
 
@@ -225,7 +228,10 @@ ___
 
 ### prefix
 
-• **prefix**: `string`
+• `Optional` **prefix**: `string`
+
+The prefix to use for the resources.  Will prefix all resource names with this value. For more info, see
+[Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
 
 #### Inherited from
 
@@ -233,7 +239,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:34](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/cdn/CDNConstruct.ts#L34)
+[src/stacks/cdn/CDNConstruct.ts:40](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/cdn/CDNConstruct.ts#L40)
 
 ___
 
@@ -247,7 +253,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:38](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/cdn/CDNConstruct.ts#L38)
+[src/stacks/cdn/CDNConstruct.ts:34](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/cdn/CDNConstruct.ts#L34)
 
 ___
 
@@ -255,7 +261,7 @@ ___
 
 • `Optional` **rootDomain**: `string`
 
-**`description`** Allows hosting at a custom, non-cloudfront, url.  The root domain
+Allows hosting at a custom, non-cloudfront, url.  The root domain
 of the website that is being hosted without the sub-domain. ie. `example.com`.
 If provided, must also provide a value for `stage`, `hostedZone` and `certificate`.
 
@@ -265,7 +271,7 @@ If provided, must also provide a value for `stage`, `hostedZone` and `certificat
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:57](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/cdn/CDNConstruct.ts#L57)
+[src/stacks/cdn/CDNConstruct.ts:65](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/cdn/CDNConstruct.ts#L65)
 
 ___
 
@@ -275,7 +281,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNNestedStack.ts:10](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/cdn/CDNNestedStack.ts#L10)
+[src/stacks/cdn/CDNNestedStack.ts:10](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/cdn/CDNNestedStack.ts#L10)
 
 ___
 
@@ -283,7 +289,7 @@ ___
 
 • `Optional` **stage**: `string`
 
-**`description`** The stage of the website that is being hosted. ex. Using `qa`
+The stage of the website that is being hosted. ex. Using `qa`
 as the stage will host the site at the sub-domain `qa.example.com`.  When
 the stage is prod a naked domain will be used and the `buildWwwSubdomain`
 property will be checked.  If `true` the `www` sub-domain will also be built.
@@ -295,4 +301,4 @@ ex. `www.example.com` and `example.com` will both be valid.
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:66](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/cdn/CDNConstruct.ts#L66)
+[src/stacks/cdn/CDNConstruct.ts:74](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/cdn/CDNConstruct.ts#L74)
