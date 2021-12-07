@@ -32,7 +32,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:183](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/cdn/CDNConstruct.ts#L183)
+[src/stacks/cdn/CDNConstruct.ts:183](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/cdn/CDNConstruct.ts#L183)
 
 ## Properties
 
@@ -42,7 +42,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:176](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/cdn/CDNConstruct.ts#L176)
+[src/stacks/cdn/CDNConstruct.ts:176](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/cdn/CDNConstruct.ts#L176)
 
 ___
 
@@ -52,7 +52,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:178](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/cdn/CDNConstruct.ts#L178)
+[src/stacks/cdn/CDNConstruct.ts:178](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/cdn/CDNConstruct.ts#L178)
 
 ___
 
@@ -62,7 +62,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:177](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/cdn/CDNConstruct.ts#L177)
+[src/stacks/cdn/CDNConstruct.ts:177](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/cdn/CDNConstruct.ts#L177)
 
 ___
 
@@ -90,7 +90,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:181](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/cdn/CDNConstruct.ts#L181)
+[src/stacks/cdn/CDNConstruct.ts:181](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/cdn/CDNConstruct.ts#L181)
 
 ___
 
@@ -100,7 +100,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:179](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/cdn/CDNConstruct.ts#L179)
+[src/stacks/cdn/CDNConstruct.ts:179](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/cdn/CDNConstruct.ts#L179)
 
 ## Methods
 
@@ -114,7 +114,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:215](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/cdn/CDNConstruct.ts#L215)
+[src/stacks/cdn/CDNConstruct.ts:215](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/cdn/CDNConstruct.ts#L215)
 
 ___
 
@@ -128,7 +128,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:444](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/cdn/CDNConstruct.ts#L444)
+[src/stacks/cdn/CDNConstruct.ts:444](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/cdn/CDNConstruct.ts#L444)
 
 ___
 
@@ -142,7 +142,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:254](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/cdn/CDNConstruct.ts#L254)
+[src/stacks/cdn/CDNConstruct.ts:254](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/cdn/CDNConstruct.ts#L254)
 
 ___
 
@@ -361,7 +361,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:142](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/cdn/CDNConstruct.ts#L142)
+[src/stacks/cdn/CDNConstruct.ts:142](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/cdn/CDNConstruct.ts#L142)
 
 ___
 
@@ -381,7 +381,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:160](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/cdn/CDNConstruct.ts#L160)
+[src/stacks/cdn/CDNConstruct.ts:160](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/cdn/CDNConstruct.ts#L160)
 
 ___
 
@@ -429,4 +429,4 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:138](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/cdn/CDNConstruct.ts#L138)
+[src/stacks/cdn/CDNConstruct.ts:138](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/cdn/CDNConstruct.ts#L138)

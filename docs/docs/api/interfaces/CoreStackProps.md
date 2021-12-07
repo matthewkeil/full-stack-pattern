@@ -49,7 +49,7 @@ ___
 
 #### Defined in
 
-[src/stacks/core/CoreConstruct.ts:17](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/core/CoreConstruct.ts#L17)
+[src/stacks/core/CoreConstruct.ts:17](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/core/CoreConstruct.ts#L17)
 
 ___
 
@@ -182,7 +182,7 @@ ___
 
 #### Defined in
 
-[src/stacks/core/CoreConstruct.ts:16](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/core/CoreConstruct.ts#L16)
+[src/stacks/core/CoreConstruct.ts:16](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/core/CoreConstruct.ts#L16)
 
 ___
 
@@ -196,7 +196,7 @@ ___
 
 #### Defined in
 
-[src/stacks/core/CoreConstruct.ts:15](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/core/CoreConstruct.ts#L15)
+[src/stacks/core/CoreConstruct.ts:15](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/core/CoreConstruct.ts#L15)
 
 ___
 
@@ -206,7 +206,7 @@ ___
 
 #### Defined in
 
-[src/stacks/core/CoreStack.ts:8](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/core/CoreStack.ts#L8)
+[src/stacks/core/CoreStack.ts:8](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/core/CoreStack.ts#L8)
 
 ___
 
@@ -240,7 +240,7 @@ ___
 
 #### Defined in
 
-[src/stacks/core/CoreConstruct.ts:18](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/core/CoreConstruct.ts#L18)
+[src/stacks/core/CoreConstruct.ts:18](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/core/CoreConstruct.ts#L18)
 
 ___
 
@@ -254,7 +254,7 @@ ___
 
 #### Defined in
 
-[src/stacks/core/CoreConstruct.ts:14](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/core/CoreConstruct.ts#L14)
+[src/stacks/core/CoreConstruct.ts:14](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/core/CoreConstruct.ts#L14)
 
 ___
 

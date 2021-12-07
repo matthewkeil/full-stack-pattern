@@ -32,7 +32,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/constructs/Tables.ts:15](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Tables.ts#L15)
+[src/constructs/Tables.ts:31](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Tables.ts#L31)
 
 ## Properties
 
@@ -42,7 +42,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/constructs/Tables.ts:13](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Tables.ts#L13)
+[src/constructs/Tables.ts:29](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Tables.ts#L29)
 
 ___
 
@@ -74,7 +74,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Tables.ts:12](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Tables.ts#L12)
+[src/constructs/Tables.ts:28](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Tables.ts#L28)
 
 ## Methods
 
@@ -94,7 +94,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Tables.ts:24](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Tables.ts#L24)
+[src/constructs/Tables.ts:40](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Tables.ts#L40)
 
 ___
 

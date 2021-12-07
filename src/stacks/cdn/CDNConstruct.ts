@@ -31,33 +31,41 @@ import { AssetCode, Runtime } from '@aws-cdk/aws-lambda';
 import { resolve } from 'path';
 
 export interface CDNConstructProps {
-  prefix: string;
-
-  dontOverrideLogicalId?: boolean;
-
   removalPolicy?: RemovalPolicy;
 
   /**
-   * @description The absolute paths for the code that will be uploaded and
+   * The prefix to use for the resources.  Will prefix all resource names with this value. For more info, see
+   * [Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
+   */
+  prefix?: string;
+
+  /**
+   * Option to not use fixed logicalId's for the RestApi resource. For more
+   * info, see [Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
+   */
+  dontOverrideLogicalId?: boolean;
+
+  /**
+   * The absolute paths for the code that will be uploaded and
    * hosted via S3/CloudFront.
    */
   codePaths: string[];
 
   /**
-   * @description When using an existing bucket, pass in the bucketName that should
+   * When using an existing bucket, pass in the bucketName that should
    * be used.
    */
   bucketName?: string;
 
   /**
-   * @description Allows hosting at a custom, non-cloudfront, url.  The root domain
+   * Allows hosting at a custom, non-cloudfront, url.  The root domain
    * of the website that is being hosted without the sub-domain. ie. `example.com`.
    * If provided, must also provide a value for `stage`, `hostedZone` and `certificate`.
    */
   rootDomain?: string;
 
   /**
-   * @description The stage of the website that is being hosted. ex. Using `qa`
+   * The stage of the website that is being hosted. ex. Using `qa`
    * as the stage will host the site at the sub-domain `qa.example.com`.  When
    * the stage is prod a naked domain will be used and the `buildWwwSubdomain`
    * property will be checked.  If `true` the `www` sub-domain will also be built.
@@ -66,24 +74,25 @@ export interface CDNConstructProps {
   stage?: string;
 
   /**
-   * @default true
-   * @description will build www.{rootDomain} alias on `prod` stage in addition
+   * will build www.{rootDomain} alias on `prod` stage in addition
    * to the naked rootDomain. For non-production stages, this is a no-op.
+   *
+   * @default true
    */
   buildWwwSubdomain?: boolean;
 
   /**
-   * @description HostedZone to add Distribution AliasRecords to.
+   * HostedZone to add Distribution AliasRecords to.
    */
   hostedZone?: IHostedZone;
 
   /**
-   * @description The TLS/SSL certificate to use for the distribution.
+   * The TLS/SSL certificate to use for the distribution.
    */
   certificate?: ICertificate;
 
   /**
-   * @description Optional. If creating the hosting bucket, these props will be
+   * Optional. If creating the hosting bucket, these props will be
    * passed to the Bucket construct. To set removal policy use
    * `CDNConstructProps.removalPolicy`.  When removalPolicy is set to DESTROY,
    * which is the default behavior, autoDeleteObjects will be enabled.
@@ -92,23 +101,25 @@ export interface CDNConstructProps {
 
   api?: {
     /**
-     * @description The RestApi that is being hit via CloudFront.
+     * The RestApi that is being hit via CloudFront.
      */
     restApi: IRestApi;
     /**
+     * The api stage (path suffix) at the end of the execute domain.
+     *
      * @default "/prod"
-     * @description The api stage (path suffix) at the end of the execute domain.
      */
     apiStage?: string;
     /**
+     * The url paths that will be forwarded to the api.
+     *
      * @default "/api/*"
-     * @description The url paths that will be forwarded to the api.
      */
     apiPathPattern?: string;
   };
 
   /**
-   * @description Optional. Deployment role to use when publishing files to S3.
+   * Deployment role to use when publishing files to S3.
    */
   deploymentRole?: IRole;
 

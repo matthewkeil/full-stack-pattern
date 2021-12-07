@@ -32,7 +32,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/constructs/Api.ts:97](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L97)
+[src/constructs/Api.ts:97](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Api.ts#L97)
 
 ## Properties
 
@@ -42,7 +42,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/constructs/Api.ts:91](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L91)
+[src/constructs/Api.ts:91](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Api.ts#L91)
 
 ___
 
@@ -52,7 +52,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Api.ts:90](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L90)
+[src/constructs/Api.ts:90](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Api.ts#L90)
 
 ___
 
@@ -62,7 +62,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Api.ts:89](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L89)
+[src/constructs/Api.ts:89](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Api.ts#L89)
 
 ___
 
@@ -72,7 +72,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Api.ts:87](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L87)
+[src/constructs/Api.ts:87](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Api.ts#L87)
 
 ___
 
@@ -82,7 +82,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Api.ts:92](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L92)
+[src/constructs/Api.ts:92](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Api.ts#L92)
 
 ___
 
@@ -92,7 +92,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Api.ts:95](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L95)
+[src/constructs/Api.ts:95](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Api.ts#L95)
 
 ___
 
@@ -102,7 +102,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Api.ts:94](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L94)
+[src/constructs/Api.ts:94](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Api.ts#L94)
 
 ___
 
@@ -130,7 +130,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Api.ts:93](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L93)
+[src/constructs/Api.ts:93](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Api.ts#L93)
 
 ## Methods
 
@@ -150,7 +150,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Api.ts:240](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L240)
+[src/constructs/Api.ts:240](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Api.ts#L240)
 
 ___
 
@@ -164,7 +164,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Api.ts:203](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L203)
+[src/constructs/Api.ts:203](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Api.ts#L203)
 
 ___
 
@@ -188,7 +188,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Api.ts:155](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L155)
+[src/constructs/Api.ts:155](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Api.ts#L155)
 
 ___
 
@@ -208,7 +208,7 @@ ___
 
 #### Defined in
 
-[src/constructs/Api.ts:147](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L147)
+[src/constructs/Api.ts:147](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Api.ts#L147)
 
 ___
 

@@ -103,7 +103,7 @@ const lambdas = new Lambdas(this, 'Lambdas', {
       environment: {
         ANOTHER_ENV_VAR: 'another-important-value'
       }
-    }
+    },
     {
       name: 'function-3',
       handler: 'function3/index.handler',
@@ -115,7 +115,7 @@ const lambdas = new Lambdas(this, 'Lambdas', {
 
 // added function will use any defaults set on the Lambdas construct
 lambdas.addLambda({
-  name: 'function-3',
-  handler: 'function3/index.handler'
+  name: 'function-4',
+  handler: 'function4/index.handler'
 });
 ```

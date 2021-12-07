@@ -6,6 +6,18 @@ sidebar_position: 0
 custom_edit_url: null
 ---
 
+Any prop that can be set on an individual table can be set on this
+construct and all tables made in this group will have those values. Only
+the props 'tableName', 'name', 'logicalId', 'lsi' and 'gsi' are available,
+as those cannot be set for a group as they should be unique.
+
+By default the individual props will get merged in with the ones set for
+the group and anything specifically set on one table will supercede the
+group values. Ie, if billingMode is set on the TablesProps as
+BillingMode.PAY_PER_REQUEST and on an individual table, in the
+TablesProps.tables array, as BillingMode.PROVISIONED, then the function will
+use node BillingMode.PROVISIONED. See the Usage Example below.
+
 ## Hierarchy
 
 - `Omit`<`TableProps`, `OmittedTablesProps`\>
@@ -69,7 +81,7 @@ Omit.dontOverrideLogicalId
 
 #### Defined in
 
-[src/constructs/Table.ts:112](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Table.ts#L112)
+[src/constructs/Table.ts:112](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Table.ts#L112)
 
 ___
 
@@ -162,13 +174,16 @@ ___
 
 • `Optional` **prefix**: `string`
 
-#### Overrides
+The prefix to use for the resources.  Will prefix all resource names with this value. For more info, see
+[Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
+
+#### Inherited from
 
 Omit.prefix
 
 #### Defined in
 
-[src/constructs/Tables.ts:8](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Tables.ts#L8)
+[src/constructs/Table.ts:42](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Table.ts#L42)
 
 ___
 
@@ -304,9 +319,11 @@ ___
 
 • `Optional` **tables**: `TableProps`[]
 
+Array of tablesProps to use for creation of multiple tables.
+
 #### Defined in
 
-[src/constructs/Tables.ts:9](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Tables.ts#L9)
+[src/constructs/Tables.ts:25](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Tables.ts#L25)
 
 ___
 

@@ -32,7 +32,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/stacks/core/CoreConstruct.ts:25](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/core/CoreConstruct.ts#L25)
+[src/stacks/core/CoreConstruct.ts:25](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/core/CoreConstruct.ts#L25)
 
 ## Properties
 
@@ -42,7 +42,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/stacks/core/CoreConstruct.ts:23](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/core/CoreConstruct.ts#L23)
+[src/stacks/core/CoreConstruct.ts:23](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/core/CoreConstruct.ts#L23)
 
 ___
 
@@ -52,7 +52,7 @@ ___
 
 #### Defined in
 
-[src/stacks/core/CoreConstruct.ts:22](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/core/CoreConstruct.ts#L22)
+[src/stacks/core/CoreConstruct.ts:22](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/core/CoreConstruct.ts#L22)
 
 ___
 

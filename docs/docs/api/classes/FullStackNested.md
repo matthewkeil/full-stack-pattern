@@ -32,7 +32,7 @@ Stack.constructor
 
 #### Defined in
 
-[src/patterns/FullStackNested.ts:12](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/patterns/FullStackNested.ts#L12)
+[src/patterns/FullStackNested.ts:12](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/patterns/FullStackNested.ts#L12)
 
 ## Properties
 
@@ -111,7 +111,7 @@ ___
 
 #### Defined in
 
-[src/patterns/FullStackNested.ts:10](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/patterns/FullStackNested.ts#L10)
+[src/patterns/FullStackNested.ts:10](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/patterns/FullStackNested.ts#L10)
 
 ___
 
@@ -139,7 +139,7 @@ ___
 
 #### Defined in
 
-[src/patterns/FullStackNested.ts:8](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/patterns/FullStackNested.ts#L8)
+[src/patterns/FullStackNested.ts:8](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/patterns/FullStackNested.ts#L8)
 
 ___
 
@@ -149,7 +149,7 @@ ___
 
 #### Defined in
 
-[src/patterns/FullStackNested.ts:9](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/patterns/FullStackNested.ts#L9)
+[src/patterns/FullStackNested.ts:9](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/patterns/FullStackNested.ts#L9)
 
 ___
 
@@ -159,7 +159,7 @@ ___
 
 #### Defined in
 
-[src/patterns/FullStackNested.ts:6](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/patterns/FullStackNested.ts#L6)
+[src/patterns/FullStackNested.ts:6](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/patterns/FullStackNested.ts#L6)
 
 ___
 
@@ -199,7 +199,7 @@ ___
 
 #### Defined in
 
-[src/patterns/FullStackNested.ts:7](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/patterns/FullStackNested.ts#L7)
+[src/patterns/FullStackNested.ts:7](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/patterns/FullStackNested.ts#L7)
 
 ___
 
@@ -1579,7 +1579,7 @@ ___
 
 #### Defined in
 
-[src/patterns/FullStackNested.ts:26](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/patterns/FullStackNested.ts#L26)
+[src/patterns/FullStackNested.ts:26](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/patterns/FullStackNested.ts#L26)
 
 ___
 

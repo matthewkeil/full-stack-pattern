@@ -127,15 +127,17 @@ export class Api extends Construct {
       );
     }
 
+    /* eslint-disable quotes */
     this.allowedOrigins = this.props.defaultCorsPreflightOptions?.allowOrigins
-      ? `"${this.props.defaultCorsPreflightOptions.allowOrigins.join(',')}"`
-      : '"*"';
+      ? `'${this.props.defaultCorsPreflightOptions.allowOrigins.join(',')}''`
+      : "'*'";
     this.allowedMethods = this.props.defaultCorsPreflightOptions?.allowMethods
-      ? `"${this.props.defaultCorsPreflightOptions.allowMethods.join(',')}"`
-      : '"OPTIONS,GET,PUT,POST,PATCH,DELETE"';
+      ? `'${this.props.defaultCorsPreflightOptions.allowMethods.join(',')}'`
+      : "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'";
     this.allowedHeaders = this.props.defaultCorsPreflightOptions?.allowHeaders
-      ? `"${this.props.defaultCorsPreflightOptions.allowHeaders.join(',')}"`
-      : '"Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent"';
+      ? `'${this.props.defaultCorsPreflightOptions.allowHeaders.join(',')}'`
+      : "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'";
+    /* eslint-enable quotes */
 
     this.addGatewayResponses();
 
@@ -238,7 +240,6 @@ export class Api extends Construct {
   }
 
   private addCorsMockIntegration(apiResource: IResource) {
-    // TODO: verify how this mock synth's with different props
     const integrationOptions: IntegrationOptions = {
       integrationResponses: [
         {
@@ -246,11 +247,7 @@ export class Api extends Construct {
           responseParameters: {
             'method.response.header.Access-Control-Allow-Headers': this.allowedHeaders,
             'method.response.header.Access-Control-Allow-Origin': this.allowedOrigins,
-            'method.response.header.Access-Control-Allow-Methods': this.allowedMethods,
-            'method.response.header.Access-Control-Allow-Credentials': this.props
-              .defaultCorsPreflightOptions?.allowCredentials
-              ? '"true"'
-              : '"false"'
+            'method.response.header.Access-Control-Allow-Methods': this.allowedMethods
           }
         }
       ],
@@ -272,6 +269,11 @@ export class Api extends Construct {
       ]
     };
     if (this.props.defaultCorsPreflightOptions?.allowCredentials) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (integrationOptions as any).integrationResponses[0].responseParameters[
+        'method.response.header.Access-Control-Allow-Credentials'
+        // eslint-disable-next-line quotes
+      ] = "'true'";
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (methodOptions as any).methodResponses[0].responseParameters[
         'method.response.header.Access-Control-Allow-Credentials'

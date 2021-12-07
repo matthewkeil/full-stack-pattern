@@ -6,3 +6,4 @@ coverage
 spec/test
 runTestSuite.sh
 bin/insert-data.ts
+.VSCodeCounter

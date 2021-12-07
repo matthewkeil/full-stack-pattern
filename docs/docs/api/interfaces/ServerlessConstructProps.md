@@ -85,7 +85,7 @@ Omit.api
 
 #### Defined in
 
-[src/constructs/Lambda.ts:146](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L146)
+[src/constructs/Lambda.ts:146](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Lambda.ts#L146)
 
 ___
 
@@ -206,7 +206,7 @@ Omit.buildDevServer
 
 #### Defined in
 
-[src/constructs/Api.ts:71](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L71)
+[src/constructs/Api.ts:71](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Api.ts#L71)
 
 ___
 
@@ -223,7 +223,7 @@ Omit.canInvoke
 
 #### Defined in
 
-[src/constructs/Lambda.ts:111](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L111)
+[src/constructs/Lambda.ts:111](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Lambda.ts#L111)
 
 ___
 
@@ -282,7 +282,7 @@ Omit.code
 
 #### Defined in
 
-[src/constructs/Lambdas.ts:56](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambdas.ts#L56)
+[src/constructs/Lambdas.ts:56](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Lambdas.ts#L56)
 
 ___
 
@@ -312,7 +312,7 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessConstruct.ts:17](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/stacks/serverless/ServerlessConstruct.ts#L17)
+[src/stacks/serverless/ServerlessConstruct.ts:17](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/stacks/serverless/ServerlessConstruct.ts#L17)
 
 ___
 
@@ -601,7 +601,7 @@ info, see [Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
 
 #### Defined in
 
-[src/constructs/Api.ts:83](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L83)
+[src/constructs/Api.ts:83](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Api.ts#L83)
 
 ___
 
@@ -782,7 +782,7 @@ Omit.events
 
 #### Defined in
 
-[src/constructs/Lambda.ts:137](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L137)
+[src/constructs/Lambda.ts:137](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Lambda.ts#L137)
 
 ___
 
@@ -801,7 +801,7 @@ Omit.existingLogGroups
 
 #### Defined in
 
-[src/constructs/Lambda.ts:154](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L154)
+[src/constructs/Lambda.ts:154](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Lambda.ts#L154)
 
 ___
 
@@ -936,7 +936,7 @@ Omit.gatewayResponses
 
 #### Defined in
 
-[src/constructs/Api.ts:61](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L61)
+[src/constructs/Api.ts:61](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Api.ts#L61)
 
 ___
 
@@ -1069,7 +1069,7 @@ Omit.lambdas
 
 #### Defined in
 
-[src/constructs/Lambdas.ts:43](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambdas.ts#L43)
+[src/constructs/Lambdas.ts:43](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Lambdas.ts#L43)
 
 ___
 
@@ -1086,7 +1086,7 @@ Omit.layers
 
 #### Defined in
 
-[src/constructs/Lambda.ts:100](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L100)
+[src/constructs/Lambda.ts:100](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Lambda.ts#L100)
 
 ___
 
@@ -1169,7 +1169,7 @@ Omit.loggingLevel
 
 #### Defined in
 
-[src/constructs/Lambda.ts:125](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L125)
+[src/constructs/Lambda.ts:125](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Lambda.ts#L125)
 
 ___
 
@@ -1186,7 +1186,7 @@ Omit.logicalId
 
 #### Defined in
 
-[src/constructs/Api.ts:77](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L77)
+[src/constructs/Api.ts:77](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Api.ts#L77)
 
 ___
 
@@ -1334,7 +1334,7 @@ Omit.name
 
 #### Defined in
 
-[src/constructs/Api.ts:37](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L37)
+[src/constructs/Api.ts:37](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Api.ts#L37)
 
 ___
 
@@ -1510,7 +1510,7 @@ is provided then the apiName will be `prefix`. For more info, see
 
 #### Defined in
 
-[src/constructs/Api.ts:45](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L45)
+[src/constructs/Api.ts:45](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Api.ts#L45)
 
 ___
 
@@ -1746,7 +1746,7 @@ Omit.role
 
 #### Defined in
 
-[src/constructs/Lambda.ts:105](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L105)
+[src/constructs/Lambda.ts:105](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Lambda.ts#L105)
 
 ___
 
@@ -1762,7 +1762,7 @@ Omit.runtime
 
 #### Defined in
 
-[src/constructs/Lambdas.ts:48](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambdas.ts#L48)
+[src/constructs/Lambdas.ts:48](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Lambdas.ts#L48)
 
 ___
 
@@ -1854,7 +1854,7 @@ Omit.stage
 
 #### Defined in
 
-[src/constructs/Api.ts:30](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L30)
+[src/constructs/Api.ts:30](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Api.ts#L30)
 
 ___
 
@@ -1916,7 +1916,7 @@ Omit.table
 
 #### Defined in
 
-[src/constructs/Lambda.ts:163](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L163)
+[src/constructs/Lambda.ts:163](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Lambda.ts#L163)
 
 ___
 
@@ -1941,7 +1941,7 @@ Omit.tableEnvKey
 
 #### Defined in
 
-[src/constructs/Lambda.ts:184](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L184)
+[src/constructs/Lambda.ts:184](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Lambda.ts#L184)
 
 ___
 
@@ -1949,13 +1949,15 @@ ___
 
 • `Optional` **tables**: `TableProps`[]
 
+Array of tablesProps to use for creation of multiple tables.
+
 #### Inherited from
 
 [TablesProps](TablesProps).[tables](TablesProps#tables)
 
 #### Defined in
 
-[src/constructs/Tables.ts:9](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Tables.ts#L9)
+[src/constructs/Tables.ts:25](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Tables.ts#L25)
 
 ___
 
@@ -2036,7 +2038,7 @@ Omit.userPool
 
 #### Defined in
 
-[src/constructs/Api.ts:52](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Api.ts#L52)
+[src/constructs/Api.ts:52](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Api.ts#L52)
 
 ___
 
@@ -2153,7 +2155,7 @@ Omit.warmingEvent
 
 #### Defined in
 
-[src/constructs/Lambda.ts:119](https://github.com/matthewkeil/full-stack-pattern/blob/a1528c9/src/constructs/Lambda.ts#L119)
+[src/constructs/Lambda.ts:119](https://github.com/matthewkeil/full-stack-pattern/blob/2a38eee/src/constructs/Lambda.ts#L119)
 
 ___
 
