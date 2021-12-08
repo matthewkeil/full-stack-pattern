@@ -85,7 +85,7 @@ Omit.api
 
 #### Defined in
 
-[src/constructs/Lambda.ts:146](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/constructs/Lambda.ts#L146)
+[src/constructs/Lambda.ts:146](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/constructs/Lambda.ts#L146)
 
 ___
 
@@ -206,7 +206,7 @@ Omit.buildDevServer
 
 #### Defined in
 
-[src/constructs/Api.ts:71](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/constructs/Api.ts#L71)
+[src/constructs/Api.ts:71](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/constructs/Api.ts#L71)
 
 ___
 
@@ -223,7 +223,19 @@ Omit.canInvoke
 
 #### Defined in
 
-[src/constructs/Lambda.ts:111](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/constructs/Lambda.ts#L111)
+[src/constructs/Lambda.ts:111](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/constructs/Lambda.ts#L111)
+
+___
+
+### certificate
+
+• `Optional` **certificate**: `ICertificate`
+
+For custom domain names. Required when using a rootDomain.
+
+#### Defined in
+
+[src/stacks/serverless/ServerlessConstruct.ts:37](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/serverless/ServerlessConstruct.ts#L37)
 
 ___
 
@@ -282,7 +294,7 @@ Omit.code
 
 #### Defined in
 
-[src/constructs/Lambdas.ts:56](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/constructs/Lambdas.ts#L56)
+[src/constructs/Lambdas.ts:56](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/constructs/Lambdas.ts#L56)
 
 ___
 
@@ -591,7 +603,7 @@ info, see [Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
 
 #### Defined in
 
-[src/constructs/Api.ts:83](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/constructs/Api.ts#L83)
+[src/constructs/Api.ts:83](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/constructs/Api.ts#L83)
 
 ___
 
@@ -772,7 +784,7 @@ Omit.events
 
 #### Defined in
 
-[src/constructs/Lambda.ts:137](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/constructs/Lambda.ts#L137)
+[src/constructs/Lambda.ts:137](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/constructs/Lambda.ts#L137)
 
 ___
 
@@ -791,7 +803,7 @@ Omit.existingLogGroups
 
 #### Defined in
 
-[src/constructs/Lambda.ts:154](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/constructs/Lambda.ts#L154)
+[src/constructs/Lambda.ts:154](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/constructs/Lambda.ts#L154)
 
 ___
 
@@ -926,7 +938,7 @@ Omit.gatewayResponses
 
 #### Defined in
 
-[src/constructs/Api.ts:61](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/constructs/Api.ts#L61)
+[src/constructs/Api.ts:61](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/constructs/Api.ts#L61)
 
 ___
 
@@ -949,6 +961,16 @@ Omit.groups
 #### Defined in
 
 node_modules/@aws-cdk/aws-iam/lib/policy.d.ts:67
+
+___
+
+### hostedZone
+
+• `Optional` **hostedZone**: `IHostedZone`
+
+#### Defined in
+
+[src/stacks/serverless/ServerlessConstruct.ts:39](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/serverless/ServerlessConstruct.ts#L39)
 
 ___
 
@@ -1059,7 +1081,7 @@ Omit.lambdas
 
 #### Defined in
 
-[src/constructs/Lambdas.ts:43](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/constructs/Lambdas.ts#L43)
+[src/constructs/Lambdas.ts:43](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/constructs/Lambdas.ts#L43)
 
 ___
 
@@ -1076,7 +1098,7 @@ Omit.layers
 
 #### Defined in
 
-[src/constructs/Lambda.ts:100](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/constructs/Lambda.ts#L100)
+[src/constructs/Lambda.ts:100](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/constructs/Lambda.ts#L100)
 
 ___
 
@@ -1159,7 +1181,7 @@ Omit.loggingLevel
 
 #### Defined in
 
-[src/constructs/Lambda.ts:125](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/constructs/Lambda.ts#L125)
+[src/constructs/Lambda.ts:125](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/constructs/Lambda.ts#L125)
 
 ___
 
@@ -1176,7 +1198,7 @@ Omit.logicalId
 
 #### Defined in
 
-[src/constructs/Api.ts:77](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/constructs/Api.ts#L77)
+[src/constructs/Api.ts:77](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/constructs/Api.ts#L77)
 
 ___
 
@@ -1324,7 +1346,7 @@ Omit.name
 
 #### Defined in
 
-[src/constructs/Api.ts:37](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/constructs/Api.ts#L37)
+[src/constructs/Api.ts:37](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/constructs/Api.ts#L37)
 
 ___
 
@@ -1500,7 +1522,7 @@ is provided then the apiName will be `prefix`. For more info, see
 
 #### Defined in
 
-[src/constructs/Api.ts:45](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/constructs/Api.ts#L45)
+[src/constructs/Api.ts:45](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/constructs/Api.ts#L45)
 
 ___
 
@@ -1736,7 +1758,25 @@ Omit.role
 
 #### Defined in
 
-[src/constructs/Lambda.ts:105](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/constructs/Lambda.ts#L105)
+[src/constructs/Lambda.ts:105](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/constructs/Lambda.ts#L105)
+
+___
+
+### rootDomain
+
+• `Optional` **rootDomain**: `string`
+
+The url/rootDomain for the HostedZone.  If you don not provide a
+rootDomain a CoreConstruct will not be created.
+
+**`example`** If you are hosting the ui at `www.example.com` and the api
+at `api.example.com` the rootDomain would be `example.com`  This is
+similar for branches, such as `dev.api.example.com` and
+`dev.example.com`.  The rootDomain will still be `example.com`.
+
+#### Defined in
+
+[src/stacks/serverless/ServerlessConstruct.ts:25](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/serverless/ServerlessConstruct.ts#L25)
 
 ___
 
@@ -1752,7 +1792,7 @@ Omit.runtime
 
 #### Defined in
 
-[src/constructs/Lambdas.ts:48](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/constructs/Lambdas.ts#L48)
+[src/constructs/Lambdas.ts:48](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/constructs/Lambdas.ts#L48)
 
 ___
 
@@ -1844,7 +1884,7 @@ Omit.stage
 
 #### Defined in
 
-[src/constructs/Api.ts:30](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/constructs/Api.ts#L30)
+[src/constructs/Api.ts:30](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/constructs/Api.ts#L30)
 
 ___
 
@@ -1890,6 +1930,20 @@ node_modules/@aws-cdk/aws-dynamodb/lib/table.d.ts:237
 
 ___
 
+### subDomain
+
+• `Optional` **subDomain**: `string`
+
+The api subDomain
+
+**`default`** api
+
+#### Defined in
+
+[src/stacks/serverless/ServerlessConstruct.ts:32](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/serverless/ServerlessConstruct.ts#L32)
+
+___
+
 ### table
 
 • `Optional` **table**: `string` \| `ITable`
@@ -1906,7 +1960,7 @@ Omit.table
 
 #### Defined in
 
-[src/constructs/Lambda.ts:163](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/constructs/Lambda.ts#L163)
+[src/constructs/Lambda.ts:163](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/constructs/Lambda.ts#L163)
 
 ___
 
@@ -1931,7 +1985,7 @@ Omit.tableEnvKey
 
 #### Defined in
 
-[src/constructs/Lambda.ts:184](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/constructs/Lambda.ts#L184)
+[src/constructs/Lambda.ts:184](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/constructs/Lambda.ts#L184)
 
 ___
 
@@ -1947,7 +2001,7 @@ Array of tablesProps to use for creation of multiple tables.
 
 #### Defined in
 
-[src/constructs/Tables.ts:25](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/constructs/Tables.ts#L25)
+[src/constructs/Tables.ts:25](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/constructs/Tables.ts#L25)
 
 ___
 
@@ -2028,7 +2082,7 @@ Omit.userPool
 
 #### Defined in
 
-[src/constructs/Api.ts:52](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/constructs/Api.ts#L52)
+[src/constructs/Api.ts:52](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/constructs/Api.ts#L52)
 
 ___
 
@@ -2145,7 +2199,7 @@ Omit.warmingEvent
 
 #### Defined in
 
-[src/constructs/Lambda.ts:119](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/constructs/Lambda.ts#L119)
+[src/constructs/Lambda.ts:119](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/constructs/Lambda.ts#L119)
 
 ___
 

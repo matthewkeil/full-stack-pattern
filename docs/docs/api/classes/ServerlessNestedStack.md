@@ -32,7 +32,7 @@ NestedStack.constructor
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessNestedStack.ts:20](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/serverless/ServerlessNestedStack.ts#L20)
+[src/stacks/serverless/ServerlessNestedStack.ts:21](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/serverless/ServerlessNestedStack.ts#L21)
 
 ## Properties
 
@@ -97,7 +97,7 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessNestedStack.ts:16](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/serverless/ServerlessNestedStack.ts#L16)
+[src/stacks/serverless/ServerlessNestedStack.ts:16](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/serverless/ServerlessNestedStack.ts#L16)
 
 ___
 
@@ -125,7 +125,17 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessNestedStack.ts:18](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/serverless/ServerlessNestedStack.ts#L18)
+[src/stacks/serverless/ServerlessNestedStack.ts:19](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/serverless/ServerlessNestedStack.ts#L19)
+
+___
+
+### domain
+
+• `Optional` **domain**: `string`
+
+#### Defined in
+
+[src/stacks/serverless/ServerlessNestedStack.ts:17](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/serverless/ServerlessNestedStack.ts#L17)
 
 ___
 
@@ -165,7 +175,7 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessNestedStack.ts:14](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/serverless/ServerlessNestedStack.ts#L14)
+[src/stacks/serverless/ServerlessNestedStack.ts:14](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/serverless/ServerlessNestedStack.ts#L14)
 
 ___
 
@@ -266,7 +276,7 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessNestedStack.ts:15](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/serverless/ServerlessNestedStack.ts#L15)
+[src/stacks/serverless/ServerlessNestedStack.ts:15](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/serverless/ServerlessNestedStack.ts#L15)
 
 ___
 

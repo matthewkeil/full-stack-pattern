@@ -538,3 +538,5 @@ export class CDNConstruct extends Construct {
     new BucketDeployment(this, 'BucketDeployment', baseBucketDeploymentProps);
   }
 }
+
+

@@ -61,7 +61,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[lib/HttpMethod.ts:2](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/lib/HttpMethod.ts#L2)
+[lib/HttpMethod.ts:2](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/HttpMethod.ts#L2)
 
 ___
 
@@ -71,7 +71,7 @@ ___
 
 #### Defined in
 
-[lib/Logger.ts:1](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/lib/Logger.ts#L1)
+[lib/Logger.ts:1](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/Logger.ts#L1)
 
 ___
 
@@ -87,7 +87,7 @@ ___
 
 #### Defined in
 
-[lib/Mutable.ts:3](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/lib/Mutable.ts#L3)
+[lib/Mutable.ts:3](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/Mutable.ts#L3)
 
 ## Variables
 
@@ -97,7 +97,7 @@ ___
 
 #### Defined in
 
-[lib/HttpMethod.ts:1](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/lib/HttpMethod.ts#L1)
+[lib/HttpMethod.ts:1](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/HttpMethod.ts#L1)
 
 ## Functions
 
@@ -120,7 +120,7 @@ ___
 
 #### Defined in
 
-[lib/aws/s3.ts:2](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/lib/aws/s3.ts#L2)
+[lib/aws/s3.ts:2](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/aws/s3.ts#L2)
 
 ___
 
@@ -142,7 +142,7 @@ ___
 
 #### Defined in
 
-[lib/buildLayer.ts:30](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/lib/buildLayer.ts#L30)
+[lib/buildLayer.ts:30](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/buildLayer.ts#L30)
 
 ___
 
@@ -162,7 +162,7 @@ ___
 
 #### Defined in
 
-[lib/changeCase.ts:11](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/lib/changeCase.ts#L11)
+[lib/changeCase.ts:11](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/changeCase.ts#L11)
 
 ___
 
@@ -183,7 +183,7 @@ ___
 
 #### Defined in
 
-[lib/exec.ts:3](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/lib/exec.ts#L3)
+[lib/exec.ts:3](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/exec.ts#L3)
 
 ___
 
@@ -206,7 +206,7 @@ ___
 
 #### Defined in
 
-[lib/aws/cwLogs.ts:2](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/lib/aws/cwLogs.ts#L2)
+[lib/aws/cwLogs.ts:2](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/aws/cwLogs.ts#L2)
 
 ___
 
@@ -220,7 +220,7 @@ ___
 
 #### Defined in
 
-[lib/aws/apiGateway.ts:5](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/lib/aws/apiGateway.ts#L5)
+[lib/aws/apiGateway.ts:5](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/aws/apiGateway.ts#L5)
 
 ___
 
@@ -243,7 +243,7 @@ ___
 
 #### Defined in
 
-[lib/aws/certificateManager.ts:4](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/lib/aws/certificateManager.ts#L4)
+[lib/aws/certificateManager.ts:4](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/aws/certificateManager.ts#L4)
 
 ___
 
@@ -277,7 +277,7 @@ ___
 
 #### Defined in
 
-[lib/getConfig.ts:4](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/lib/getConfig.ts#L4)
+[lib/getConfig.ts:4](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/getConfig.ts#L4)
 
 ___
 
@@ -300,7 +300,7 @@ ___
 
 #### Defined in
 
-[lib/aws/route53.ts:4](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/lib/aws/route53.ts#L4)
+[lib/aws/route53.ts:4](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/aws/route53.ts#L4)
 
 ___
 
@@ -314,7 +314,7 @@ ___
 
 #### Defined in
 
-[lib/getLocalGitBranch.ts:3](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/lib/getLocalGitBranch.ts#L3)
+[lib/getLocalGitBranch.ts:3](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/getLocalGitBranch.ts#L3)
 
 ___
 
@@ -336,7 +336,7 @@ ___
 
 #### Defined in
 
-[providers/configFileProvider/index.ts:191](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/providers/configFileProvider/index.ts#L191)
+[providers/configFileProvider/index.ts:191](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/providers/configFileProvider/index.ts#L191)
 
 ___
 
@@ -356,7 +356,7 @@ value is "GET" \| "PUT" \| "POST" \| "PATCH" \| "DELETE" \| "HEAD" \| "OPTIONS"
 
 #### Defined in
 
-[lib/HttpMethod.ts:3](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/lib/HttpMethod.ts#L3)
+[lib/HttpMethod.ts:3](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/HttpMethod.ts#L3)
 
 ___
 
@@ -379,7 +379,7 @@ ___
 
 #### Defined in
 
-[lib/aws/dynamodb.ts:2](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/lib/aws/dynamodb.ts#L2)
+[lib/aws/dynamodb.ts:2](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/aws/dynamodb.ts#L2)
 
 ___
 
@@ -405,7 +405,7 @@ ___
 
 #### Defined in
 
-[lib/mergeProps.ts:28](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/lib/mergeProps.ts#L28)
+[lib/mergeProps.ts:28](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/mergeProps.ts#L28)
 
 ___
 
@@ -425,7 +425,7 @@ ___
 
 #### Defined in
 
-[lib/normalizeDomain.ts:1](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/lib/normalizeDomain.ts#L1)
+[lib/normalizeDomain.ts:1](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/normalizeDomain.ts#L1)
 
 ___
 
@@ -445,7 +445,7 @@ ___
 
 #### Defined in
 
-[lib/changeCase.ts:23](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/lib/changeCase.ts#L23)
+[lib/changeCase.ts:23](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/changeCase.ts#L23)
 
 ___
 
@@ -465,7 +465,7 @@ ___
 
 #### Defined in
 
-[lib/changeCase.ts:26](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/lib/changeCase.ts#L26)
+[lib/changeCase.ts:26](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/changeCase.ts#L26)
 
 ___
 
@@ -485,7 +485,7 @@ ___
 
 #### Defined in
 
-[lib/changeCase.ts:17](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/lib/changeCase.ts#L17)
+[lib/changeCase.ts:17](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/changeCase.ts#L17)
 
 ___
 
@@ -505,4 +505,4 @@ ___
 
 #### Defined in
 
-[lib/changeCase.ts:20](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/lib/changeCase.ts#L20)
+[lib/changeCase.ts:20](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/changeCase.ts#L20)

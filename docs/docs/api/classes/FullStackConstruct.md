@@ -34,47 +34,47 @@ Construct.constructor
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:75](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackConstruct.ts#L75)
+[src/patterns/FullStackConstruct.ts:226](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/patterns/FullStackConstruct.ts#L226)
 
 ## Properties
 
-### auth
+### cdn
 
-• **auth**: [`CognitoStack`](CognitoStack) \| [`CognitoNestedStack`](CognitoNestedStack)
+• `Optional` **cdn**: [`CDNStack`](CDNStack) \| [`CDNNestedStack`](CDNNestedStack)
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:72](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackConstruct.ts#L72)
+[src/patterns/FullStackConstruct.ts:221](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/patterns/FullStackConstruct.ts#L221)
 
 ___
 
-### backend
+### cognito
 
-• **backend**: [`ServerlessStack`](ServerlessStack) \| [`ServerlessNestedStack`](ServerlessNestedStack)
+• `Optional` **cognito**: [`CognitoStack`](CognitoStack) \| [`CognitoNestedStack`](CognitoNestedStack)
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:73](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackConstruct.ts#L73)
+[src/patterns/FullStackConstruct.ts:222](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/patterns/FullStackConstruct.ts#L222)
 
 ___
 
 ### core
 
-• **core**: [`CoreStack`](CoreStack) \| [`CoreNestedStack`](CoreNestedStack)
+• `Optional` **core**: [`CoreStack`](CoreStack) \| [`CoreNestedStack`](CoreNestedStack)
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:70](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackConstruct.ts#L70)
+[src/patterns/FullStackConstruct.ts:220](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/patterns/FullStackConstruct.ts#L220)
 
 ___
 
-### frontend
+### domain
 
-• **frontend**: [`CDNStack`](CDNStack) \| [`CDNNestedStack`](CDNNestedStack)
+• `Optional` **domain**: `string`
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:71](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackConstruct.ts#L71)
+[src/patterns/FullStackConstruct.ts:224](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/patterns/FullStackConstruct.ts#L224)
 
 ___
 
@@ -94,11 +94,25 @@ Construct.node
 
 node_modules/@aws-cdk/core/lib/construct-compat.d.ts:77
 
+___
+
+### serverless
+
+• `Optional` **serverless**: [`ServerlessStack`](ServerlessStack) \| [`ServerlessNestedStack`](ServerlessNestedStack)
+
+#### Defined in
+
+[src/patterns/FullStackConstruct.ts:223](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/patterns/FullStackConstruct.ts#L223)
+
 ## Methods
 
 ### addConfigFile
 
 ▸ **addConfigFile**(`__namedParameters`): `void`
+
+Builds and uploads a configuration file to the ui bucket
+
+See [ConfigFile](https://full-stack-pattern.matthewkeil.com/docs/constructs/configFile) for more information
 
 #### Parameters
 
@@ -112,7 +126,7 @@ node_modules/@aws-cdk/core/lib/construct-compat.d.ts:77
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:180](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackConstruct.ts#L180)
+[src/patterns/FullStackConstruct.ts:361](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/patterns/FullStackConstruct.ts#L361)
 
 ___
 
@@ -344,6 +358,13 @@ ___
 
 ▸ `Static` **lookupExistingResources**(`props`): `Promise`<[`FullStackConstructProps`](../interfaces/FullStackConstructProps)\>
 
+Is a helper function for the constructor.  You pass in the props you want
+to use for the FullStackConstruct.  This function will fill some pieces
+from the environment, for example the hostedZoneId.
+
+Calls the underlying stacks to do their own lookups.  For more information
+see the docs for each stack
+
 #### Parameters
 
 | Name | Type |
@@ -356,4 +377,4 @@ ___
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:200](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackConstruct.ts#L200)
+[src/patterns/FullStackConstruct.ts:179](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/patterns/FullStackConstruct.ts#L179)

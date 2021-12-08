@@ -1,12 +1,10 @@
----
-sidebar_position: 1
----
+# FullNestedStack
 
-# FullStack
+Check out our full docs site hosted at [https://full-stack-pattern.matthewkeil.com](https://full-stack-pattern.matthewkeil.com). That site was hosted with this library.
 
-The FullStack is the individual Stack version of the FullStackConstruct. FullStack will stand up to 5 Stacks of resources depending on the configuration.
+FullNestedStack is a cdk Construct that will stand a single stack with up to 4 NestedStacks of resources, and optionally a [Custom::ConfigFile](/docs/constructs/configFile).
 
-It builds 5 primary components. The CoreStack which handles dns and tls/ssl. The CognitoStack which handles the auth. The CDNStack that hosts the front end, and other static assets, via a globally edge-cached cdn. Finally compute is handled by a fully ServerlessStack that optimizes on cost and maximizes the developer experience.
+It builds 5 primary components. The CoreNestedStack which handles dns and tls/ssl. The CognitoNestedStack which handles the auth. The CDNNestedStack that hosts the front end, and other static assets, via a globally edge-cached cdn. Finally compute is handled by a fully ServerlessNestedStack that optimizes on cost and maximizes the developer experience.
 
 You will be running on S3, CloudFront, ApiGateway, Lambda, DynamoDb, and Cognito.
 
@@ -18,19 +16,19 @@ There is a built-in, hot-reloading, dev server for running your lambda code loca
 
 Check out the [docs](/docs/intro) for more information. You will find docs there for all the underlying Constructs.
 
-#### Nested Constructs within FullStack
+#### Nested Constructs within FullNestedStack
 
 More information about what each does can be found by following the links below:
 
-- [CoreStack](/docs/core/CoreStack)
-- [CognitoStack](/docs/cognito/CognitoStack)
-- [CDNStack](/docs/cdn/CDNStack)
-- [ServerlessStack](/docs/serverless/ServerlessStack)
+- [CoreNestedStack](/docs/core/CoreNestedStack)
+- [CognitoNestedStack](/docs/cognito/CognitoNestedStack)
+- [CDNNestedStack](/docs/cdn/CDNNestedStack)
+- [ServerlessNestedStack](/docs/serverless/ServerlessNestedStack)
 - [ConfigFile](/docs/constructs/ConfigFile)
 
 #### Resource types that may be deployed
 
-- cloudformation.Stack
+- cloudformation.NestedStack
 
 ## Usage Example
 
@@ -42,7 +40,7 @@ import { FullStack, FullStackProps } from 'full-stack-construct';
   const app = new App();
   const stage = 'prod';
 
-  const fs = await FullStack.create(app, 'YourApp', {
+  const fs = await FullNestedStack.create(app, 'YourApp', {
     stage,
     prefix: `bc-full-stack-${stage}`,
     env: {
@@ -53,16 +51,16 @@ import { FullStack, FullStackProps } from 'full-stack-construct';
     subDomain: 'micro-frontend',
     uiDevPort: 3012,
     core: {
-      // See CoreConstruct for more information
+      // See CoreConstruct on our docs, for more information 
       includeSubdomains: true
     },
     cdn: {
-      // See CDNConstruct for more information
+      // See CDNConstruct on our docs, for more information 
       codePaths: [resolve(__dirname, '..', 'frontend', 'build')],
       buildWwwSubdomain: false
     },
     cognito: {
-      // See CognitoConstruct for more information
+      // See CognitoConstruct on our docs, for more information 
       groups: [
         {
           groupName: 'admin',
@@ -71,7 +69,7 @@ import { FullStack, FullStackProps } from 'full-stack-construct';
       ]
     },
     serverless: {
-      // See ServerlessConstruct for more information
+      // See ServerlessConstruct on our docs, for more information 
       code: Code.fromAsset(resolve(__dirname, '..', 'backend', 'src')),
       runtime: Runtime.NODEJS_14_X,
       billingMode: BillingMode.PAY_PER_REQUEST,
@@ -115,12 +113,10 @@ import { FullStack, FullStackProps } from 'full-stack-construct';
 })();
 ```
 
-## FullStackProps
+## FullNestedStackProps
 
 ```typescript
-export interface FullStackProps
-  extends Omit<FullStackConstructProps, 'nested' | 'stackTimeout'>,
-    StackProps {}
+export interface FullNestedStackProps extends Omit<FullStackConstructProps, 'nested'>, StackProps {}
 
 type Cognito = Omit<CognitoConstructProps, 'prefix'> & {
   /**

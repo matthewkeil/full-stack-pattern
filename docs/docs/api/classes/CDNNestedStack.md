@@ -32,7 +32,7 @@ NestedStack.constructor
 
 #### Defined in
 
-[src/stacks/cdn/CDNNestedStack.ts:17](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/cdn/CDNNestedStack.ts#L17)
+[src/stacks/cdn/CDNNestedStack.ts:17](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/cdn/CDNNestedStack.ts#L17)
 
 ## Properties
 
@@ -115,7 +115,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNNestedStack.ts:14](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/cdn/CDNNestedStack.ts#L14)
+[src/stacks/cdn/CDNNestedStack.ts:14](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/cdn/CDNNestedStack.ts#L14)
 
 ___
 
@@ -125,7 +125,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNNestedStack.ts:15](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/cdn/CDNNestedStack.ts#L15)
+[src/stacks/cdn/CDNNestedStack.ts:15](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/cdn/CDNNestedStack.ts#L15)
 
 ___
 
@@ -330,7 +330,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNNestedStack.ts:13](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/cdn/CDNNestedStack.ts#L13)
+[src/stacks/cdn/CDNNestedStack.ts:13](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/cdn/CDNNestedStack.ts#L13)
 
 ## Accessors
 

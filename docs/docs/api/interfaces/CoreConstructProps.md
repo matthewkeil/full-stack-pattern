@@ -28,7 +28,7 @@ Option to use an existing certificate for TLS/SSL
 
 #### Defined in
 
-[src/stacks/core/CoreConstruct.ts:52](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/core/CoreConstruct.ts#L52)
+[src/stacks/core/CoreConstruct.ts:44](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/core/CoreConstruct.ts#L44)
 
 ___
 
@@ -61,7 +61,7 @@ info, see [Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
 
 #### Defined in
 
-[src/stacks/core/CoreConstruct.ts:58](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/core/CoreConstruct.ts#L58)
+[src/stacks/core/CoreConstruct.ts:50](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/core/CoreConstruct.ts#L50)
 
 ___
 
@@ -74,7 +74,7 @@ and records for all the other stacks will get added to the targeted zone
 
 #### Defined in
 
-[src/stacks/core/CoreConstruct.ts:27](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/core/CoreConstruct.ts#L27)
+[src/stacks/core/CoreConstruct.ts:19](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/core/CoreConstruct.ts#L19)
 
 ___
 
@@ -91,22 +91,7 @@ this will be ignored.
 
 #### Defined in
 
-[src/stacks/core/CoreConstruct.ts:47](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/core/CoreConstruct.ts#L47)
-
-___
-
-### prefix
-
-• `Optional` **prefix**: `string`
-
-The prefix to use with resource names. If `prefix` and `name` are
-provided then the apiName will be `${prefix}-${name}`.  If no name
-is provided then the apiName will be `prefix`. For more info, see
-[Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
-
-#### Defined in
-
-[src/stacks/core/CoreConstruct.ts:21](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/core/CoreConstruct.ts#L21)
+[src/stacks/core/CoreConstruct.ts:39](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/core/CoreConstruct.ts#L39)
 
 ___
 
@@ -140,7 +125,7 @@ override this value
 
 #### Defined in
 
-[src/stacks/core/CoreConstruct.ts:65](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/core/CoreConstruct.ts#L65)
+[src/stacks/core/CoreConstruct.ts:57](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/core/CoreConstruct.ts#L57)
 
 ___
 
@@ -157,7 +142,7 @@ similar for branches, such as `dev.api.example.com` and
 
 #### Defined in
 
-[src/stacks/core/CoreConstruct.ts:37](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/core/CoreConstruct.ts#L37)
+[src/stacks/core/CoreConstruct.ts:29](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/core/CoreConstruct.ts#L29)
 
 ___
 

@@ -1,10 +1,20 @@
 ---
-sidebar_position: 1
+sidebar_position: 3
 ---
 
-# Full Stack Construct
+# FullStackConstruct
 
-The FullStackConstruct is built from all of the other Constructs in this library. It
+The FullStackConstruct is built from of 5 primary components. The CoreStack which handles dns and tls/ssl. The CognitoStack which handles the auth. The CDNStack that hosts the front end, and other static assets, via a globally edge-cached cdn. Finally compute is handled by a fully serverless stack that optimizes on cost and maximizes the developer experience.
+
+The FullStack builds 5 primary components. The CoreStack which handles dns and tls/ssl. The CognitoStack which handles the auth. The CDNStack that hosts the front end, and other static assets, via a globally edge-cached cdn. Finally compute is handled by a fully ServerlessStack that optimizes on cost and maximizes the developer experience.
+
+You will be running on S3, CloudFront, ApiGateway, Lambda, DynamoDb, and Cognito.
+
+If you are aren't convinced by that intro than check out the api's below. Dead simple. Nearly all free via AWS free tier and with world-class performance.
+
+All you need to focus on is writing your application code.
+
+There is a built-in, hot-reloading, dev server for running your lambda code locally. It's built right into the Construct and you can spin up an express server, built to mimic directly the apiGateway and lambda configurations. It will look and feel just like hitting the apiGateway but 100% locally. No-need to modify any code either.
 
 #### Nested Constructs within FullStackConstruct
 
@@ -25,12 +35,26 @@ Based on whether you are using the FullStack or FullNestedStack will determine w
 
 ```typescript
 import { App } from '@aws-cdk/core';
-import { FullStack } from 'full-stack-construct';
+import { FullStack, FullStackProps } from 'full-stack-construct';
+
+// this is almost the exact code in the FullStack Construct.  If you want
+// a stack use FullStack but enjoy the example none the less
+class YourApp extends Stack {
+  constructor(scope: Construct, id: string, props: FullStackProps) {
+    super(scope, id, props);
+    new FullStackConstruct(app, 'FullStack', {
+      props,
+      // cant build stacks in stacks so used nestedStacks
+      // within the construct
+      nested: true
+    });
+  }
+}
 
 const app = new App();
 const stage = 'prod';
 
-new FullStackConstruct(app, 'FullStack', {
+new YourApp(app, 'YourApp', {
   stage,
   prefix: `bc-full-stack-${stage}`,
   env: {
@@ -146,10 +170,25 @@ fullStack.addConfigFile({
 ## FullStackConstructProps
 
 ```typescript
-type Core = Omit<CoreConstructProps, 'rootDomain'>;
-type CDN = Omit<CDNConstructProps, 'prefix' | 'stage' | 'rootDomain'>;
-type Cognito = Omit<CognitoConstructProps, 'prefix'>;
-type Serverless = Omit<ServerlessConstructProps, 'prefix' | 'stage'>;
+type Cognito = Omit<CognitoConstructProps, 'prefix'> & {
+  /**
+   * The login path to append to all urls.
+   *
+   * ex. a value of '/auth/login' will result in a cognito callback url of
+   * 'http://localhost:3000/auth/login' and the cloudfront cognito url will be
+   * 'https://d1mkdh3z21t61o24eles.cloudfront.net/auth/login'
+   */
+  loginCallbackPath?: string;
+
+  /**
+   * The logout path to append to all urls.
+   *
+   * ex. a value of '/auth/logout' will result in a cognito callback url of
+   * 'http://localhost:3000/auth/logout' and the cloudfront cognito url will be
+   * 'https://d1mkdh3z21t61o24eles.cloudfront.net/auth/logout'
+   */
+  logoutCallbackPath?: string;
+};
 
 export interface FullStackConstructProps {
   /**
@@ -241,7 +280,7 @@ export interface FullStackConstructProps {
    * fullStackProp.rootDomain
    * @param {Omit<CoreConstructProps, 'rootDomain'>} core
    */
-  core?: Core;
+  core?: Omit<CoreConstructProps, 'rootDomain'>;
 
   /**
    * Settings for the [CDNConstruct](https://full-stack-pattern.matthewkeil.com/docs/cdn/cdnConstruct)
@@ -253,7 +292,7 @@ export interface FullStackConstructProps {
    * and fullStackProp.rootDomain
    * @param {Omit<CDNConstructProps, 'prefix' | 'stage' | 'rootDomain'>} cdn
    */
-  cdn?: CDN;
+  cdn?: Omit<CDNConstructProps, 'prefix' | 'stage' | 'rootDomain'>;
 
   /**
    * Settings for the [ServerlessConstruct](https://full-stack-pattern.matthewkeil.com/docs/serverless/serverlessConstruct)
@@ -265,32 +304,14 @@ export interface FullStackConstructProps {
    * in from fullStackProp.prefix and fullStackProp.stage
    * @param {Omit<ServerlessConstructProps, 'prefix' | 'stage'>} serverless
    */
-  serverless?: Omit<Serverless, 'existingLogGroups' | 'existingTables'>;
+  serverless?: Omit<ServerlessConstructProps, 'prefix' | 'stage'>;
 
   /**
    * Settings for the [CognitoConstruct](https://full-stack-pattern.matthewkeil.com/docs/cognito/cognitoConstruct)
    *
    * rootDomain is not available on core, it is passed in from fullStackProp.rootDomain
-   * @param {Omit<ServerlessConstructProps, 'prefix' | 'stage'>} serverless
+   * @param {Cognito} serverless
    */
-  cognito?: Cognito & {
-    /**
-     * The login path to append to all urls.
-     *
-     * ex. a value of '/auth/login' will result in a cognito callback url of
-     * 'http://localhost:3000/auth/login' and the cloudfront cognito url will be
-     * 'https://d1mkdh3z21t61o24eles.cloudfront.net/auth/login'
-     */
-    loginCallbackPath?: string;
-
-    /**
-     * The logout path to append to all urls.
-     *
-     * ex. a value of '/auth/logout' will result in a cognito callback url of
-     * 'http://localhost:3000/auth/logout' and the cloudfront cognito url will be
-     * 'https://d1mkdh3z21t61o24eles.cloudfront.net/auth/logout'
-     */
-    logoutCallbackPath?: string;
-  };
+  cognito?: Cognito;
 }
 ```

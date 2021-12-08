@@ -16,7 +16,7 @@ custom_edit_url: null
 
 ### constructor
 
-• **new FullStack**(`scope`, `id`, `props`)
+• `Private` **new FullStack**(`scope`, `id`, `props`)
 
 #### Parameters
 
@@ -24,7 +24,7 @@ custom_edit_url: null
 | :------ | :------ |
 | `scope` | `Construct` |
 | `id` | `string` |
-| `props` | `Pick`<[`FullStackProps`](../interfaces/FullStackProps), ``"prefix"`` \| ``"rootDomain"`` \| ``"description"`` \| ``"removalPolicy"`` \| ``"stage"`` \| ``"env"`` \| ``"uiDevPort"`` \| ``"core"`` \| ``"frontend"`` \| ``"serverless"`` \| ``"auth"`` \| ``"stackName"`` \| ``"tags"`` \| ``"synthesizer"`` \| ``"terminationProtection"`` \| ``"analyticsReporting"``\> |
+| `props` | [`FullStackProps`](../interfaces/FullStackProps) |
 
 #### Overrides
 
@@ -32,41 +32,41 @@ custom_edit_url: null
 
 #### Defined in
 
-[src/patterns/FullStack.ts:5](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStack.ts#L5)
+[src/patterns/FullStack.ts:5](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/patterns/FullStack.ts#L5)
 
 ## Properties
 
-### auth
+### cdn
 
-• **auth**: [`CognitoStack`](CognitoStack) \| [`CognitoNestedStack`](CognitoNestedStack)
+• `Optional` **cdn**: [`CDNStack`](CDNStack) \| [`CDNNestedStack`](CDNNestedStack)
 
 #### Inherited from
 
-[FullStackConstruct](FullStackConstruct).[auth](FullStackConstruct#auth)
+[FullStackConstruct](FullStackConstruct).[cdn](FullStackConstruct#cdn)
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:72](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackConstruct.ts#L72)
+[src/patterns/FullStackConstruct.ts:221](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/patterns/FullStackConstruct.ts#L221)
 
 ___
 
-### backend
+### cognito
 
-• **backend**: [`ServerlessStack`](ServerlessStack) \| [`ServerlessNestedStack`](ServerlessNestedStack)
+• `Optional` **cognito**: [`CognitoStack`](CognitoStack) \| [`CognitoNestedStack`](CognitoNestedStack)
 
 #### Inherited from
 
-[FullStackConstruct](FullStackConstruct).[backend](FullStackConstruct#backend)
+[FullStackConstruct](FullStackConstruct).[cognito](FullStackConstruct#cognito)
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:73](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackConstruct.ts#L73)
+[src/patterns/FullStackConstruct.ts:222](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/patterns/FullStackConstruct.ts#L222)
 
 ___
 
 ### core
 
-• **core**: [`CoreStack`](CoreStack) \| [`CoreNestedStack`](CoreNestedStack)
+• `Optional` **core**: [`CoreStack`](CoreStack) \| [`CoreNestedStack`](CoreNestedStack)
 
 #### Inherited from
 
@@ -74,21 +74,21 @@ ___
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:70](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackConstruct.ts#L70)
+[src/patterns/FullStackConstruct.ts:220](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/patterns/FullStackConstruct.ts#L220)
 
 ___
 
-### frontend
+### domain
 
-• **frontend**: [`CDNStack`](CDNStack) \| [`CDNNestedStack`](CDNNestedStack)
+• `Optional` **domain**: `string`
 
 #### Inherited from
 
-[FullStackConstruct](FullStackConstruct).[frontend](FullStackConstruct#frontend)
+[FullStackConstruct](FullStackConstruct).[domain](FullStackConstruct#domain)
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:71](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackConstruct.ts#L71)
+[src/patterns/FullStackConstruct.ts:224](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/patterns/FullStackConstruct.ts#L224)
 
 ___
 
@@ -108,11 +108,29 @@ The construct tree node associated with this construct.
 
 node_modules/@aws-cdk/core/lib/construct-compat.d.ts:77
 
+___
+
+### serverless
+
+• `Optional` **serverless**: [`ServerlessStack`](ServerlessStack) \| [`ServerlessNestedStack`](ServerlessNestedStack)
+
+#### Inherited from
+
+[FullStackConstruct](FullStackConstruct).[serverless](FullStackConstruct#serverless)
+
+#### Defined in
+
+[src/patterns/FullStackConstruct.ts:223](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/patterns/FullStackConstruct.ts#L223)
+
 ## Methods
 
 ### addConfigFile
 
 ▸ **addConfigFile**(`__namedParameters`): `void`
+
+Builds and uploads a configuration file to the ui bucket
+
+See [ConfigFile](https://full-stack-pattern.matthewkeil.com/docs/constructs/configFile) for more information
 
 #### Parameters
 
@@ -130,7 +148,7 @@ node_modules/@aws-cdk/core/lib/construct-compat.d.ts:77
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:180](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackConstruct.ts#L180)
+[src/patterns/FullStackConstruct.ts:361](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/patterns/FullStackConstruct.ts#L361)
 
 ___
 
@@ -348,7 +366,7 @@ ___
 
 #### Defined in
 
-[src/patterns/FullStack.ts:12](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStack.ts#L12)
+[src/patterns/FullStack.ts:12](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/patterns/FullStack.ts#L12)
 
 ___
 
@@ -384,6 +402,13 @@ ___
 
 ▸ `Static` **lookupExistingResources**(`props`): `Promise`<[`FullStackConstructProps`](../interfaces/FullStackConstructProps)\>
 
+Is a helper function for the constructor.  You pass in the props you want
+to use for the FullStackConstruct.  This function will fill some pieces
+from the environment, for example the hostedZoneId.
+
+Calls the underlying stacks to do their own lookups.  For more information
+see the docs for each stack
+
 #### Parameters
 
 | Name | Type |
@@ -400,4 +425,4 @@ ___
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:200](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackConstruct.ts#L200)
+[src/patterns/FullStackConstruct.ts:179](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/patterns/FullStackConstruct.ts#L179)

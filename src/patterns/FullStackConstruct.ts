@@ -19,10 +19,25 @@ import { ServerlessStack } from '../stacks/serverless/ServerlessStack';
 import { existingLogGroups } from '../../lib/aws/cwLogs';
 import { ConfigFile, ConfigFileProps } from '../constructs/ConfigFile';
 
-type Core = Omit<CoreConstructProps, 'rootDomain'>;
-type CDN = Omit<CDNConstructProps, 'prefix' | 'stage' | 'rootDomain'>;
-type Cognito = Omit<CognitoConstructProps, 'prefix'>;
-type Serverless = Omit<ServerlessConstructProps, 'prefix' | 'stage'>;
+type Cognito = Omit<CognitoConstructProps, 'prefix'> & {
+  /**
+   * The login path to append to all urls.
+   *
+   * ex. a value of '/auth/login' will result in a cognito callback url of
+   * 'http://localhost:3000/auth/login' and the cloudfront cognito url will be
+   * 'https://d1mkdh3z21t61o24eles.cloudfront.net/auth/login'
+   */
+  loginCallbackPath?: string;
+
+  /**
+   * The logout path to append to all urls.
+   *
+   * ex. a value of '/auth/logout' will result in a cognito callback url of
+   * 'http://localhost:3000/auth/logout' and the cloudfront cognito url will be
+   * 'https://d1mkdh3z21t61o24eles.cloudfront.net/auth/logout'
+   */
+  logoutCallbackPath?: string;
+};
 
 export interface FullStackConstructProps {
   /**
@@ -113,7 +128,7 @@ export interface FullStackConstructProps {
    * fullStackProp.rootDomain
    * @param {Omit<CoreConstructProps, 'rootDomain'>} core
    */
-  core?: Core;
+  core?: Omit<CoreConstructProps, 'rootDomain'>;
 
   /**
    * Settings for the [CDNConstruct](https://full-stack-pattern.matthewkeil.com/docs/cdn/cdnConstruct)
@@ -125,7 +140,7 @@ export interface FullStackConstructProps {
    * and fullStackProp.rootDomain
    * @param {Omit<CDNConstructProps, 'prefix' | 'stage' | 'rootDomain'>} cdn
    */
-  cdn?: CDN;
+  cdn?: Omit<CDNConstructProps, 'prefix' | 'stage' | 'rootDomain'>;
 
   /**
    * Settings for the [ServerlessConstruct](https://full-stack-pattern.matthewkeil.com/docs/serverless/serverlessConstruct)
@@ -137,33 +152,15 @@ export interface FullStackConstructProps {
    * in from fullStackProp.prefix and fullStackProp.stage
    * @param {Omit<ServerlessConstructProps, 'prefix' | 'stage'>} serverless
    */
-  serverless?: Omit<Serverless, 'existingLogGroups' | 'existingTables'>;
+  serverless?: Omit<ServerlessConstructProps, 'prefix' | 'stage'>;
 
   /**
    * Settings for the [CognitoConstruct](https://full-stack-pattern.matthewkeil.com/docs/cognito/cognitoConstruct)
    *
    * rootDomain is not available on core, it is passed in from fullStackProp.rootDomain
-   * @param {Omit<ServerlessConstructProps, 'prefix' | 'stage'>} serverless
+   * @param {Cognito} serverless
    */
-  cognito?: Cognito & {
-    /**
-     * The login path to append to all urls.
-     *
-     * ex. a value of '/auth/login' will result in a cognito callback url of
-     * 'http://localhost:3000/auth/login' and the cloudfront cognito url will be
-     * 'https://d1mkdh3z21t61o24eles.cloudfront.net/auth/login'
-     */
-    loginCallbackPath?: string;
-
-    /**
-     * The logout path to append to all urls.
-     *
-     * ex. a value of '/auth/logout' will result in a cognito callback url of
-     * 'http://localhost:3000/auth/logout' and the cloudfront cognito url will be
-     * 'https://d1mkdh3z21t61o24eles.cloudfront.net/auth/logout'
-     */
-    logoutCallbackPath?: string;
-  };
+  cognito?: Cognito;
 }
 
 export interface FullStackProps
@@ -186,12 +183,17 @@ export class FullStackConstruct extends Construct {
   ): Promise<FullStackConstructProps> {
     const region = Stack.of(this).region;
 
-    const core = await CoreConstruct.lookupExistingResources({
-      ...(props.core ?? {}),
-      region,
-      profile: props.profile,
-      rootDomain: props.rootDomain
-    });
+    let core: FullStackConstructProps['core'];
+    if (props.rootDomain) {
+      core = await CoreConstruct.lookupExistingResources({
+        ...(props.core ?? {}),
+        region,
+        profile: props.profile,
+        rootDomain: props.rootDomain
+      });
+    } else {
+      core = props.core;
+    }
 
     const cdn = !props.cdn
       ? undefined
@@ -201,7 +203,7 @@ export class FullStackConstruct extends Construct {
           profile: props.profile
         });
 
-    const serverless: Serverless = {
+    const serverless: FullStackConstructProps['serverless'] = {
       ...props.serverless,
       existingLogGroups: await existingLogGroups(props)
       // existingTables: await listTableNames(props)
@@ -379,4 +381,3 @@ export class FullStackConstruct extends Construct {
     });
   }
 }
-

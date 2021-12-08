@@ -32,7 +32,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessConstruct.ts:20](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/serverless/ServerlessConstruct.ts#L20)
+[src/stacks/serverless/ServerlessConstruct.ts:51](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/serverless/ServerlessConstruct.ts#L51)
 
 ## Properties
 
@@ -42,7 +42,17 @@ Construct.constructor
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessConstruct.ts:16](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/serverless/ServerlessConstruct.ts#L16)
+[src/stacks/serverless/ServerlessConstruct.ts:45](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/serverless/ServerlessConstruct.ts#L45)
+
+___
+
+### domainUrl
+
+• `Optional` **domainUrl**: `string`
+
+#### Defined in
+
+[src/stacks/serverless/ServerlessConstruct.ts:47](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/serverless/ServerlessConstruct.ts#L47)
 
 ___
 
@@ -52,7 +62,7 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessConstruct.ts:14](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/serverless/ServerlessConstruct.ts#L14)
+[src/stacks/serverless/ServerlessConstruct.ts:43](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/serverless/ServerlessConstruct.ts#L43)
 
 ___
 
@@ -62,7 +72,7 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessConstruct.ts:18](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/serverless/ServerlessConstruct.ts#L18)
+[src/stacks/serverless/ServerlessConstruct.ts:49](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/serverless/ServerlessConstruct.ts#L49)
 
 ___
 
@@ -84,13 +94,23 @@ node_modules/@aws-cdk/core/lib/construct-compat.d.ts:77
 
 ___
 
+### subDomain
+
+• `Optional` **subDomain**: `string`
+
+#### Defined in
+
+[src/stacks/serverless/ServerlessConstruct.ts:46](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/serverless/ServerlessConstruct.ts#L46)
+
+___
+
 ### tables
 
 • `Optional` **tables**: [`Tables`](Tables)
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessConstruct.ts:15](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/serverless/ServerlessConstruct.ts#L15)
+[src/stacks/serverless/ServerlessConstruct.ts:44](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/serverless/ServerlessConstruct.ts#L44)
 
 ## Methods
 

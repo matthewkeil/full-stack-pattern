@@ -16,7 +16,7 @@ custom_edit_url: null
 
 ### constructor
 
-• **new FullStackNested**(`scope`, `id`, `props`)
+• `Private` **new FullStackNested**(`scope`, `id`, `props`)
 
 #### Parameters
 
@@ -24,7 +24,7 @@ custom_edit_url: null
 | :------ | :------ |
 | `scope` | `Construct` |
 | `id` | `string` |
-| `props` | `Pick`<[`FullStackProps`](../interfaces/FullStackProps), ``"prefix"`` \| ``"rootDomain"`` \| ``"description"`` \| ``"removalPolicy"`` \| ``"stage"`` \| ``"env"`` \| ``"uiDevPort"`` \| ``"core"`` \| ``"frontend"`` \| ``"serverless"`` \| ``"auth"`` \| ``"stackName"`` \| ``"tags"`` \| ``"synthesizer"`` \| ``"terminationProtection"`` \| ``"analyticsReporting"``\> |
+| `props` | [`FullStackProps`](../interfaces/FullStackProps) |
 
 #### Overrides
 
@@ -32,7 +32,7 @@ Stack.constructor
 
 #### Defined in
 
-[src/patterns/FullStackNested.ts:12](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackNested.ts#L12)
+[src/patterns/FullNestedStack.ts:12](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/patterns/FullNestedStack.ts#L12)
 
 ## Properties
 
@@ -99,6 +99,10 @@ ___
 
 ▸ (`__namedParameters`): `void`
 
+Builds and uploads a configuration file to the ui bucket
+
+See [ConfigFile](https://full-stack-pattern.matthewkeil.com/docs/constructs/configFile) for more information
+
 ##### Parameters
 
 | Name | Type |
@@ -111,7 +115,7 @@ ___
 
 #### Defined in
 
-[src/patterns/FullStackNested.ts:10](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackNested.ts#L10)
+[src/patterns/FullNestedStack.ts:10](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/patterns/FullNestedStack.ts#L10)
 
 ___
 
@@ -139,7 +143,7 @@ ___
 
 #### Defined in
 
-[src/patterns/FullStackNested.ts:8](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackNested.ts#L8)
+[src/patterns/FullNestedStack.ts:8](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/patterns/FullNestedStack.ts#L8)
 
 ___
 
@@ -149,7 +153,17 @@ ___
 
 #### Defined in
 
-[src/patterns/FullStackNested.ts:9](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackNested.ts#L9)
+[src/patterns/FullNestedStack.ts:9](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/patterns/FullNestedStack.ts#L9)
+
+___
+
+### cdn
+
+• **cdn**: [`CDNNestedStack`](CDNNestedStack)
+
+#### Defined in
+
+[src/patterns/FullNestedStack.ts:7](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/patterns/FullNestedStack.ts#L7)
 
 ___
 
@@ -159,7 +173,7 @@ ___
 
 #### Defined in
 
-[src/patterns/FullStackNested.ts:6](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackNested.ts#L6)
+[src/patterns/FullNestedStack.ts:6](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/patterns/FullNestedStack.ts#L6)
 
 ___
 
@@ -190,16 +204,6 @@ Stack.environment
 #### Defined in
 
 node_modules/@aws-cdk/core/lib/stack.d.ts:226
-
-___
-
-### frontend
-
-• **frontend**: [`CDNNestedStack`](CDNNestedStack)
-
-#### Defined in
-
-[src/patterns/FullStackNested.ts:7](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackNested.ts#L7)
 
 ___
 
@@ -1579,7 +1583,7 @@ ___
 
 #### Defined in
 
-[src/patterns/FullStackNested.ts:26](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackNested.ts#L26)
+[src/patterns/FullNestedStack.ts:29](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/patterns/FullNestedStack.ts#L29)
 
 ___
 
