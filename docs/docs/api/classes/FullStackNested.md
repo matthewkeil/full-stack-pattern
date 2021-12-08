@@ -24,7 +24,7 @@ custom_edit_url: null
 | :------ | :------ |
 | `scope` | `Construct` |
 | `id` | `string` |
-| `props` | [`FullStackProps`](../interfaces/FullStackProps) |
+| `props` | `Pick`<[`FullStackProps`](../interfaces/FullStackProps), ``"prefix"`` \| ``"rootDomain"`` \| ``"description"`` \| ``"removalPolicy"`` \| ``"stage"`` \| ``"env"`` \| ``"uiDevPort"`` \| ``"core"`` \| ``"frontend"`` \| ``"serverless"`` \| ``"auth"`` \| ``"stackName"`` \| ``"tags"`` \| ``"synthesizer"`` \| ``"terminationProtection"`` \| ``"analyticsReporting"``\> |
 
 #### Overrides
 
@@ -32,7 +32,7 @@ Stack.constructor
 
 #### Defined in
 
-[src/patterns/FullStackNested.ts:12](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/patterns/FullStackNested.ts#L12)
+[src/patterns/FullStackNested.ts:12](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackNested.ts#L12)
 
 ## Properties
 
@@ -93,17 +93,17 @@ ___
 
 ### addConfigFile
 
-• **addConfigFile**: (`configProps`: [`ConfigFileProps`](../interfaces/ConfigFileProps)) => `void`
+• **addConfigFile**: (`__namedParameters`: `Pick`<`ConfigFileProps`<`Record`<`string`, `unknown`\>\>, ``"deploymentRole"`` \| ``"fileName"`` \| ``"mergeExisting"`` \| ``"config"``\>) => `void`
 
 #### Type declaration
 
-▸ (`configProps`): `void`
+▸ (`__namedParameters`): `void`
 
 ##### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `configProps` | [`ConfigFileProps`](../interfaces/ConfigFileProps) |
+| `__namedParameters` | `Pick`<`ConfigFileProps`<`Record`<`string`, `unknown`\>\>, ``"deploymentRole"`` \| ``"fileName"`` \| ``"mergeExisting"`` \| ``"config"``\> |
 
 ##### Returns
 
@@ -111,7 +111,7 @@ ___
 
 #### Defined in
 
-[src/patterns/FullStackNested.ts:10](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/patterns/FullStackNested.ts#L10)
+[src/patterns/FullStackNested.ts:10](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackNested.ts#L10)
 
 ___
 
@@ -139,7 +139,7 @@ ___
 
 #### Defined in
 
-[src/patterns/FullStackNested.ts:8](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/patterns/FullStackNested.ts#L8)
+[src/patterns/FullStackNested.ts:8](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackNested.ts#L8)
 
 ___
 
@@ -149,7 +149,7 @@ ___
 
 #### Defined in
 
-[src/patterns/FullStackNested.ts:9](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/patterns/FullStackNested.ts#L9)
+[src/patterns/FullStackNested.ts:9](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackNested.ts#L9)
 
 ___
 
@@ -159,7 +159,7 @@ ___
 
 #### Defined in
 
-[src/patterns/FullStackNested.ts:6](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/patterns/FullStackNested.ts#L6)
+[src/patterns/FullStackNested.ts:6](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackNested.ts#L6)
 
 ___
 
@@ -199,7 +199,7 @@ ___
 
 #### Defined in
 
-[src/patterns/FullStackNested.ts:7](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/patterns/FullStackNested.ts#L7)
+[src/patterns/FullStackNested.ts:7](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackNested.ts#L7)
 
 ___
 
@@ -1579,7 +1579,7 @@ ___
 
 #### Defined in
 
-[src/patterns/FullStackNested.ts:26](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/patterns/FullStackNested.ts#L26)
+[src/patterns/FullStackNested.ts:26](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackNested.ts#L26)
 
 ___
 

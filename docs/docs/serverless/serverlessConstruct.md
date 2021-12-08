@@ -29,7 +29,10 @@ For more information on each of these constructs check out that page. They are a
 - AWS::Lambda::Function
 - AWS::Lambda::Permission
 - AWS::Lambda::LayerVersion
+- AWS::Route53::RecordSet
 - AWS::ApiGateway::RestApi
+- AWS::ApiGateway::DomainName
+- AWS::ApiGateway::BasePathMapping
 - AWS::ApiGateway::GatewayResponse
 - AWS::ApiGateway::Deployment
 - AWS::ApiGateway::Authorizer

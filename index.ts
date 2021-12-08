@@ -8,7 +8,7 @@ export * from './src/constructs/Tables';
 
 export * from './src/patterns/FullStackConstruct';
 export * from './src/patterns/FullStack';
-export * from './src/patterns/FullStackNested';
+export * from './src/patterns/FullNestedStack';
 
 export * from './src/stacks/cdn/CDNConstruct';
 export * from './src/stacks/cdn/CDNStack';

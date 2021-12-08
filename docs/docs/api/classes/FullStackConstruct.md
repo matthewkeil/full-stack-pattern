@@ -34,7 +34,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:73](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/patterns/FullStackConstruct.ts#L73)
+[src/patterns/FullStackConstruct.ts:75](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackConstruct.ts#L75)
 
 ## Properties
 
@@ -44,7 +44,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:70](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/patterns/FullStackConstruct.ts#L70)
+[src/patterns/FullStackConstruct.ts:72](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackConstruct.ts#L72)
 
 ___
 
@@ -54,7 +54,7 @@ ___
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:71](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/patterns/FullStackConstruct.ts#L71)
+[src/patterns/FullStackConstruct.ts:73](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackConstruct.ts#L73)
 
 ___
 
@@ -64,7 +64,7 @@ ___
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:68](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/patterns/FullStackConstruct.ts#L68)
+[src/patterns/FullStackConstruct.ts:70](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackConstruct.ts#L70)
 
 ___
 
@@ -74,7 +74,7 @@ ___
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:69](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/patterns/FullStackConstruct.ts#L69)
+[src/patterns/FullStackConstruct.ts:71](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackConstruct.ts#L71)
 
 ___
 
@@ -98,13 +98,13 @@ node_modules/@aws-cdk/core/lib/construct-compat.d.ts:77
 
 ### addConfigFile
 
-▸ **addConfigFile**(`configProps`): `void`
+▸ **addConfigFile**(`__namedParameters`): `void`
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `configProps` | [`ConfigFileProps`](../interfaces/ConfigFileProps) |
+| `__namedParameters` | `Pick`<`ConfigFileProps`<`Record`<`string`, `unknown`\>\>, ``"deploymentRole"`` \| ``"fileName"`` \| ``"mergeExisting"`` \| ``"config"``\> |
 
 #### Returns
 
@@ -112,7 +112,7 @@ node_modules/@aws-cdk/core/lib/construct-compat.d.ts:77
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:178](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/patterns/FullStackConstruct.ts#L178)
+[src/patterns/FullStackConstruct.ts:180](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackConstruct.ts#L180)
 
 ___
 
@@ -312,26 +312,6 @@ node_modules/@aws-cdk/core/lib/construct-compat.d.ts:124
 
 ___
 
-### addAccountProps
-
-▸ `Static` **addAccountProps**(`props`): `Promise`<[`FullStackConstructProps`](../interfaces/FullStackConstructProps)\>
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `props` | [`FullStackConstructProps`](../interfaces/FullStackConstructProps) & { `profile`: `string`  } |
-
-#### Returns
-
-`Promise`<[`FullStackConstructProps`](../interfaces/FullStackConstructProps)\>
-
-#### Defined in
-
-[src/patterns/FullStackConstruct.ts:185](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/patterns/FullStackConstruct.ts#L185)
-
-___
-
 ### isConstruct
 
 ▸ `Static` **isConstruct**(`x`): x is Construct
@@ -357,3 +337,23 @@ Construct.isConstruct
 #### Defined in
 
 node_modules/@aws-cdk/core/lib/construct-compat.d.ts:71
+
+___
+
+### lookupExistingResources
+
+▸ `Static` **lookupExistingResources**(`props`): `Promise`<[`FullStackConstructProps`](../interfaces/FullStackConstructProps)\>
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`FullStackConstructProps`](../interfaces/FullStackConstructProps) & { `profile`: `string`  } |
+
+#### Returns
+
+`Promise`<[`FullStackConstructProps`](../interfaces/FullStackConstructProps)\>
+
+#### Defined in
+
+[src/patterns/FullStackConstruct.ts:200](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/patterns/FullStackConstruct.ts#L200)

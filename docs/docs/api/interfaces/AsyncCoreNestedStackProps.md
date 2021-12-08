@@ -18,13 +18,15 @@ custom_edit_url: null
 
 • `Optional` **certificateArn**: `string`
 
+Option to use an existing certificate for TLS/SSL
+
 #### Inherited from
 
 [CoreNestedStackProps](CoreNestedStackProps).[certificateArn](CoreNestedStackProps#certificatearn)
 
 #### Defined in
 
-[src/stacks/core/CoreConstruct.ts:17](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/core/CoreConstruct.ts#L17)
+[src/stacks/core/CoreConstruct.ts:52](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/core/CoreConstruct.ts#L52)
 
 ___
 
@@ -48,13 +50,30 @@ node_modules/@aws-cdk/aws-route53/lib/hosted-zone.d.ts:29
 
 ___
 
+### dontOverrideLogicalId
+
+• `Optional` **dontOverrideLogicalId**: false \| true
+
+Option to not use fixed logicalId's for the RestApi resource. For more
+info, see [Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
+
+#### Inherited from
+
+[CoreNestedStackProps](CoreNestedStackProps).[dontOverrideLogicalId](CoreNestedStackProps#dontoverridelogicalid)
+
+#### Defined in
+
+[src/stacks/core/CoreConstruct.ts:58](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/core/CoreConstruct.ts#L58)
+
+___
+
 ### env
 
 • **env**: `Required`<`Environment`\>
 
 #### Defined in
 
-[src/stacks/core/CoreNestedStack.ts:14](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/core/CoreNestedStack.ts#L14)
+[src/stacks/core/CoreNestedStack.ts:14](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/core/CoreNestedStack.ts#L14)
 
 ___
 
@@ -62,13 +81,16 @@ ___
 
 • `Optional` **hostedZoneId**: `string`
 
+When adding records to an existing HostedZone, pass in the hostedZoneId
+and records for all the other stacks will get added to the targeted zone
+
 #### Inherited from
 
 [CoreNestedStackProps](CoreNestedStackProps).[hostedZoneId](CoreNestedStackProps#hostedzoneid)
 
 #### Defined in
 
-[src/stacks/core/CoreConstruct.ts:16](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/core/CoreConstruct.ts#L16)
+[src/stacks/core/CoreConstruct.ts:27](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/core/CoreConstruct.ts#L27)
 
 ___
 
@@ -76,13 +98,20 @@ ___
 
 • `Optional` **includeSubdomains**: false \| true
 
+When building the certificate this will add a wildcard subDomain to
+the rootDomain so that all subDomains will be able to use the
+certificate.  If you would like to specify which subDomains should be
+included use the `props.subjectAlternativeNames` instead.  When
+passing in the certificateArn a certificate will not be created and
+this will be ignored.
+
 #### Inherited from
 
 [CoreNestedStackProps](CoreNestedStackProps).[includeSubdomains](CoreNestedStackProps#includesubdomains)
 
 #### Defined in
 
-[src/stacks/core/CoreConstruct.ts:15](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/core/CoreConstruct.ts#L15)
+[src/stacks/core/CoreConstruct.ts:47](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/core/CoreConstruct.ts#L47)
 
 ___
 
@@ -137,13 +166,32 @@ node_modules/@aws-cdk/core/lib/nested-stack.d.ts:25
 
 ___
 
+### prefix
+
+• `Optional` **prefix**: `string`
+
+The prefix to use with resource names. If `prefix` and `name` are
+provided then the apiName will be `${prefix}-${name}`.  If no name
+is provided then the apiName will be `prefix`. For more info, see
+[Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
+
+#### Inherited from
+
+[CoreNestedStackProps](CoreNestedStackProps).[prefix](CoreNestedStackProps#prefix)
+
+#### Defined in
+
+[src/stacks/core/CoreConstruct.ts:21](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/core/CoreConstruct.ts#L21)
+
+___
+
 ### profile
 
 • **profile**: `string`
 
 #### Defined in
 
-[src/stacks/core/CoreNestedStack.ts:13](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/core/CoreNestedStack.ts#L13)
+[src/stacks/core/CoreNestedStack.ts:13](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/core/CoreNestedStack.ts#L13)
 
 ___
 
@@ -171,13 +219,17 @@ ___
 
 • `Optional` **removalPolicy**: `DESTROY` \| `RETAIN` \| `SNAPSHOT`
 
+RemovalPolicy to apply to all resources.  If a RemovalPolicy prop is provided
+for a specific resource, ie the `props.userPool.removalPolicy`, it will
+override this value
+
 #### Inherited from
 
 [CoreNestedStackProps](CoreNestedStackProps).[removalPolicy](CoreNestedStackProps#removalpolicy)
 
 #### Defined in
 
-[src/stacks/core/CoreConstruct.ts:18](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/core/CoreConstruct.ts#L18)
+[src/stacks/core/CoreConstruct.ts:65](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/core/CoreConstruct.ts#L65)
 
 ___
 
@@ -185,13 +237,20 @@ ___
 
 • **rootDomain**: `string`
 
+The url/rootDomain for the HostedZone
+
+**`example`** If you are hosting the ui at `www.example.com` and the api
+at `api.example.com` the rootDomain would be `example.com`  This is
+similar for branches, such as `dev.api.example.com` and
+`dev.example.com`.  The rootDomain will still be `example.com`.
+
 #### Inherited from
 
 [CoreNestedStackProps](CoreNestedStackProps).[rootDomain](CoreNestedStackProps#rootdomain)
 
 #### Defined in
 
-[src/stacks/core/CoreConstruct.ts:14](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/core/CoreConstruct.ts#L14)
+[src/stacks/core/CoreConstruct.ts:37](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/core/CoreConstruct.ts#L37)
 
 ___
 
@@ -205,7 +264,7 @@ ___
 
 #### Defined in
 
-[src/stacks/core/CoreNestedStack.ts:10](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/core/CoreNestedStack.ts#L10)
+[src/stacks/core/CoreNestedStack.ts:10](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/core/CoreNestedStack.ts#L10)
 
 ___
 
@@ -228,26 +287,6 @@ Use this to register alternative domain names that represent the same site.
 #### Defined in
 
 node_modules/@aws-cdk/aws-certificatemanager/lib/certificate.d.ts:52
-
-___
-
-### validation
-
-• `Optional` `Readonly` **validation**: `CertificateValidation`
-
-How to validate this certificate.
-
-**`default`** CertificateValidation.fromEmail()
-
-**`stability`** stable
-
-#### Inherited from
-
-[CoreNestedStackProps](CoreNestedStackProps).[validation](CoreNestedStackProps#validation)
-
-#### Defined in
-
-node_modules/@aws-cdk/aws-certificatemanager/lib/certificate.d.ts:77
 
 ___
 

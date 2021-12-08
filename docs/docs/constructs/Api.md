@@ -6,6 +6,16 @@ sidebar_position: 1
 
 Takes some of the complexity out of building serverless api's. Handles cors by default and adds some basic gateway responses to make sure your debugging journey can be focussed on the handler code and not the nuances of using ApiGateway. The construct is fully customizable but setup with some logical defaults to make it easy to get started.
 
+#### Resource types that may be deployed
+
+- AWS::ApiGateway::RestApi
+- AWS::ApiGateway::GatewayResponse
+- AWS::ApiGateway::Deployment
+- AWS::ApiGateway::Authorizer
+- AWS::ApiGateway::Resource
+- AWS::ApiGateway::Method
+- AWS::ApiGateway::Stage
+
 ## ApiProps
 
 This construct inherits all props from the L2 RestApi construct. The only difference is that they are all mutable in the event you want to programmatically build the props object before passing it into the construct. There are also a few additional props that were added to support the additional functionality.

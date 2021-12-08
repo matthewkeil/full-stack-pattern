@@ -32,7 +32,7 @@ Stack.constructor
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessStack.ts:22](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/serverless/ServerlessStack.ts#L22)
+[src/stacks/serverless/ServerlessStack.ts:18](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/serverless/ServerlessStack.ts#L18)
 
 ## Properties
 
@@ -97,7 +97,7 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessStack.ts:18](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/serverless/ServerlessStack.ts#L18)
+[src/stacks/serverless/ServerlessStack.ts:14](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/serverless/ServerlessStack.ts#L14)
 
 ___
 
@@ -125,7 +125,7 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessStack.ts:20](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/serverless/ServerlessStack.ts#L20)
+[src/stacks/serverless/ServerlessStack.ts:16](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/serverless/ServerlessStack.ts#L16)
 
 ___
 
@@ -165,7 +165,7 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessStack.ts:16](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/serverless/ServerlessStack.ts#L16)
+[src/stacks/serverless/ServerlessStack.ts:12](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/serverless/ServerlessStack.ts#L12)
 
 ___
 
@@ -266,7 +266,7 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessStack.ts:17](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/serverless/ServerlessStack.ts#L17)
+[src/stacks/serverless/ServerlessStack.ts:13](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/serverless/ServerlessStack.ts#L13)
 
 ___
 
@@ -724,26 +724,6 @@ Stack.\_validateId
 #### Defined in
 
 node_modules/@aws-cdk/core/lib/stack.d.ts:650
-
-___
-
-### addConfigFile
-
-▸ **addConfigFile**(`configProps`): `void`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `configProps` | [`AddConfigFileProps`](../modules#addconfigfileprops) |
-
-#### Returns
-
-`void`
-
-#### Defined in
-
-[src/stacks/serverless/ServerlessStack.ts:34](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/serverless/ServerlessStack.ts#L34)
 
 ___
 

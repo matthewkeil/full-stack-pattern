@@ -8,7 +8,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'Full Stack Pattern',
   tagline: 'A useful set of constructs',
-  url: 'https://fullstackpattern.mathewkeil.com',
+  url: 'https://full-stack-pattern.mathewkeil.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'throw',
@@ -32,7 +32,7 @@ const config = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
-          editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/'
+          editUrl: 'https://full-stack-patter.matthewkeil.com'
         },
         blog: {
           showReadingTime: true,
@@ -83,32 +83,32 @@ const config = {
             ]
           },
           {
-            title: 'Community',
+            title: 'Maintainer\'s Contact Info',
             items: [
               {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus'
+                label: 'LinkedIn',
+                href: 'https://www.linkedin.com/in/matthew-keil/'
               },
               {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus'
+                label: 'GitHub',
+                href: 'https://github.com/matthewkeil'
               },
               {
                 label: 'Twitter',
-                href: 'https://twitter.com/docusaurus'
+                href: 'https://twitter.com/MatthewKeil'
               }
             ]
           },
           {
-            title: 'More',
+            title: 'Distributions',
             items: [
               {
-                label: 'Blog',
-                to: '/blog'
+                label: 'npm',
+                to: 'https://www.npmjs.com/package/full-stack-pattern'
               },
               {
                 label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus'
+                href: 'https://github.com/matthewkeil/full-stack-pattern'
               }
             ]
           }

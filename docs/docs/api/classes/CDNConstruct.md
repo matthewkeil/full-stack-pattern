@@ -32,7 +32,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:194](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/cdn/CDNConstruct.ts#L194)
+[src/stacks/cdn/CDNConstruct.ts:259](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/cdn/CDNConstruct.ts#L259)
 
 ## Properties
 
@@ -42,17 +42,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:187](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/cdn/CDNConstruct.ts#L187)
-
-___
-
-### configFileProvider
-
-• **configFileProvider**: [`Lambda`](Lambda)
-
-#### Defined in
-
-[src/stacks/cdn/CDNConstruct.ts:189](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/cdn/CDNConstruct.ts#L189)
+[src/stacks/cdn/CDNConstruct.ts:253](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/cdn/CDNConstruct.ts#L253)
 
 ___
 
@@ -62,7 +52,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:188](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/cdn/CDNConstruct.ts#L188)
+[src/stacks/cdn/CDNConstruct.ts:254](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/cdn/CDNConstruct.ts#L254)
 
 ___
 
@@ -90,7 +80,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:192](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/cdn/CDNConstruct.ts#L192)
+[src/stacks/cdn/CDNConstruct.ts:257](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/cdn/CDNConstruct.ts#L257)
 
 ___
 
@@ -100,7 +90,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:190](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/cdn/CDNConstruct.ts#L190)
+[src/stacks/cdn/CDNConstruct.ts:255](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/cdn/CDNConstruct.ts#L255)
 
 ## Methods
 
@@ -114,21 +104,21 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:226](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/cdn/CDNConstruct.ts#L226)
+[src/stacks/cdn/CDNConstruct.ts:291](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/cdn/CDNConstruct.ts#L291)
 
 ___
 
 ### buildCodeDeployment
 
-▸ `Private` **buildCodeDeployment**(): [`Lambda`](Lambda)
+▸ `Private` **buildCodeDeployment**(): `void`
 
 #### Returns
 
-[`Lambda`](Lambda)
+`void`
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:455](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/cdn/CDNConstruct.ts#L455)
+[src/stacks/cdn/CDNConstruct.ts:525](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/cdn/CDNConstruct.ts#L525)
 
 ___
 
@@ -142,7 +132,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:265](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/cdn/CDNConstruct.ts#L265)
+[src/stacks/cdn/CDNConstruct.ts:335](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/cdn/CDNConstruct.ts#L335)
 
 ___
 
@@ -344,16 +334,13 @@ ___
 
 ### buildUrls
 
-▸ `Static` **buildUrls**(`__namedParameters`): `string`[]
+▸ `Static` `Private` **buildUrls**(`__namedParameters`): `string`[]
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `__namedParameters` | `Object` |
-| `__namedParameters.buildWwwSubdomain?` | false \| true |
-| `__namedParameters.rootDomain` | `string` |
-| `__namedParameters.stage` | `string` |
+| `__namedParameters` | `BuildUrlsProps` |
 
 #### Returns
 
@@ -361,7 +348,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:153](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/cdn/CDNConstruct.ts#L153)
+[src/stacks/cdn/CDNConstruct.ts:173](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/cdn/CDNConstruct.ts#L173)
 
 ___
 
@@ -369,11 +356,16 @@ ___
 
 ▸ `Static` **getBucketName**(`__namedParameters`): `string`
 
+Exposes the algorithm that is used to generate the bucket name from the
+construct `props`.  Useful if you need to know the bucket name for other
+constructs and are getting a circular dependency error when importing the
+IBucket.  Gotta love chicken and the egg ala cdk.
+
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `__namedParameters` | `Pick`<[`CDNConstructProps`](../interfaces/CDNConstructProps), ``"prefix"`` \| ``"bucketName"``\> & { `urls?`: `string`[]  } |
+| `__namedParameters` | `GetBucketNameProps` |
 
 #### Returns
 
@@ -381,7 +373,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:171](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/cdn/CDNConstruct.ts#L171)
+[src/stacks/cdn/CDNConstruct.ts:193](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/cdn/CDNConstruct.ts#L193)
 
 ___
 
@@ -413,6 +405,32 @@ node_modules/@aws-cdk/core/lib/construct-compat.d.ts:71
 
 ___
 
+### lookupExistingResources
+
+▸ `Static` **lookupExistingResources**(`props`): `Promise`<[`CDNConstructProps`](../interfaces/CDNConstructProps)\>
+
+This is a helper function to avoid resource collisions during development.
+When buckets get left behind, rebuilding the stack throws an error. Does a
+lookup for the bucket that is going to get built and adds
+`props.bucketName` and `props.useExistingBucket = true` to the props and
+returns the full props object to be used with `new CDNConstruct()`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`CDNConstructProps`](../interfaces/CDNConstructProps) & { `profile?`: `string` ; `region`: `string`  } |
+
+#### Returns
+
+`Promise`<[`CDNConstructProps`](../interfaces/CDNConstructProps)\>
+
+#### Defined in
+
+[src/stacks/cdn/CDNConstruct.ts:229](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/cdn/CDNConstruct.ts#L229)
+
+___
+
 ### urlSafe
 
 ▸ `Static` `Private` **urlSafe**(`stage`): `string`
@@ -429,4 +447,4 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:149](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/cdn/CDNConstruct.ts#L149)
+[src/stacks/cdn/CDNConstruct.ts:169](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/cdn/CDNConstruct.ts#L169)

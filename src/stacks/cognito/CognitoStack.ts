@@ -1,4 +1,4 @@
-import { Construct, Environment, Stack, StackProps } from '@aws-cdk/core';
+import { Construct, Stack, StackProps } from '@aws-cdk/core';
 import { IRole } from '@aws-cdk/aws-iam';
 import {
   CfnIdentityPool,
@@ -19,10 +19,7 @@ export class CognitoStack extends Stack {
   public groups: CognitoConstruct['groups'];
 
   constructor(scope: Construct, id: string, props: CognitoStackProps) {
-    super(scope, id, {
-      ...props,
-      stackName: props.stackName ?? `${props.prefix}-cognito`
-    });
+    super(scope, id, props);
     const {
       userPool,
       userPoolClient,

@@ -4,22 +4,25 @@ import { FullStackConstruct, FullStackProps } from './FullStackConstruct';
 
 export class FullStackNested extends Stack {
   public core: CoreNestedStack;
-  public frontend: CDNNestedStack;
+  public cdn: CDNNestedStack;
   public auth: CognitoNestedStack;
   public backend: ServerlessNestedStack;
   public addConfigFile: FullStackConstruct['addConfigFile'];
 
   constructor(scope: Construct, id: string, props: Omit<FullStackProps, 'nested'>) {
-    super(scope, id, props);
+    super(scope, id, {
+      ...props,
+      stackName: props.prefix
+    });
     const construct = new FullStackConstruct(this, 'FullStack', {
       ...props,
       nested: true
     });
-    const { core, backend, auth, frontend, addConfigFile } = construct;
+    const { core, serverless: backend, cognito: auth, cdn, addConfigFile } = construct;
     this.core = core as CoreNestedStack;
     this.backend = backend as ServerlessNestedStack;
     this.auth = auth as CognitoNestedStack;
-    this.frontend = frontend as CDNNestedStack;
+    this.cdn = cdn as CDNNestedStack;
     this.addConfigFile = addConfigFile.bind(construct);
   }
 
@@ -30,7 +33,7 @@ export class FullStackNested extends Stack {
       profile: string;
     }
   ) {
-    const _props = await FullStackConstruct.addAccountProps(props);
+    const _props = await FullStackConstruct.lookupExistingResources(props);
     return new FullStackNested(scope, id, _props);
   }
 }

@@ -32,7 +32,7 @@ NestedStack.constructor
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessNestedStack.ts:24](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/serverless/ServerlessNestedStack.ts#L24)
+[src/stacks/serverless/ServerlessNestedStack.ts:20](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/serverless/ServerlessNestedStack.ts#L20)
 
 ## Properties
 
@@ -97,7 +97,7 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessNestedStack.ts:20](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/serverless/ServerlessNestedStack.ts#L20)
+[src/stacks/serverless/ServerlessNestedStack.ts:16](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/serverless/ServerlessNestedStack.ts#L16)
 
 ___
 
@@ -125,7 +125,7 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessNestedStack.ts:22](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/serverless/ServerlessNestedStack.ts#L22)
+[src/stacks/serverless/ServerlessNestedStack.ts:18](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/serverless/ServerlessNestedStack.ts#L18)
 
 ___
 
@@ -165,7 +165,7 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessNestedStack.ts:18](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/serverless/ServerlessNestedStack.ts#L18)
+[src/stacks/serverless/ServerlessNestedStack.ts:14](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/serverless/ServerlessNestedStack.ts#L14)
 
 ___
 
@@ -266,7 +266,7 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessNestedStack.ts:19](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/serverless/ServerlessNestedStack.ts#L19)
+[src/stacks/serverless/ServerlessNestedStack.ts:15](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/serverless/ServerlessNestedStack.ts#L15)
 
 ___
 
@@ -757,26 +757,6 @@ NestedStack.\_validateId
 #### Defined in
 
 node_modules/@aws-cdk/core/lib/stack.d.ts:650
-
-___
-
-### addConfigFile
-
-▸ **addConfigFile**(`configProps`): `void`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `configProps` | [`AddConfigFileProps`](../modules#addconfigfileprops) |
-
-#### Returns
-
-`void`
-
-#### Defined in
-
-[src/stacks/serverless/ServerlessNestedStack.ts:38](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/serverless/ServerlessNestedStack.ts#L38)
 
 ___
 

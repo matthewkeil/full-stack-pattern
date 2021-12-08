@@ -1,4 +1,9 @@
 import { Construct, Duration, RemovalPolicy, Stack } from '@aws-cdk/core';
+import { IRole } from '@aws-cdk/aws-iam';
+import { IRestApi } from '@aws-cdk/aws-apigateway';
+import { ICertificate } from '@aws-cdk/aws-certificatemanager';
+import { CloudFrontTarget } from '@aws-cdk/aws-route53-targets';
+import { ARecord, IHostedZone, RecordTarget } from '@aws-cdk/aws-route53';
 import { BucketDeployment, BucketDeploymentProps, Source } from '@aws-cdk/aws-s3-deployment';
 import {
   CloudFrontWebDistribution,
@@ -19,14 +24,8 @@ import {
   BucketProps,
   CfnBucket
 } from '@aws-cdk/aws-s3';
-import { ICertificate } from '@aws-cdk/aws-certificatemanager';
-import { IRole } from '@aws-cdk/aws-iam';
-import { ARecord, IHostedZone, RecordTarget } from '@aws-cdk/aws-route53';
-import { CloudFrontTarget } from '@aws-cdk/aws-route53-targets';
 
-import { Mutable, toKebab, toPascal } from '../../../lib';
-import { IRestApi } from '@aws-cdk/aws-apigateway';
-import { Lambda } from '../../constructs/Lambda';
+import { Mutable, toKebab, toPascal, bucketExists } from '../../../lib';
 
 export interface CDNConstructProps {
   removalPolicy?: RemovalPolicy;
@@ -50,8 +49,22 @@ export interface CDNConstructProps {
   codePaths: string[];
 
   /**
-   * When using an existing bucket, pass in the bucketName that should
-   * be used.
+   * This is for accounts/clients that have high security and restrict making
+   * buckets.  Also helpful during development and forget to delete a bucket.
+   * Will not throw and error when deploying.  Sets up a BucketPolicy for
+   * access to the existing bucket. When set to `true`, you must also provide
+   * the `bucketName`
+   */
+  useExistingBucket?: boolean;
+
+  /**
+   * This is for accounts/clients that have high security and restrict making
+   * bucket policies. Has no effect unless `props.useExistingBucket = true`
+   */
+  noBucketPolicy?: boolean;
+
+  /**
+   * Set the bucketName
    */
   bucketName?: string;
 
@@ -143,20 +156,25 @@ export interface CDNConstructProps {
   // >;
 }
 
+type BuildUrlsProps = Required<Pick<CDNConstructProps, 'stage' | 'rootDomain'>> &
+  Pick<CDNConstructProps, 'buildWwwSubdomain'>;
+interface GetBucketNameProps
+  extends Partial<
+    Pick<CDNConstructProps, 'bucketName' | 'prefix' | 'stage' | 'rootDomain' | 'buildWwwSubdomain'>
+  > {
+  // used internally by the Construct. list of target urls for stage
+  urls?: string[];
+}
 export class CDNConstruct extends Construct {
   private static urlSafe(stage: string): string {
     return toKebab(stage.replace(/[^a-zA-Z0-9_-]*/g, ''));
   }
 
-  public static buildUrls({
+  private static buildUrls({
     stage,
     rootDomain,
     buildWwwSubdomain = true
-  }: {
-    stage: string;
-    rootDomain: string;
-    buildWwwSubdomain?: boolean;
-  }): string[] {
+  }: BuildUrlsProps): string[] {
     if (stage === 'prod') {
       if (buildWwwSubdomain) {
         return [`www.${rootDomain}`, rootDomain];
@@ -166,11 +184,18 @@ export class CDNConstruct extends Construct {
     return [`${CDNConstruct.urlSafe(stage)}.${rootDomain}`];
   }
 
+  /**
+   * Exposes the algorithm that is used to generate the bucket name from the
+   * construct `props`.  Useful if you need to know the bucket name for other
+   * constructs and are getting a circular dependency error when importing the
+   * IBucket.  Gotta love chicken and the egg ala cdk.
+   */
   public static getBucketName = ({
     bucketName,
     prefix,
-    urls
-  }: Pick<CDNConstructProps, 'bucketName' | 'prefix'> & { urls?: string[] }) => {
+    urls,
+    ...buildUrlProps
+  }: GetBucketNameProps) => {
     if (bucketName) {
       return bucketName;
     }
@@ -179,13 +204,54 @@ export class CDNConstruct extends Construct {
       return urls[0];
     }
 
+    if (buildUrlProps.stage && buildUrlProps.rootDomain) {
+      const urls = CDNConstruct.buildUrls({
+        stage: buildUrlProps.stage,
+        rootDomain: buildUrlProps.rootDomain,
+        buildWwwSubdomain: buildUrlProps.buildWwwSubdomain
+      });
+      return urls[0];
+    }
+
+    if (!prefix) {
+      throw new Error('must provide one: bucketName, urls, prefix or both stage and rootDomain');
+    }
     return `${prefix}-cdn`;
   };
 
+  /**
+   * This is a helper function to avoid resource collisions during development.
+   * When buckets get left behind, rebuilding the stack throws an error. Does a
+   * lookup for the bucket that is going to get built and adds
+   * `props.bucketName` and `props.useExistingBucket = true` to the props and
+   * returns the full props object to be used with `new CDNConstruct()`
+   */
+  public static async lookupExistingResources(
+    props: CDNConstructProps & { region: string; profile?: string }
+  ): Promise<CDNConstructProps> {
+    const _props = { ...props, region: undefined, profile: undefined };
+    let urls: string[] | undefined;
+    if (props.rootDomain && props.stage) {
+      urls = CDNConstruct.buildUrls({
+        rootDomain: props.rootDomain,
+        stage: props.stage,
+        buildWwwSubdomain: props.buildWwwSubdomain
+      });
+    }
+    const bucketName = CDNConstruct.getBucketName({
+      prefix: props.prefix,
+      bucketName: props.bucketName,
+      urls
+    });
+    if (await bucketExists({ profile: props.profile, region: props.region, bucketName })) {
+      console.log(`Bucket ${bucketName} already exists. Will deploy frontend to existing bucket`);
+      _props.bucketName = bucketName;
+    }
+    return _props;
+  }
+
   public bucket: IBucket;
   public distribution: CloudFrontWebDistribution;
-  public configFileProvider: Lambda;
-  public configFileServiceToken: string;
   public urls?: string[];
 
   private originAccessIdentity: OriginAccessIdentity;
@@ -208,8 +274,7 @@ export class CDNConstruct extends Construct {
     });
     this.bucket = this.buildBucket();
     this.distribution = this.buildDistribution();
-    this.configFileProvider = this.buildCodeDeployment();
-    this.configFileServiceToken = this.configFileProvider.function.functionArn;
+    this.buildCodeDeployment();
 
     for (const url of this.urls ?? []) {
       if (!this.props.hostedZone) {
@@ -224,28 +289,33 @@ export class CDNConstruct extends Construct {
   }
 
   private buildBucket() {
-    if (this.props.bucketName) {
+    if (this.props.useExistingBucket) {
+      if (!this.props.bucketName) {
+        throw new Error('must provide the bucketName when you useExistingBucket');
+      }
       const bucket = Bucket.fromBucketName(this, 'Bucket', this.props.bucketName);
-      new CfnBucketPolicy(this, 'BucketPolicy', {
-        bucket: bucket.bucketName,
-        policyDocument: {
-          Statement: [
-            {
-              Effect: 'Allow',
-              Action: ['s3:GetObject'],
-              Principal: {
-                CanonicalUser: this.originAccessIdentity
-                  .cloudFrontOriginAccessIdentityS3CanonicalUserId
-              },
-              Resource: [bucket.arnForObjects('*')]
-            }
-          ]
-        }
-      });
+      if (!this.props.noBucketPolicy) {
+        new CfnBucketPolicy(this, 'BucketPolicy', {
+          bucket: bucket.bucketName,
+          policyDocument: {
+            Statement: [
+              {
+                Effect: 'Allow',
+                Action: ['s3:GetObject'],
+                Principal: {
+                  CanonicalUser: this.originAccessIdentity
+                    .cloudFrontOriginAccessIdentityS3CanonicalUserId
+                },
+                Resource: [bucket.arnForObjects('*')]
+              }
+            ]
+          }
+        });
+      }
       return bucket;
     }
 
-    const bucketName = CDNConstruct.getBucketName(this.props);
+    const bucketName = CDNConstruct.getBucketName({ ...this.props, urls: this.urls });
     const removalPolicy = this.props.removalPolicy ?? RemovalPolicy.DESTROY;
     const autoDeleteObjects = removalPolicy === RemovalPolicy.DESTROY;
     const bucket = new Bucket(this, 'Bucket', {

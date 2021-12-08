@@ -14,6 +14,7 @@ export class ServerlessNestedStack extends NestedStack {
   public lambdas?: Lambdas;
   public tables?: Tables;
   public api?: Api;
+  public domain?: string;
 
   private construct: ServerlessConstruct;
 
@@ -25,9 +26,10 @@ export class ServerlessNestedStack extends NestedStack {
       timeout: props.stackTimeout
     });
     this.construct = new ServerlessConstruct(this, 'ServerlessConstruct', props);
-    const { lambdas, tables, api } = this.construct;
+    const { lambdas, tables, api, domainUrl } = this.construct;
     this.lambdas = lambdas;
     this.tables = tables;
     this.api = api;
+    this.domain = domainUrl;
   }
 }

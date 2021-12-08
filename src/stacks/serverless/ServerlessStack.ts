@@ -12,20 +12,17 @@ export class ServerlessStack extends Stack {
   public lambdas?: Lambdas;
   public tables?: Tables;
   public api?: Api;
+  public domain?: string;
 
   private construct: ServerlessConstruct;
 
   constructor(scope: Construct, id: string, props: ServerlessStackProps) {
-    super(scope, id, {
-      ...props,
-      stackName: props.stackName ?? `${props.prefix}-serverless`
-    });
+    super(scope, id, props);
     this.construct = new ServerlessConstruct(this, 'ServerlessConstruct', props);
-    const { lambdas, tables, api } = this.construct;
+    const { lambdas, tables, api, domainUrl } = this.construct;
     this.lambdas = lambdas;
     this.tables = tables;
     this.api = api;
-
-    this.lambdas?.resources['name'].props.events?.forEach(event => {ev})
+    this.domain = domainUrl;
   }
 }

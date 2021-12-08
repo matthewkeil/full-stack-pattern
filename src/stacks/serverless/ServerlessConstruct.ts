@@ -2,24 +2,71 @@ import { nanoid } from 'nanoid';
 import { Construct } from '@aws-cdk/core';
 import { AssetCode, LayerVersion } from '@aws-cdk/aws-lambda';
 import { Api, ApiProps } from '../../constructs/Api';
+import { ICertificate } from '@aws-cdk/aws-certificatemanager';
 import { Tables, TablesProps } from '../../constructs/Tables';
 import { Lambdas, LambdasProps } from '../../constructs/Lambdas';
+import { ARecord, CnameRecord, IHostedZone, RecordTarget } from '@aws-cdk/aws-route53';
+import { CloudFrontTarget, ApiGateway } from '@aws-cdk/aws-route53-targets';
+import { BasePathMapping, DomainName, EndpointType } from '@aws-cdk/aws-apigateway';
 
 export interface ServerlessConstructProps
   extends Omit<ApiProps, 'description'>,
     TablesProps,
-    Omit<LambdasProps, 'tables'> {}
+    Omit<LambdasProps, 'tables'> {
+  /**
+   * The url/rootDomain for the HostedZone.  If you don not provide a
+   * rootDomain a CoreConstruct will not be created.
+   *
+   * @example If you are hosting the ui at `www.example.com` and the api
+   * at `api.example.com` the rootDomain would be `example.com`  This is
+   * similar for branches, such as `dev.api.example.com` and
+   * `dev.example.com`.  The rootDomain will still be `example.com`.
+   */
+  rootDomain?: string;
+
+  /**
+   * The api subDomain
+   *
+   * @default api
+   */
+  subDomain?: string;
+
+  /**
+   * For custom domain names. Required when using a rootDomain.
+   */
+  certificate?: ICertificate;
+
+  hostedZone?: IHostedZone;
+}
 
 export class ServerlessConstruct extends Construct {
   public lambdas?: Lambdas;
   public tables?: Tables;
   public api?: Api;
+  public subDomain?: string;
+  public domainUrl?: string;
 
   private layers?: LayerVersion[];
 
   constructor(scope: Construct, id: string, private props: ServerlessConstructProps) {
     super(scope, id);
-    this.api = new Api(this, 'Api', props);
+
+    if (this.props.rootDomain) {
+      const stage = this.props.stage && this.props.stage !== 'prod' ? `${this.props.stage}.` : '';
+      this.subDomain = `${stage}${this.props.subDomain ?? 'api'}`;
+      this.domainUrl = `${this.subDomain}.${this.props.rootDomain}`;
+    }
+
+    this.api = new Api(this, 'Api', {
+      ...this.props,
+      domainName:
+        this.props.rootDomain && this.props.certificate
+          ? {
+              domainName: this.domainUrl as string,
+              certificate: this.props.certificate
+            }
+          : undefined
+    });
 
     if (this.props.tables) {
       this.tables = new Tables(this, 'Tables', {
@@ -56,6 +103,29 @@ export class ServerlessConstruct extends Construct {
         this.node.tryRemoveChild('Api');
         this.api = undefined;
       }
+    }
+
+    if (this.api && this.domainUrl) {
+      if (!(this.props.hostedZone && this.props.certificate)) {
+        throw new Error('You must provide a HostedZone and Certificate to use a custom rootDomain');
+      }
+
+      const domainName = new DomainName(this, 'DomainName', {
+        domainName: this.domainUrl,
+        certificate: this.props.certificate,
+        endpointType: EndpointType.EDGE
+      });
+
+      new BasePathMapping(this, 'BasePathMapping', {
+        domainName,
+        restApi: this.api.api
+      });
+
+      new CnameRecord(this, 'ApiGatewayRecordSet', {
+        zone: this.props.hostedZone,
+        recordName: this.subDomain,
+        domainName: domainName.domainNameAliasDomainName
+      });
     }
   }
 }

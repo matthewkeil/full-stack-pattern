@@ -6,7 +6,6 @@ sidebar_position: 1
 
 This is a static asset hosting construct and the basis for the CDNStack and CDNNestedStack. If you are looking for a CDN stack check those docs out.
 
-
 Assets are stored in S3 and globally edge-hosted using CloudFront. Will optionally setup AliasRecords if passed a HostedZone. Will optionally use a passed Certificate for TLS/SSL.
 
 Built for branch based development with the subdomain and branch name matching for easy showcasing of features to clients. ie if you are using a rootDomain of `example.com` and working on the `special-feature` branch then the dns will be setup for `https://special-feature.example.com`. Also automatically sets up a naked and www subdomain for the prod stage.
@@ -25,6 +24,65 @@ Sets up a custom resource for uploading a config file to the frontend. Useful wh
 - AWS::S3::BucketPolicy
 - AWS::S3::Bucket
 - cdk BucketDeployment
+
+## Usage Example
+
+```typescript
+import { CDNConstruct } from 'ful-stack-pattern';
+
+interface FancyStackProps {
+  prefix: string;
+  hostedZone: IHostedZone;
+  certificate: ICertificate;
+  config: Record<string, unknown>;
+}
+
+class FancyStack extends Stack {
+  constructor(scope: Construct, id: string, props: FancyStackProps) {
+    super(scope, id, props);
+
+    // this example will serve the contents of the codePath directory
+    // from `https://dev.example.com`
+    const cdn = new CDNConstruct(this, 'CDNConstruct', {
+      stage: 'dev',
+      rootDomain: 'example.com',
+      bucketName: 'dev-example-com',
+      codePaths: [resolve(__dirname, '..', 'frontend', 'build')],
+      prefix: props.prefix,
+      hostedZone: props.hostedZone,
+      certificate: props.certificate
+    });
+  }
+}
+```
+
+## CDNConstruct Methods
+
+```typescript
+import { CDNConstruct } from 'ful-stack-pattern';
+
+type GetBucketNameProps = Partial<
+  Pick<CDNConstructProps, 'bucketName' | 'prefix' | 'stage' | 'rootDomain' | 'buildWwwSubdomain'>
+>;
+/**
+ * Exposes the algorithm that is used to generate the bucket name from the
+ * construct `props`.  Useful if you need to know the bucket name for other
+ * constructs and are getting a circular dependency error when importing the
+ * IBucket.  Gotta love chicken and the egg ala cdk.
+ */
+const bucketName: string = CDNConstruct.getBucketName(props as GetBucketNameProps);
+
+type LookupProps = CDNConstructProps & { region: string; profile?: string };
+/**
+ * This is a helper function to avoid resource collisions during development.
+ * When buckets get left behind, rebuilding the stack throws an error. Does a
+ * lookup for the bucket that is going to get built and adds
+ * `props.bucketName` and `props.useExistingBucket = true` to the props and
+ * returns the full props object to be used with `new CDNConstruct()`
+ */
+const props = await CDNConstruct.lookupExistingResources(props as LookupProps);
+const cdn = new CDNConstruct(this, 'CDNConstruct', props);
+```
 
 ## CDNConstructProps
 
@@ -121,36 +179,5 @@ export interface CDNConstructProps {
    * Deployment role to use when publishing files to S3.
    */
   deploymentRole?: IRole;
-}
-```
-
-## Usage Example
-
-```typescript
-import { CDNConstruct } from 'ful-stack-pattern';
-
-interface FancyStackProps {
-  prefix: string;
-  hostedZone: IHostedZone;
-  certificate: ICertificate;
-  config: Record<string, unknown>;
-}
-
-class FancyStack extends Stack {
-  constructor(scope: Construct, id: string, props: FancyStackProps) {
-    super(scope, id, props);
-
-    // this example will serve the contents of the codePath directory
-    // from `https://dev.example.com`
-    const cdn = new CDNConstruct(this, 'CDNConstruct', {
-      stage: 'dev',
-      rootDomain: 'example.com',
-      bucketName: 'dev-example-com',
-      codePaths: [resolve(__dirname, '..', 'frontend', 'build')],
-      prefix: props.prefix,
-      hostedZone: props.hostedZone,
-      certificate: props.certificate
-    });
-  }
 }
 ```

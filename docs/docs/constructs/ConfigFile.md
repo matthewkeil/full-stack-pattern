@@ -6,6 +6,13 @@ sidebar_position: 2
 
 Custom Resource backed Construct that builds and uploads a configuration file for the frontend. Can work either in a Stack or if built in a higher order Construct it will build its own stack.
 
+- uses YAML.stringify(config) for .yaml and .yml fileNames
+- uses JSON.stringify(config) for .json fileNames
+- creates a js file, for .js fileNames, by stringifying the object with JSON.stringify and wrapping it with
+  `var CONFIG_FILE = JSON.parse('${stringified}');`
+  Makes it globally available to the code in the browser via
+  `<head><script type="text/javascript" src="/config.js" /></head>`
+
 ## ConfigFileProps
 
 ```typescript

@@ -32,7 +32,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/stacks/core/CoreConstruct.ts:25](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/core/CoreConstruct.ts#L25)
+[src/stacks/core/CoreConstruct.ts:109](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/core/CoreConstruct.ts#L109)
 
 ## Properties
 
@@ -42,7 +42,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/stacks/core/CoreConstruct.ts:23](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/core/CoreConstruct.ts#L23)
+[src/stacks/core/CoreConstruct.ts:107](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/core/CoreConstruct.ts#L107)
 
 ___
 
@@ -52,7 +52,7 @@ ___
 
 #### Defined in
 
-[src/stacks/core/CoreConstruct.ts:22](https://github.com/matthewkeil/full-stack-pattern/blob/73a40c7/src/stacks/core/CoreConstruct.ts#L22)
+[src/stacks/core/CoreConstruct.ts:106](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/core/CoreConstruct.ts#L106)
 
 ___
 
@@ -295,3 +295,34 @@ Construct.isConstruct
 #### Defined in
 
 node_modules/@aws-cdk/core/lib/construct-compat.d.ts:71
+
+___
+
+### lookupExistingResources
+
+▸ `Static` **lookupExistingResources**(`props`): `Promise`<[`CoreConstructProps`](../interfaces/CoreConstructProps)\>
+
+Will lookup the hostedZoneId and the certificateArn for the provided
+rootDomain.  If a HostedZone is found for rootDomain the id is added
+to props.hostedZoneId.  If a Certificate is found for the rootDomain
+the certificateArn is added to props.certificateArn.  This makes it
+easy to pass the returned props to the CoreConstruct constructor
+function.
+
+Must provide a region to search and optionally can provide
+a profile to use (uses profile/credentials in ~/.aws/credentials) for
+the lookup
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`CoreConstructProps`](../interfaces/CoreConstructProps) & { `profile?`: `string` ; `region`: `string`  } |
+
+#### Returns
+
+`Promise`<[`CoreConstructProps`](../interfaces/CoreConstructProps)\>
+
+#### Defined in
+
+[src/stacks/core/CoreConstruct.ts:83](https://github.com/matthewkeil/full-stack-pattern/blob/ee83838/src/stacks/core/CoreConstruct.ts#L83)
