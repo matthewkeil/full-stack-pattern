@@ -13,8 +13,7 @@
     "build:ts": "tsc --project tsconfig.build.json",
     "build:providers": "webpack",
     "build": "cross-env-shell \"rm -rf dist && npm run build:ts && npm run build:providers\"",
-    "preversion": "echo $npm_package_version",
-    "postversion": "echo $npm_package_version",
+    "postversion": "git push --tags",
     "ts-node": "ts-node",
     "node": "node",
     "ts": "npm run node -- -r ts-node/register"
