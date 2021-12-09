@@ -174,3 +174,49 @@ Resources:
     Properties:
       FunctionName: bc-some-project-fancy-feature-get-dynamo-record
 ```
+
+## Example of LogicalId Debugging Issue
+
+This is an example of a template debugging challenge I have encountered several times. There are a few repos where I work, with lots of contributors. Everyone is excited about cdk and working on constructs. Development velocity breeds innovation. Cross-pollination of novel ideas across teams triggers refactoring. Both lead to the construct libraries evolving over time. The structure of the constructs and their interactions with each other change as the team meets new challenges. This leads to path changes in the component tree and thus logicalId changes for resources.
+
+In the example below, the names of one of the constructs was changed. It was developed by one team as 'Hosting' and by another team as 'StaticAssetHosting'. Team 1 is better at full stack development so their code was adopted for the application code. Team 2 excels at devops processes so their infrastructure code was selected. Ie. copy a folder in one repo into the other repo.
+
+There was a few things that need to be changed but for the most part it was a plug and play swap of Constructs. The old and the new both had very similar props interfaces so the props objects were mostly interchangeable. The constructs do the same thing just how they were assembled under the hood changed. This is the beauty of OOP and encapsulation. Implementation details should be hidden from the consumer. Cdk does not adhere to normal encapsulation though...
+
+After several hours of debugging resource replacements, the `cdk diff` down to a much smaller size. Look closely at the excerpt below. The logicalId's of those resources were set by the cdk on both teams.  They were different, so they got deleted and recreated.
+
+```txt
+[-] AWS::S3::Bucket HostingBucketDB108620 destroy
+[+] AWS::S3::Bucket StaticAssetHosting/Bucket StaticAssetHostingBucket9C5477F8
+
+[-] AWS::S3::BucketPolicy HostingBucketPolicyED370C32 destroy
+[+] AWS::S3::BucketPolicy StaticAssetHosting/Bucket/Policy StaticAssetHostingBucketPolicy366693AC
+
+[-] AWS::CloudFront::CloudFrontOriginAccessIdentity HostingOriginAccessIdentityDEE81F7A destroy
+[+] AWS::CloudFront::CloudFrontOriginAccessIdentity StaticAssetHosting/OriginAccessIdentity StaticAssetHostingOriginAccessIdentity3BAD784A
+```
+
+For stateless things this is no problem (iam, resource policies, etc) as long as the content is the same. But deleting and recreating a UserPool, Table or a Bucket can potentially be a big big big deal.  This is a huge bear trap that you best not get yourself caught in.
+
+Now look at the next example.  Had the team not manually overridden the logicalId's, the UserPool would have been deleted and recreated.
+
+However, the logicalId's were manually overridden to a known value and that value was transferred.  So even though the construct path is not the same, the resource is updated, and not deleted and recreated.  Only the metadata and the lambda's logicalId change.  Neither of which is a problem.
+
+```txt
+[~] AWS::Cognito::UserPool Auth/UserPool CognitoUserPool
+ ├─ [~] LambdaConfig
+ │   └─ [~] .PreTokenGeneration:
+ │       └─ [~] .Fn::GetAtt:
+ │           └─ @@ -1,4 +1,4 @@
+ │              [ ] [
+ │              [-]   "PreTokenGenerationFunctionE0C4E8B2",
+ │              [+]   "FancyAppDevPreTokenGenerationFunction",
+ │              [ ]   "Arn"
+ │              [ ] ]
+ ├─ [-] UserPoolTags
+ │   └─ {"Client":"mk","Environment":"dev","Project":"full-stack-pattern"}
+ └─ [~] Metadata
+     └─ [~] .aws:cdk:path:
+         ├─ [-] FancyApp/Cognito/UserPool/Resource
+         └─ [+] FancyApp/Auth/UserPool/Resource
+```

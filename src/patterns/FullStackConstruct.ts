@@ -19,7 +19,7 @@ import { ServerlessStack } from '../stacks/serverless/ServerlessStack';
 import { existingLogGroups } from '../../lib/aws/cwLogs';
 import { ConfigFile, ConfigFileProps } from '../constructs/ConfigFile';
 
-type Cognito = Omit<CognitoConstructProps, 'prefix'> & {
+export type FullStackCognitoProp = Omit<CognitoConstructProps, 'prefix'> & {
   /**
    * The login path to append to all urls.
    *
@@ -43,7 +43,7 @@ export interface FullStackConstructProps {
   /**
    * The env for the stacks
    */
-  readonly env?: Environment;
+  env: Required<Environment>;
   /**
    * The deployment stage name.  This will be used to prefix all resources.
    *
@@ -160,12 +160,12 @@ export interface FullStackConstructProps {
    * rootDomain is not available on core, it is passed in from fullStackProp.rootDomain
    * @param {Cognito} serverless
    */
-  cognito?: Cognito;
+  cognito?: FullStackCognitoProp;
 }
 
 export interface FullStackProps
   extends Omit<FullStackConstructProps, 'nested' | 'stackTimeout'>,
-    StackProps {}
+    Omit<StackProps, 'env'> {}
 
 export class FullStackConstruct extends Construct {
   /**
@@ -180,34 +180,50 @@ export class FullStackConstruct extends Construct {
     props: FullStackConstructProps & {
       profile: string;
     }
+    // & { env: Required<Environment> }
   ): Promise<FullStackConstructProps> {
-    const region = Stack.of(this).region;
-
+    let baseDomain: string | undefined;
     let core: FullStackConstructProps['core'];
+
     if (props.rootDomain) {
+      if (!props.stage) {
+        throw new Error('stage is required when rootDomain is provided');
+      }
+      baseDomain = CDNConstruct.buildUrls({
+        rootDomain: props.rootDomain,
+        subDomain: props.subDomain,
+        stage: props.stage,
+        buildWwwSubdomain: false
+      })[0];
       core = await CoreConstruct.lookupExistingResources({
         ...(props.core ?? {}),
-        region,
+        region: props.env.region,
         profile: props.profile,
         rootDomain: props.rootDomain
       });
     } else {
-      core = props.core;
+      if (props.core) {
+        throw new Error('core is not available when rootDomain is not provided');
+      }
     }
 
     const cdn = !props.cdn
       ? undefined
       : await CDNConstruct.lookupExistingResources({
           ...props.cdn,
-          region,
+          rootDomain: baseDomain,
+          stage: props.stage,
+          region: props.env.region,
           profile: props.profile
         });
 
-    const serverless: FullStackConstructProps['serverless'] = {
-      ...props.serverless,
-      existingLogGroups: await existingLogGroups(props)
-      // existingTables: await listTableNames(props)
-    };
+    const serverless: FullStackConstructProps['serverless'] = !props.serverless
+      ? undefined
+      : {
+          ...props.serverless,
+          existingLogGroups: await existingLogGroups(props)
+          // existingTables: await listTableNames(props)
+        };
 
     return {
       ...props,
@@ -290,7 +306,8 @@ export class FullStackConstruct extends Construct {
         ...(this.props.cognito ?? {}),
         userPoolDomain: {
           ...(this.props.cognito?.userPoolDomain ?? {}),
-          rootDomain: this.domain
+          rootDomain: this.domain,
+          certificateArn: this.core?.certificate?.certificateArn
         },
         prefix,
         removalPolicy:
@@ -328,6 +345,8 @@ export class FullStackConstruct extends Construct {
         prefix,
         stage,
         rootDomain: this.domain,
+        certificate: this.core?.certificate,
+        hostedZone: this.core?.hostedZone,
         removalPolicy:
           this.props.serverless.removalPolicy ?? props.removalPolicy ?? RemovalPolicy.DESTROY,
         defaultCorsPreflightOptions: {

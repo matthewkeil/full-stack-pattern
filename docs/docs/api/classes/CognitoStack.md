@@ -32,7 +32,7 @@ Stack.constructor
 
 #### Defined in
 
-[src/stacks/cognito/CognitoStack.ts:21](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/cognito/CognitoStack.ts#L21)
+[src/stacks/cognito/CognitoStack.ts:21](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cognito/CognitoStack.ts#L21)
 
 ## Properties
 
@@ -115,7 +115,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoStack.ts:18](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/cognito/CognitoStack.ts#L18)
+[src/stacks/cognito/CognitoStack.ts:18](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cognito/CognitoStack.ts#L18)
 
 ___
 
@@ -155,7 +155,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoStack.ts:19](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/cognito/CognitoStack.ts#L19)
+[src/stacks/cognito/CognitoStack.ts:19](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cognito/CognitoStack.ts#L19)
 
 ___
 
@@ -165,7 +165,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoStack.ts:17](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/cognito/CognitoStack.ts#L17)
+[src/stacks/cognito/CognitoStack.ts:17](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cognito/CognitoStack.ts#L17)
 
 ___
 
@@ -340,7 +340,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoStack.ts:14](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/cognito/CognitoStack.ts#L14)
+[src/stacks/cognito/CognitoStack.ts:14](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cognito/CognitoStack.ts#L14)
 
 ___
 
@@ -350,7 +350,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoStack.ts:15](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/cognito/CognitoStack.ts#L15)
+[src/stacks/cognito/CognitoStack.ts:15](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cognito/CognitoStack.ts#L15)
 
 ___
 
@@ -360,7 +360,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoStack.ts:16](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/cognito/CognitoStack.ts#L16)
+[src/stacks/cognito/CognitoStack.ts:16](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cognito/CognitoStack.ts#L16)
 
 ## Accessors
 

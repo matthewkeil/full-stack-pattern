@@ -2,7 +2,7 @@ import { Construct, Stack } from '@aws-cdk/core';
 import { CDNNestedStack, CognitoNestedStack, CoreNestedStack, ServerlessNestedStack } from '../..';
 import { FullStackConstruct, FullStackProps } from './FullStackConstruct';
 
-export class FullStackNested extends Stack {
+export class FullNestedStack extends Stack {
   public core: CoreNestedStack;
   public cdn: CDNNestedStack;
   public auth: CognitoNestedStack;
@@ -34,6 +34,6 @@ export class FullStackNested extends Stack {
     }
   ) {
     const _props = await FullStackConstruct.lookupExistingResources(props);
-    return new FullStackNested(scope, id, _props);
+    return new FullNestedStack(scope, id, _props);
   }
 }

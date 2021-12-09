@@ -32,7 +32,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/stacks/core/CoreConstruct.ts:101](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/core/CoreConstruct.ts#L101)
+[src/stacks/core/CoreConstruct.ts:101](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/core/CoreConstruct.ts#L101)
 
 ## Properties
 
@@ -42,7 +42,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/stacks/core/CoreConstruct.ts:99](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/core/CoreConstruct.ts#L99)
+[src/stacks/core/CoreConstruct.ts:99](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/core/CoreConstruct.ts#L99)
 
 ___
 
@@ -52,7 +52,7 @@ ___
 
 #### Defined in
 
-[src/stacks/core/CoreConstruct.ts:98](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/core/CoreConstruct.ts#L98)
+[src/stacks/core/CoreConstruct.ts:98](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/core/CoreConstruct.ts#L98)
 
 ___
 
@@ -325,4 +325,4 @@ the lookup
 
 #### Defined in
 
-[src/stacks/core/CoreConstruct.ts:75](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/core/CoreConstruct.ts#L75)
+[src/stacks/core/CoreConstruct.ts:75](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/core/CoreConstruct.ts#L75)

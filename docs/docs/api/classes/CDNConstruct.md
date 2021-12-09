@@ -32,7 +32,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:259](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/cdn/CDNConstruct.ts#L259)
+[src/stacks/cdn/CDNConstruct.ts:259](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cdn/CDNConstruct.ts#L259)
 
 ## Properties
 
@@ -42,7 +42,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:253](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/cdn/CDNConstruct.ts#L253)
+[src/stacks/cdn/CDNConstruct.ts:253](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cdn/CDNConstruct.ts#L253)
 
 ___
 
@@ -52,7 +52,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:254](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/cdn/CDNConstruct.ts#L254)
+[src/stacks/cdn/CDNConstruct.ts:254](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cdn/CDNConstruct.ts#L254)
 
 ___
 
@@ -80,7 +80,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:257](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/cdn/CDNConstruct.ts#L257)
+[src/stacks/cdn/CDNConstruct.ts:257](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cdn/CDNConstruct.ts#L257)
 
 ___
 
@@ -90,7 +90,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:255](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/cdn/CDNConstruct.ts#L255)
+[src/stacks/cdn/CDNConstruct.ts:255](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cdn/CDNConstruct.ts#L255)
 
 ## Methods
 
@@ -104,7 +104,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:291](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/cdn/CDNConstruct.ts#L291)
+[src/stacks/cdn/CDNConstruct.ts:291](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cdn/CDNConstruct.ts#L291)
 
 ___
 
@@ -118,7 +118,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:525](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/cdn/CDNConstruct.ts#L525)
+[src/stacks/cdn/CDNConstruct.ts:525](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cdn/CDNConstruct.ts#L525)
 
 ___
 
@@ -132,7 +132,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:335](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/cdn/CDNConstruct.ts#L335)
+[src/stacks/cdn/CDNConstruct.ts:335](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cdn/CDNConstruct.ts#L335)
 
 ___
 
@@ -348,7 +348,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:173](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/cdn/CDNConstruct.ts#L173)
+[src/stacks/cdn/CDNConstruct.ts:173](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cdn/CDNConstruct.ts#L173)
 
 ___
 
@@ -373,7 +373,7 @@ IBucket.  Gotta love chicken and the egg ala cdk.
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:193](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/cdn/CDNConstruct.ts#L193)
+[src/stacks/cdn/CDNConstruct.ts:193](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cdn/CDNConstruct.ts#L193)
 
 ___
 
@@ -427,7 +427,7 @@ returns the full props object to be used with `new CDNConstruct()`
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:229](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/cdn/CDNConstruct.ts#L229)
+[src/stacks/cdn/CDNConstruct.ts:229](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cdn/CDNConstruct.ts#L229)
 
 ___
 
@@ -447,4 +447,4 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:169](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/cdn/CDNConstruct.ts#L169)
+[src/stacks/cdn/CDNConstruct.ts:169](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cdn/CDNConstruct.ts#L169)

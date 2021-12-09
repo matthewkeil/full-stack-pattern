@@ -10,7 +10,7 @@ import { CloudFrontTarget, ApiGateway } from '@aws-cdk/aws-route53-targets';
 import { BasePathMapping, DomainName, EndpointType } from '@aws-cdk/aws-apigateway';
 
 export interface ServerlessConstructProps
-  extends Omit<ApiProps, 'description'>,
+  extends Omit<ApiProps, 'description' | 'domainName'>,
     TablesProps,
     Omit<LambdasProps, 'tables'> {
   /**

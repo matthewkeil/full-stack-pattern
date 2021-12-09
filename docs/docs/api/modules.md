@@ -18,9 +18,9 @@ custom_edit_url: null
 - [CoreConstruct](classes/CoreConstruct)
 - [CoreNestedStack](classes/CoreNestedStack)
 - [CoreStack](classes/CoreStack)
+- [FullNestedStack](classes/FullNestedStack)
 - [FullStack](classes/FullStack)
 - [FullStackConstruct](classes/FullStackConstruct)
-- [FullStackNested](classes/FullStackNested)
 - [Lambda](classes/Lambda)
 - [Lambdas](classes/Lambdas)
 - [ServerlessConstruct](classes/ServerlessConstruct)
@@ -55,13 +55,23 @@ custom_edit_url: null
 
 ## Type aliases
 
+### FullStackCognitoProp
+
+Ƭ **FullStackCognitoProp**: `Omit`<[`CognitoConstructProps`](interfaces/CognitoConstructProps), ``"prefix"``\> & { `loginCallbackPath?`: `string` ; `logoutCallbackPath?`: `string`  }
+
+#### Defined in
+
+[src/patterns/FullStackConstruct.ts:22](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/patterns/FullStackConstruct.ts#L22)
+
+___
+
 ### HttpMethod
 
 Ƭ **HttpMethod**: typeof [`httpMethods`](modules#httpmethods)[`number`]
 
 #### Defined in
 
-[lib/HttpMethod.ts:2](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/HttpMethod.ts#L2)
+[lib/HttpMethod.ts:2](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/lib/HttpMethod.ts#L2)
 
 ___
 
@@ -71,7 +81,7 @@ ___
 
 #### Defined in
 
-[lib/Logger.ts:1](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/Logger.ts#L1)
+[lib/Logger.ts:1](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/lib/Logger.ts#L1)
 
 ___
 
@@ -87,7 +97,7 @@ ___
 
 #### Defined in
 
-[lib/Mutable.ts:3](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/Mutable.ts#L3)
+[lib/Mutable.ts:3](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/lib/Mutable.ts#L3)
 
 ## Variables
 
@@ -97,7 +107,7 @@ ___
 
 #### Defined in
 
-[lib/HttpMethod.ts:1](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/HttpMethod.ts#L1)
+[lib/HttpMethod.ts:1](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/lib/HttpMethod.ts#L1)
 
 ## Functions
 
@@ -120,7 +130,7 @@ ___
 
 #### Defined in
 
-[lib/aws/s3.ts:2](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/aws/s3.ts#L2)
+[lib/aws/s3.ts:2](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/lib/aws/s3.ts#L2)
 
 ___
 
@@ -142,7 +152,7 @@ ___
 
 #### Defined in
 
-[lib/buildLayer.ts:30](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/buildLayer.ts#L30)
+[lib/buildLayer.ts:30](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/lib/buildLayer.ts#L30)
 
 ___
 
@@ -162,7 +172,7 @@ ___
 
 #### Defined in
 
-[lib/changeCase.ts:11](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/changeCase.ts#L11)
+[lib/changeCase.ts:11](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/lib/changeCase.ts#L11)
 
 ___
 
@@ -183,7 +193,7 @@ ___
 
 #### Defined in
 
-[lib/exec.ts:3](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/exec.ts#L3)
+[lib/exec.ts:3](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/lib/exec.ts#L3)
 
 ___
 
@@ -206,7 +216,7 @@ ___
 
 #### Defined in
 
-[lib/aws/cwLogs.ts:2](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/aws/cwLogs.ts#L2)
+[lib/aws/cwLogs.ts:2](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/lib/aws/cwLogs.ts#L2)
 
 ___
 
@@ -220,7 +230,7 @@ ___
 
 #### Defined in
 
-[lib/aws/apiGateway.ts:5](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/aws/apiGateway.ts#L5)
+[lib/aws/apiGateway.ts:5](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/lib/aws/apiGateway.ts#L5)
 
 ___
 
@@ -243,13 +253,13 @@ ___
 
 #### Defined in
 
-[lib/aws/certificateManager.ts:4](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/aws/certificateManager.ts#L4)
+[lib/aws/certificateManager.ts:4](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/lib/aws/certificateManager.ts#L4)
 
 ___
 
 ### getConfig
 
-▸ **getConfig**<`S`, `T`\>(`stages`, `statics?`): () => `Promise`<`S` & `T` & { `stage`: `string`  }\>
+▸ **getConfig**<`S`, `T`\>(`stages`, `staticConfig?`): (`branch?`: `string`) => `Promise`<`S` & `T` & { `stage`: `string`  }\>
 
 #### Type parameters
 
@@ -263,13 +273,19 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `stages` | `S`[] |
-| `statics?` | `T` |
+| `staticConfig` | `T` |
 
 #### Returns
 
 `fn`
 
-▸ (): `Promise`<`S` & `T` & { `stage`: `string`  }\>
+▸ (`branch?`): `Promise`<`S` & `T` & { `stage`: `string`  }\>
+
+##### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `branch?` | `string` |
 
 ##### Returns
 
@@ -277,7 +293,7 @@ ___
 
 #### Defined in
 
-[lib/getConfig.ts:4](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/getConfig.ts#L4)
+[lib/getConfig.ts:10](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/lib/getConfig.ts#L10)
 
 ___
 
@@ -300,7 +316,7 @@ ___
 
 #### Defined in
 
-[lib/aws/route53.ts:4](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/aws/route53.ts#L4)
+[lib/aws/route53.ts:4](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/lib/aws/route53.ts#L4)
 
 ___
 
@@ -314,7 +330,7 @@ ___
 
 #### Defined in
 
-[lib/getLocalGitBranch.ts:3](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/getLocalGitBranch.ts#L3)
+[lib/getLocalGitBranch.ts:3](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/lib/getLocalGitBranch.ts#L3)
 
 ___
 
@@ -336,7 +352,7 @@ ___
 
 #### Defined in
 
-[providers/configFileProvider/index.ts:191](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/providers/configFileProvider/index.ts#L191)
+[providers/configFileProvider/index.ts:191](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/providers/configFileProvider/index.ts#L191)
 
 ___
 
@@ -356,7 +372,7 @@ value is "GET" \| "PUT" \| "POST" \| "PATCH" \| "DELETE" \| "HEAD" \| "OPTIONS"
 
 #### Defined in
 
-[lib/HttpMethod.ts:3](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/HttpMethod.ts#L3)
+[lib/HttpMethod.ts:3](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/lib/HttpMethod.ts#L3)
 
 ___
 
@@ -379,7 +395,7 @@ ___
 
 #### Defined in
 
-[lib/aws/dynamodb.ts:2](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/aws/dynamodb.ts#L2)
+[lib/aws/dynamodb.ts:2](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/lib/aws/dynamodb.ts#L2)
 
 ___
 
@@ -405,7 +421,7 @@ ___
 
 #### Defined in
 
-[lib/mergeProps.ts:28](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/mergeProps.ts#L28)
+[lib/mergeProps.ts:28](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/lib/mergeProps.ts#L28)
 
 ___
 
@@ -425,7 +441,7 @@ ___
 
 #### Defined in
 
-[lib/normalizeDomain.ts:1](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/normalizeDomain.ts#L1)
+[lib/normalizeDomain.ts:1](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/lib/normalizeDomain.ts#L1)
 
 ___
 
@@ -445,7 +461,7 @@ ___
 
 #### Defined in
 
-[lib/changeCase.ts:23](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/changeCase.ts#L23)
+[lib/changeCase.ts:23](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/lib/changeCase.ts#L23)
 
 ___
 
@@ -465,7 +481,7 @@ ___
 
 #### Defined in
 
-[lib/changeCase.ts:26](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/changeCase.ts#L26)
+[lib/changeCase.ts:26](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/lib/changeCase.ts#L26)
 
 ___
 
@@ -485,7 +501,7 @@ ___
 
 #### Defined in
 
-[lib/changeCase.ts:17](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/changeCase.ts#L17)
+[lib/changeCase.ts:17](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/lib/changeCase.ts#L17)
 
 ___
 
@@ -505,4 +521,4 @@ ___
 
 #### Defined in
 
-[lib/changeCase.ts:20](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/lib/changeCase.ts#L20)
+[lib/changeCase.ts:20](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/lib/changeCase.ts#L20)

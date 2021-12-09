@@ -76,6 +76,21 @@ export interface CDNConstructProps {
   rootDomain?: string;
 
   /**
+   * Optional: A url subDomain to host the application at. Will still use the
+   * HostedZone at rootDomain but all of this application will be hosted at
+   * the subDomain
+   *
+   * Assume your HostedZone is at `rootDomain: "example.com"` and you want to
+   * host at `subDomain: "best-app"`
+   *
+   * This subDomain is the new "default" root of the application
+   * - the UI will be at `best-app.example.com` and the
+   *   dev branch will be at `dev.best-app.example.com`.
+   *   Optionally you can build `www.best-app.example.com`
+   */
+  subDomain?: string;
+
+  /**
    * The stage of the website that is being hosted. ex. Using `qa`
    * as the stage will host the site at the sub-domain `qa.example.com`.  When
    * the stage is prod a naked domain will be used and the `buildWwwSubdomain`
@@ -157,7 +172,7 @@ export interface CDNConstructProps {
 }
 
 type BuildUrlsProps = Required<Pick<CDNConstructProps, 'stage' | 'rootDomain'>> &
-  Pick<CDNConstructProps, 'buildWwwSubdomain'>;
+  Pick<CDNConstructProps, 'buildWwwSubdomain' | 'subDomain'>;
 interface GetBucketNameProps
   extends Partial<
     Pick<CDNConstructProps, 'bucketName' | 'prefix' | 'stage' | 'rootDomain' | 'buildWwwSubdomain'>
@@ -170,18 +185,20 @@ export class CDNConstruct extends Construct {
     return toKebab(stage.replace(/[^a-zA-Z0-9_-]*/g, ''));
   }
 
-  private static buildUrls({
+  public static buildUrls({
     stage,
+    subDomain,
     rootDomain,
     buildWwwSubdomain = true
   }: BuildUrlsProps): string[] {
+    const baseDomain = subDomain ? `${subDomain}.${rootDomain}` : rootDomain;
     if (stage === 'prod') {
       if (buildWwwSubdomain) {
-        return [`www.${rootDomain}`, rootDomain];
+        return [`www.${baseDomain}`, baseDomain];
       }
-      return [rootDomain];
+      return [baseDomain];
     }
-    return [`${CDNConstruct.urlSafe(stage)}.${rootDomain}`];
+    return [`${CDNConstruct.urlSafe(stage)}.${baseDomain}`];
   }
 
   /**
@@ -190,12 +207,9 @@ export class CDNConstruct extends Construct {
    * constructs and are getting a circular dependency error when importing the
    * IBucket.  Gotta love chicken and the egg ala cdk.
    */
-  public static getBucketName = ({
-    bucketName,
-    prefix,
-    urls,
-    ...buildUrlProps
-  }: GetBucketNameProps) => {
+  public static getBucketName = (props: GetBucketNameProps) => {
+    const { bucketName, prefix, urls, ...buildUrlProps } = props;
+
     if (bucketName) {
       return bucketName;
     }
@@ -229,18 +243,23 @@ export class CDNConstruct extends Construct {
   public static async lookupExistingResources(
     props: CDNConstructProps & { region: string; profile?: string }
   ): Promise<CDNConstructProps> {
-    const _props = { ...props, region: undefined, profile: undefined };
+    const _props = {
+      ...props,
+      region: undefined,
+      profile: undefined
+    };
+
     let urls: string[] | undefined;
     if (props.rootDomain && props.stage) {
       urls = CDNConstruct.buildUrls({
         rootDomain: props.rootDomain,
         stage: props.stage,
+        subDomain: props.subDomain,
         buildWwwSubdomain: props.buildWwwSubdomain
       });
     }
     const bucketName = CDNConstruct.getBucketName({
-      prefix: props.prefix,
-      bucketName: props.bucketName,
+      ...props,
       urls
     });
     if (await bucketExists({ profile: props.profile, region: props.region, bucketName })) {
@@ -538,5 +557,3 @@ export class CDNConstruct extends Construct {
     new BucketDeployment(this, 'BucketDeployment', baseBucketDeploymentProps);
   }
 }
-
-

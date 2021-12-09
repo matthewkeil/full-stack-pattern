@@ -4,24 +4,20 @@
   "license": "MIT",
   "author": "Matthew Keil",
   "description": "A set of useful constructs, stacks, applications and patterns to help ease your journey with cdk",
-  "files": [
-    "dist"
-  ],
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "bin": {
-    "buildLayer": "./dist/lib/buildLayer.js"
-  },
   "scripts": {
     "cdk": "cdk",
-    "ts": "ts-node",
-    "ts-node": "ts-node",
+    "synth": "npm run ts bin/synth",
+    "deploy": "npm run ts bin/deploy",
+    "destroy": "npm run ts bin/destroy",
     "lint": "eslint --fix --ext .ts .",
     "build:ts": "tsc --project tsconfig.build.json",
     "build:providers": "webpack",
     "build": "cross-env-shell \"rm -rf dist && npm run build:ts && npm run build:providers\"",
     "preversion": "npm run build && npm run lint",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push && git push --tags",
+    "ts-node": "ts-node",
+    "node": "node",
+    "ts": "npm run node -- -r ts-node/register"
   },
   "dependencies": {
     "convert-lambda-to-express": "^1.1.2",
@@ -90,5 +86,13 @@
     "*.{js,jsx,vue,ts,tsx}": [
       "git add"
     ]
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "buildLayer": "./dist/lib/buildLayer.js"
   }
 }

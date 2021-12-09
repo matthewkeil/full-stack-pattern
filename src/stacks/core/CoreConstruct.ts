@@ -76,6 +76,7 @@ export class CoreConstruct extends Construct {
     props: CoreConstructProps & { region: string; profile?: string }
   ): Promise<CoreConstructProps> {
     const _props = { ...props, region: undefined, profile: undefined };
+
     if (!props.certificateArn) {
       _props.certificateArn = await getCertArnForDomain({
         profile: props.profile,
@@ -122,7 +123,7 @@ export class CoreConstruct extends Construct {
     new CfnOutput(this, 'HostedZoneId', {
       value: this.hostedZone.hostedZoneId
     });
-
+    
     if (props.certificateArn) {
       this.certificate = Certificate.fromCertificateArn(this, 'Certificate', props.certificateArn);
     } else {

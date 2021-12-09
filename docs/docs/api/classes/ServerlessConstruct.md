@@ -32,7 +32,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessConstruct.ts:51](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/serverless/ServerlessConstruct.ts#L51)
+[src/stacks/serverless/ServerlessConstruct.ts:51](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/serverless/ServerlessConstruct.ts#L51)
 
 ## Properties
 
@@ -42,7 +42,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessConstruct.ts:45](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/serverless/ServerlessConstruct.ts#L45)
+[src/stacks/serverless/ServerlessConstruct.ts:45](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/serverless/ServerlessConstruct.ts#L45)
 
 ___
 
@@ -52,7 +52,7 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessConstruct.ts:47](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/serverless/ServerlessConstruct.ts#L47)
+[src/stacks/serverless/ServerlessConstruct.ts:47](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/serverless/ServerlessConstruct.ts#L47)
 
 ___
 
@@ -62,7 +62,7 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessConstruct.ts:43](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/serverless/ServerlessConstruct.ts#L43)
+[src/stacks/serverless/ServerlessConstruct.ts:43](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/serverless/ServerlessConstruct.ts#L43)
 
 ___
 
@@ -72,7 +72,7 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessConstruct.ts:49](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/serverless/ServerlessConstruct.ts#L49)
+[src/stacks/serverless/ServerlessConstruct.ts:49](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/serverless/ServerlessConstruct.ts#L49)
 
 ___
 
@@ -100,7 +100,7 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessConstruct.ts:46](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/serverless/ServerlessConstruct.ts#L46)
+[src/stacks/serverless/ServerlessConstruct.ts:46](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/serverless/ServerlessConstruct.ts#L46)
 
 ___
 
@@ -110,7 +110,7 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessConstruct.ts:44](https://github.com/matthewkeil/full-stack-pattern/blob/ddee7ab/src/stacks/serverless/ServerlessConstruct.ts#L44)
+[src/stacks/serverless/ServerlessConstruct.ts:44](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/serverless/ServerlessConstruct.ts#L44)
 
 ## Methods
 
