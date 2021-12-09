@@ -3,6 +3,8 @@ name: OnPushToMaster
 
 on:
   push:
+    tags:
+      - 'v*'
     branches:
       - master
       - release
