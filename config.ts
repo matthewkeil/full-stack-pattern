@@ -9,7 +9,7 @@ const staticProps = {
 
 interface Stage {
   branch: string;
-  profile: string;
+  profile?: string;
   env: {
     account: string;
     region: string;
