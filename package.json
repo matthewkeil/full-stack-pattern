@@ -11,6 +11,8 @@
     "destroy": "npm run ts bin/destroy",
     "lint": "eslint --fix --ext .ts .",
     "build:ts": "tsc --project tsconfig.build.json",
+    "prebuild:docs": "npm run install --prefix docs",
+    "build:docs": "npm run build --prefix docs",
     "build:providers": "webpack",
     "build": "cross-env-shell \"rm -rf dist && npm run build:ts && npm run build:providers\"",
     "postversion": "git push --tags",

@@ -39,13 +39,8 @@ jobs:
       #   env:
       #     NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
 
-
-      - name: install docs dependencies
-        run: npm run install --prefix docs
-        # if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-
       - name: build docs
-        run: npm run build --prefix docs
+        run: npm run build:docs
         # if: ${{ startsWith(github.ref, 'refs/tags/v') }}
 
       - name: synth docs website
