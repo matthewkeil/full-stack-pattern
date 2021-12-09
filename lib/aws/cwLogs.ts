@@ -1,15 +1,21 @@
 import { config, CloudWatchLogs, SharedIniFileCredentials } from 'aws-sdk';
+
 export const existingLogGroups = async ({
+  prefix,
   profile,
-  region,
-  prefix
+  region = process.env.REGION ?? 'us-east-1'
 }: {
-  profile?: string;
   region?: string;
+  profile?: string;
   prefix?: string;
 }): Promise<string[]> => {
   if (profile) {
     config.credentials = new SharedIniFileCredentials({ profile });
+  } else {
+    config.credentials = {
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID ?? '',
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY ?? ''
+    };
   }
   const cw = new CloudWatchLogs({ region });
   try {

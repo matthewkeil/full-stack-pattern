@@ -2,16 +2,21 @@ import { config, ACM, SharedIniFileCredentials } from 'aws-sdk';
 import { normalizeDomain } from '../normalizeDomain';
 
 export async function getCertArnForDomain({
+  domain,
   profile,
-  region,
-  domain
+  region = process.env.REGION ?? 'us-east-1'
 }: {
-  region: string;
+  region?: string;
   profile?: string;
   domain: string;
 }) {
   if (profile) {
     config.credentials = new SharedIniFileCredentials({ profile });
+  } else {
+    config.credentials = {
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID ?? '',
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY ?? ''
+    };
   }
   const acm = new ACM({ region });
   let Token: string | undefined;

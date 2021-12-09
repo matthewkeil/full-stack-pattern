@@ -1,8 +1,8 @@
 import { config, S3, SharedIniFileCredentials } from 'aws-sdk';
 export const bucketExists = async ({
+  bucketName,
   profile,
-  region,
-  bucketName
+  region = process.env.REGION ?? 'us-east-1'
 }: {
   profile?: string;
   region?: string;
@@ -10,6 +10,11 @@ export const bucketExists = async ({
 }): Promise<boolean> => {
   if (profile) {
     config.credentials = new SharedIniFileCredentials({ profile });
+  } else {
+    config.credentials = {
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID ?? '',
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY ?? ''
+    };
   }
   const s3 = new S3({ region });
   try {
