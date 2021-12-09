@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - master
+      - release
 
 jobs:
   RunMoFoRun:
@@ -39,11 +40,11 @@ jobs:
       - name: 'Check: package version has corrosponding git tag'
         id: tagged
         shell: bash
-        run: git show-ref --tags --verify --quiet -- "refs/tags/v${{ github.ref }}" && echo "::set-output name=tagged::0" || echo "::set-output name=tagged::1"
+        run: git show-ref --tags --verify --quiet -- "refs/tags/v${{ steps.package.outputs.version }}" && echo "::set-output name=tagged::0" || echo "::set-output name=tagged::1"
 
       - run: echo ${{ steps.tagged.outputs.tagged }}
       
-      - run: echo ${{ github.ref }}
+      - run: echo ${{ github.event.release.tag_name }}
 
       - name: Publish on tags that start with refs/tags/v*
         run: "[[ ${{ steps.tagged.outputs.tagged }} -eq 0 ]] && npm publish"
