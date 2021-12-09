@@ -178,7 +178,7 @@ export class FullStackConstruct extends Construct {
    */
   static async lookupExistingResources(
     props: FullStackConstructProps & {
-      profile: string;
+      profile?: string;
     }
     // & { env: Required<Environment> }
   ): Promise<FullStackConstructProps> {

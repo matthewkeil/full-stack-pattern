@@ -19,7 +19,6 @@ interface Stage {
 const stages: Stage[] = [
   {
     branch: 'AWS',
-    profile: 'default',
     env: {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       account: process.env.AWS_ACCOUNT_ID!,

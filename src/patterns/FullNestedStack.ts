@@ -30,7 +30,7 @@ export class FullNestedStack extends Stack {
     scope: Construct,
     id: string,
     props: FullStackProps & {
-      profile: string;
+      profile?: string;
     }
   ) {
     const _props = await FullStackConstruct.lookupExistingResources(props);

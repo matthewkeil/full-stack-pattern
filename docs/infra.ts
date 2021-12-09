@@ -1,6 +1,6 @@
 import { App, RemovalPolicy } from '@aws-cdk/core';
 import { resolve } from 'path';
-import { FullNestedStack } from '..';
+import { FullNestedStack } from '../src/patterns/FullNestedStack';
 import { getConfig } from '../config';
 
 (async function buildInfra() {
@@ -8,7 +8,7 @@ import { getConfig } from '../config';
     client,
     project,
     stage,
-    profile = 'default',
+    profile,
     env,
     subDomain,
     rootDomain
