@@ -3,8 +3,6 @@ name: OnPushToMaster
 
 on:
   push:
-    tags:
-      - 'v*'
     branches:
       - master
       - release
@@ -18,8 +16,6 @@ jobs:
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo ${{ github.ref }}
-      - run: echo ${{ startsWith(github.ref, 'refs/tags/v') }}
 
       - name: Check out repository code
         uses: actions/checkout@v2
@@ -30,12 +26,10 @@ jobs:
           node-version: '16.x'
           registry-url: 'https://registry.npmjs.org'
 
-  Publish:
-    runs-on: ubuntu-latest
-    if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-    steps:
-      - run: ls
-      - run: echo 'got here'
+      - run: npm ci
+      - run: npm run build
+      - run: npm run lint --if-present
       - run: npm publish
+        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
