@@ -43,10 +43,13 @@ jobs:
         run: git show-ref --tags --verify --quiet -- "refs/tags/v${{ steps.package.outputs.version }}" && echo "::set-output name=tagged::0" || echo "::set-output name=tagged::1"
 
       - run: echo ${{ steps.tagged.outputs.tagged }}
-      
+
       - run: echo ${{ github.event.release.tag_name }}
 
       - name: Publish on tags that start with refs/tags/v*
-        run: "[[ ${{ steps.tagged.outputs.tagged }} -eq 0 ]] && npm publish"
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+        run: '[[ ${{ steps.tagged.outputs.tagged }} -eq 0 ]] && npm publish'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
