@@ -6,9 +6,7 @@ import { getConfig } from '../config';
 (async function buildInfra() {
   const { client, project, stage, profile, env, subDomain, rootDomain } = await getConfig();
   const prefix = `${client}-${project}-${stage}`;
-
   const app = new App();
-
   await FullNestedStack.create(app, 'FullStackPatternDocs', {
     env,
     stage,
