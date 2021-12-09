@@ -4,7 +4,15 @@ import { FullNestedStack } from '..';
 import { getConfig } from '../config';
 
 (async function buildInfra() {
-  const { client, project, stage, profile, env, subDomain, rootDomain } = await getConfig();
+  const {
+    client,
+    project,
+    stage,
+    profile = 'default',
+    env,
+    subDomain,
+    rootDomain
+  } = await getConfig();
   const prefix = `${client}-${project}-${stage}`;
   const app = new App();
   await FullNestedStack.create(app, 'FullStackPatternDocs', {
@@ -20,9 +28,9 @@ import { getConfig } from '../config';
     removalPolicy: RemovalPolicy.DESTROY,
     cdn: {
       codePaths: [resolve(__dirname, 'build')],
-      buildWwwSubdomain: false,
+      buildWwwSubdomain: false
     }
-  })
+  });
 
   app.synth();
 })();
