@@ -25,9 +25,9 @@ jobs:
           node-version: '16.x'
           registry-url: 'https://registry.npmjs.org'
 
-      - run: npm ci
-      - run: npm run build
-      - run: npm run lint --if-present
+      # - run: npm ci
+      # - run: npm run build
+      # - run: npm run lint --if-present
 
       - name: Fetch tags
         run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
@@ -40,6 +40,9 @@ jobs:
         id: tagged
         shell: bash
         run: git show-ref --tags --verify --quiet -- "refs/tags/v${{ steps.package.outputs.version }}" && echo "::set-output name=tagged::0" || echo "::set-output name=tagged::1"
+
+      - run: echo ${{ steps.tagged.outputs.tagged }}
+      - run: "[[ ${{ steps.tagged.outputs.tagged }} -eq 0 ]] && echo 'true'"
 
       - name: Publish on tags that start with refs/tags/v*
         if: steps.tagged.outputs.tagged == 0
