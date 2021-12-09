@@ -29,27 +29,3 @@ jobs:
       # - run: npm ci
       # - run: npm run build
       # - run: npm run lint --if-present
-
-      - name: Fetch tags
-        run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
-
-      - name: Read package.json
-        id: package
-        uses: gregoranders/nodejs-project-info@v0.0.1
-
-      - name: 'Check: package version has corrosponding git tag'
-        id: tagged
-        shell: bash
-        run: git show-ref --tags --verify --quiet -- "refs/tags/v${{ steps.package.outputs.version }}" && echo "::set-output name=tagged::0" || echo "::set-output name=tagged::1"
-
-      - run: echo ${{ steps.tagged.outputs.tagged }}
-
-      - run: echo ${{ github.event.release.tag_name }}
-
-      - name: Publish on tags that start with refs/tags/v*
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-        run: '[[ ${{ steps.tagged.outputs.tagged }} -eq 0 ]] && npm publish'
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
