@@ -79,7 +79,7 @@ be built so all subsequent Lambdas will be able to find and use the same api.
 
 #### Defined in
 
-[src/constructs/Lambda.ts:146](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/constructs/Lambda.ts#L146)
+[src/constructs/Lambda.ts:146](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/constructs/Lambda.ts#L146)
 
 ___
 
@@ -132,7 +132,7 @@ and will create the AWS::Lambda::Permission for you.
 
 #### Defined in
 
-[src/constructs/Lambda.ts:111](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/constructs/Lambda.ts#L111)
+[src/constructs/Lambda.ts:111](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/constructs/Lambda.ts#L111)
 
 ___
 
@@ -146,7 +146,7 @@ ie. InlineCode, AssetCode, S3Code, etc.
 
 #### Defined in
 
-[src/constructs/Lambda.ts:72](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/constructs/Lambda.ts#L72)
+[src/constructs/Lambda.ts:72](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/constructs/Lambda.ts#L72)
 
 ___
 
@@ -288,7 +288,7 @@ info, see [Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
 
 #### Defined in
 
-[src/constructs/Lambda.ts:94](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/constructs/Lambda.ts#L94)
+[src/constructs/Lambda.ts:94](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/constructs/Lambda.ts#L94)
 
 ___
 
@@ -375,7 +375,7 @@ how to use this feature.
 
 #### Defined in
 
-[src/constructs/Lambda.ts:137](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/constructs/Lambda.ts#L137)
+[src/constructs/Lambda.ts:137](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/constructs/Lambda.ts#L137)
 
 ___
 
@@ -390,7 +390,7 @@ log groups that exist
 
 #### Defined in
 
-[src/constructs/Lambda.ts:154](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/constructs/Lambda.ts#L154)
+[src/constructs/Lambda.ts:154](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/constructs/Lambda.ts#L154)
 
 ___
 
@@ -621,7 +621,7 @@ and the AssetCode will be made for the directory.  Can also pass in an array of 
 
 #### Defined in
 
-[src/constructs/Lambda.ts:100](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/constructs/Lambda.ts#L100)
+[src/constructs/Lambda.ts:100](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/constructs/Lambda.ts#L100)
 
 ___
 
@@ -700,7 +700,7 @@ Adds process.env.LOGGING_LEVEL to the lambda environment. Can be set to:
 
 #### Defined in
 
-[src/constructs/Lambda.ts:125](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/constructs/Lambda.ts#L125)
+[src/constructs/Lambda.ts:125](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/constructs/Lambda.ts#L125)
 
 ___
 
@@ -819,7 +819,7 @@ they will just be the value of `name`
 
 #### Defined in
 
-[src/constructs/Lambda.ts:79](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/constructs/Lambda.ts#L79)
+[src/constructs/Lambda.ts:79](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/constructs/Lambda.ts#L79)
 
 ___
 
@@ -923,7 +923,7 @@ The prefix to use for the resources.  Will prefix all resource names with this v
 
 #### Defined in
 
-[src/constructs/Lambda.ts:86](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/constructs/Lambda.ts#L86)
+[src/constructs/Lambda.ts:86](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/constructs/Lambda.ts#L86)
 
 ___
 
@@ -1071,7 +1071,7 @@ The IRole or arn of the service role. If a LambdaProps.role is passed no IAM wil
 
 #### Defined in
 
-[src/constructs/Lambda.ts:105](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/constructs/Lambda.ts#L105)
+[src/constructs/Lambda.ts:105](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/constructs/Lambda.ts#L105)
 
 ___
 
@@ -1183,7 +1183,7 @@ the LambdasProps.tables for more information.
 
 #### Defined in
 
-[src/constructs/Lambda.ts:163](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/constructs/Lambda.ts#L163)
+[src/constructs/Lambda.ts:163](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/constructs/Lambda.ts#L163)
 
 ___
 
@@ -1204,7 +1204,7 @@ environment variables as:
 
 #### Defined in
 
-[src/constructs/Lambda.ts:184](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/constructs/Lambda.ts#L184)
+[src/constructs/Lambda.ts:184](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/constructs/Lambda.ts#L184)
 
 ___
 
@@ -1218,7 +1218,7 @@ name
 
 #### Defined in
 
-[src/constructs/Lambda.ts:170](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/constructs/Lambda.ts#L170)
+[src/constructs/Lambda.ts:170](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/constructs/Lambda.ts#L170)
 
 ___
 
@@ -1343,4 +1343,4 @@ code can easily check for warming event and return early
 
 #### Defined in
 
-[src/constructs/Lambda.ts:119](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/constructs/Lambda.ts#L119)
+[src/constructs/Lambda.ts:119](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/constructs/Lambda.ts#L119)

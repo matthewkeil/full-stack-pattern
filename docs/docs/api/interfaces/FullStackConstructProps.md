@@ -10,7 +10,7 @@ custom_edit_url: null
 
 ### cdn
 
-• `Optional` **cdn**: `Pick`<[`CDNConstructProps`](CDNConstructProps), ``"bucketName"`` \| ``"removalPolicy"`` \| ``"dontOverrideLogicalId"`` \| ``"api"`` \| ``"codePaths"`` \| ``"useExistingBucket"`` \| ``"noBucketPolicy"`` \| ``"buildWwwSubdomain"`` \| ``"hostedZone"`` \| ``"certificate"`` \| ``"bucketProps"`` \| ``"deploymentRole"``\>
+• `Optional` **cdn**: `Pick`<[`CDNConstructProps`](CDNConstructProps), ``"bucketName"`` \| ``"removalPolicy"`` \| ``"dontOverrideLogicalId"`` \| ``"api"`` \| ``"codePaths"`` \| ``"useExistingBucket"`` \| ``"noBucketPolicy"`` \| ``"subDomain"`` \| ``"buildWwwSubdomain"`` \| ``"hostedZone"`` \| ``"certificate"`` \| ``"bucketProps"`` \| ``"deploymentRole"``\>
 
 Settings for the [CDNConstruct](https://full-stack-pattern.matthewkeil.com/docs/cdn/cdnConstruct)
 
@@ -24,7 +24,7 @@ and fullStackProp.rootDomain
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:143](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/patterns/FullStackConstruct.ts#L143)
+[src/patterns/FullStackConstruct.ts:143](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStackConstruct.ts#L143)
 
 ___
 
@@ -40,7 +40,7 @@ rootDomain is not available on core, it is passed in from fullStackProp.rootDoma
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:163](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/patterns/FullStackConstruct.ts#L163)
+[src/patterns/FullStackConstruct.ts:163](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStackConstruct.ts#L163)
 
 ___
 
@@ -60,19 +60,19 @@ fullStackProp.rootDomain
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:131](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/patterns/FullStackConstruct.ts#L131)
+[src/patterns/FullStackConstruct.ts:131](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStackConstruct.ts#L131)
 
 ___
 
 ### env
 
-• `Optional` `Readonly` **env**: `Environment`
+• **env**: `Required`<`Environment`\>
 
 The env for the stacks
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:46](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/patterns/FullStackConstruct.ts#L46)
+[src/patterns/FullStackConstruct.ts:46](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStackConstruct.ts#L46)
 
 ___
 
@@ -84,7 +84,7 @@ Builds the component stacks as either Stack's or NestedStack's
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:95](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/patterns/FullStackConstruct.ts#L95)
+[src/patterns/FullStackConstruct.ts:95](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStackConstruct.ts#L95)
 
 ___
 
@@ -96,7 +96,7 @@ No CognitoConstruct will be built
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:119](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/patterns/FullStackConstruct.ts#L119)
+[src/patterns/FullStackConstruct.ts:119](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStackConstruct.ts#L119)
 
 ___
 
@@ -111,7 +111,7 @@ is provided then the apiName will be `prefix`. For more info, see
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:60](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/patterns/FullStackConstruct.ts#L60)
+[src/patterns/FullStackConstruct.ts:60](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStackConstruct.ts#L60)
 
 ___
 
@@ -125,7 +125,7 @@ override this value
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:108](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/patterns/FullStackConstruct.ts#L108)
+[src/patterns/FullStackConstruct.ts:108](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStackConstruct.ts#L108)
 
 ___
 
@@ -143,13 +143,13 @@ similar for branches, such as `dev.api.example.com` and
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:71](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/patterns/FullStackConstruct.ts#L71)
+[src/patterns/FullStackConstruct.ts:71](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStackConstruct.ts#L71)
 
 ___
 
 ### serverless
 
-• `Optional` **serverless**: `Pick`<[`ServerlessConstructProps`](ServerlessConstructProps), ``"rootDomain"`` \| ``"binaryMediaTypes"`` \| ``"minimumCompressionSize"`` \| ``"cloneFrom"`` \| ``"apiKeySourceType"`` \| ``"endpointConfiguration"`` \| ``"deploy"`` \| ``"deployOptions"`` \| ``"retainDeployments"`` \| ``"parameters"`` \| ``"policy"`` \| ``"failOnWarnings"`` \| ``"domainName"`` \| ``"cloudWatchRole"`` \| ``"endpointExportName"`` \| ``"endpointTypes"`` \| ``"disableExecuteApiEndpoint"`` \| ``"defaultIntegration"`` \| ``"defaultMethodOptions"`` \| ``"defaultCorsPreflightOptions"`` \| ``"role"`` \| ``"code"`` \| ``"events"`` \| ``"layers"`` \| ``"runtime"`` \| ``"timeout"`` \| ``"environment"`` \| ``"memorySize"`` \| ``"initialPolicy"`` \| ``"vpc"`` \| ``"vpcSubnets"`` \| ``"securityGroup"`` \| ``"securityGroups"`` \| ``"allowAllOutbound"`` \| ``"deadLetterQueueEnabled"`` \| ``"deadLetterQueue"`` \| ``"tracing"`` \| ``"profiling"`` \| ``"profilingGroup"`` \| ``"insightsVersion"`` \| ``"reservedConcurrentExecutions"`` \| ``"logRetention"`` \| ``"logRetentionRole"`` \| ``"logRetentionRetryOptions"`` \| ``"currentVersionOptions"`` \| ``"filesystem"`` \| ``"allowPublicSubnet"`` \| ``"environmentEncryption"`` \| ``"codeSigningConfig"`` \| ``"architectures"`` \| ``"architecture"`` \| ``"onFailure"`` \| ``"onSuccess"`` \| ``"maxEventAge"`` \| ``"retryAttempts"`` \| ``"externalId"`` \| ``"externalIds"`` \| ``"managedPolicies"`` \| ``"inlinePolicies"`` \| ``"path"`` \| ``"permissionsBoundary"`` \| ``"maxSessionDuration"`` \| ``"users"`` \| ``"groups"`` \| ``"statements"`` \| ``"force"`` \| ``"document"`` \| ``"encryptionKey"`` \| ``"retention"`` \| ``"removalPolicy"`` \| ``"table"`` \| ``"tables"`` \| ``"tableEnvKey"`` \| ``"name"`` \| ``"dontOverrideLogicalId"`` \| ``"canInvoke"`` \| ``"warmingEvent"`` \| ``"loggingLevel"`` \| ``"api"`` \| ``"existingLogGroups"`` \| ``"lambdas"`` \| ``"logicalId"`` \| ``"kinesisStream"`` \| ``"readCapacity"`` \| ``"writeCapacity"`` \| ``"billingMode"`` \| ``"pointInTimeRecovery"`` \| ``"serverSideEncryption"`` \| ``"encryption"`` \| ``"timeToLiveAttribute"`` \| ``"stream"`` \| ``"replicationRegions"`` \| ``"replicationTimeout"`` \| ``"waitForReplicationToFinish"`` \| ``"contributorInsightsEnabled"`` \| ``"hostedZone"`` \| ``"certificate"`` \| ``"userPool"`` \| ``"gatewayResponses"`` \| ``"buildDevServer"`` \| ``"subDomain"``\>
+• `Optional` **serverless**: `Pick`<[`ServerlessConstructProps`](ServerlessConstructProps), ``"rootDomain"`` \| ``"binaryMediaTypes"`` \| ``"minimumCompressionSize"`` \| ``"cloneFrom"`` \| ``"apiKeySourceType"`` \| ``"endpointConfiguration"`` \| ``"deploy"`` \| ``"deployOptions"`` \| ``"retainDeployments"`` \| ``"parameters"`` \| ``"policy"`` \| ``"failOnWarnings"`` \| ``"cloudWatchRole"`` \| ``"endpointExportName"`` \| ``"endpointTypes"`` \| ``"disableExecuteApiEndpoint"`` \| ``"defaultIntegration"`` \| ``"defaultMethodOptions"`` \| ``"defaultCorsPreflightOptions"`` \| ``"role"`` \| ``"code"`` \| ``"events"`` \| ``"layers"`` \| ``"runtime"`` \| ``"timeout"`` \| ``"environment"`` \| ``"memorySize"`` \| ``"initialPolicy"`` \| ``"vpc"`` \| ``"vpcSubnets"`` \| ``"securityGroup"`` \| ``"securityGroups"`` \| ``"allowAllOutbound"`` \| ``"deadLetterQueueEnabled"`` \| ``"deadLetterQueue"`` \| ``"tracing"`` \| ``"profiling"`` \| ``"profilingGroup"`` \| ``"insightsVersion"`` \| ``"reservedConcurrentExecutions"`` \| ``"logRetention"`` \| ``"logRetentionRole"`` \| ``"logRetentionRetryOptions"`` \| ``"currentVersionOptions"`` \| ``"filesystem"`` \| ``"allowPublicSubnet"`` \| ``"environmentEncryption"`` \| ``"codeSigningConfig"`` \| ``"architectures"`` \| ``"architecture"`` \| ``"onFailure"`` \| ``"onSuccess"`` \| ``"maxEventAge"`` \| ``"retryAttempts"`` \| ``"externalId"`` \| ``"externalIds"`` \| ``"managedPolicies"`` \| ``"inlinePolicies"`` \| ``"path"`` \| ``"permissionsBoundary"`` \| ``"maxSessionDuration"`` \| ``"users"`` \| ``"groups"`` \| ``"statements"`` \| ``"force"`` \| ``"document"`` \| ``"encryptionKey"`` \| ``"retention"`` \| ``"removalPolicy"`` \| ``"table"`` \| ``"tables"`` \| ``"tableEnvKey"`` \| ``"name"`` \| ``"dontOverrideLogicalId"`` \| ``"canInvoke"`` \| ``"warmingEvent"`` \| ``"loggingLevel"`` \| ``"api"`` \| ``"existingLogGroups"`` \| ``"lambdas"`` \| ``"logicalId"`` \| ``"kinesisStream"`` \| ``"readCapacity"`` \| ``"writeCapacity"`` \| ``"billingMode"`` \| ``"pointInTimeRecovery"`` \| ``"serverSideEncryption"`` \| ``"encryption"`` \| ``"timeToLiveAttribute"`` \| ``"stream"`` \| ``"replicationRegions"`` \| ``"replicationTimeout"`` \| ``"waitForReplicationToFinish"`` \| ``"contributorInsightsEnabled"`` \| ``"subDomain"`` \| ``"hostedZone"`` \| ``"certificate"`` \| ``"userPool"`` \| ``"gatewayResponses"`` \| ``"buildDevServer"``\>
 
 Settings for the [ServerlessConstruct](https://full-stack-pattern.matthewkeil.com/docs/serverless/serverlessConstruct)
 
@@ -163,7 +163,7 @@ in from fullStackProp.prefix and fullStackProp.stage
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:155](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/patterns/FullStackConstruct.ts#L155)
+[src/patterns/FullStackConstruct.ts:155](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStackConstruct.ts#L155)
 
 ___
 
@@ -176,7 +176,7 @@ non-nested stacks, this is ignored.
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:101](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/patterns/FullStackConstruct.ts#L101)
+[src/patterns/FullStackConstruct.ts:101](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStackConstruct.ts#L101)
 
 ___
 
@@ -190,7 +190,7 @@ The deployment stage name.  This will be used to prefix all resources.
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:52](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/patterns/FullStackConstruct.ts#L52)
+[src/patterns/FullStackConstruct.ts:52](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStackConstruct.ts#L52)
 
 ___
 
@@ -216,7 +216,7 @@ This subDomain is the new "default" root of the application
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:90](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/patterns/FullStackConstruct.ts#L90)
+[src/patterns/FullStackConstruct.ts:90](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStackConstruct.ts#L90)
 
 ___
 
@@ -229,4 +229,4 @@ This is the localhost:PORT that serves your frontend
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:114](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/patterns/FullStackConstruct.ts#L114)
+[src/patterns/FullStackConstruct.ts:114](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStackConstruct.ts#L114)

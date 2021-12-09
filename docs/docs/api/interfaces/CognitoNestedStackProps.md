@@ -31,7 +31,7 @@ associate the authenticatedRole
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:156](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cognito/CognitoConstruct.ts#L156)
+[src/stacks/cognito/CognitoConstruct.ts:156](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cognito/CognitoConstruct.ts#L156)
 
 ___
 
@@ -49,7 +49,7 @@ trigger the creation of one and associate this role
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:148](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cognito/CognitoConstruct.ts#L148)
+[src/stacks/cognito/CognitoConstruct.ts:148](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cognito/CognitoConstruct.ts#L148)
 
 ___
 
@@ -66,7 +66,7 @@ For more info see [Cognito UI Customizations](http://docs.aws.amazon.com/AWSClou
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:173](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cognito/CognitoConstruct.ts#L173)
+[src/stacks/cognito/CognitoConstruct.ts:173](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cognito/CognitoConstruct.ts#L173)
 
 ___
 
@@ -83,7 +83,7 @@ info, see [Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:106](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cognito/CognitoConstruct.ts#L106)
+[src/stacks/cognito/CognitoConstruct.ts:106](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cognito/CognitoConstruct.ts#L106)
 
 ___
 
@@ -99,7 +99,7 @@ Create groups for the user pool and, optionally, the identity pool
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:161](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cognito/CognitoConstruct.ts#L161)
+[src/stacks/cognito/CognitoConstruct.ts:161](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cognito/CognitoConstruct.ts#L161)
 
 ___
 
@@ -116,7 +116,7 @@ to having control over the logicalId
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:141](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cognito/CognitoConstruct.ts#L141)
+[src/stacks/cognito/CognitoConstruct.ts:141](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cognito/CognitoConstruct.ts#L141)
 
 ___
 
@@ -186,7 +186,7 @@ is provided then the apiName will be `prefix`. For more info, see
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:100](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cognito/CognitoConstruct.ts#L100)
+[src/stacks/cognito/CognitoConstruct.ts:100](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cognito/CognitoConstruct.ts#L100)
 
 ___
 
@@ -204,7 +204,7 @@ override this value
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:180](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cognito/CognitoConstruct.ts#L180)
+[src/stacks/cognito/CognitoConstruct.ts:180](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cognito/CognitoConstruct.ts#L180)
 
 ___
 
@@ -214,7 +214,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cognito/CognitoNestedStack.ts:14](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cognito/CognitoNestedStack.ts#L14)
+[src/stacks/cognito/CognitoNestedStack.ts:14](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cognito/CognitoNestedStack.ts#L14)
 
 ___
 
@@ -231,7 +231,7 @@ to having control over the logicalId
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:118](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cognito/CognitoConstruct.ts#L118)
+[src/stacks/cognito/CognitoConstruct.ts:118](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cognito/CognitoConstruct.ts#L118)
 
 ___
 
@@ -248,7 +248,7 @@ to having control over the logicalId
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:130](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cognito/CognitoConstruct.ts#L130)
+[src/stacks/cognito/CognitoConstruct.ts:130](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cognito/CognitoConstruct.ts#L130)
 
 ___
 
@@ -265,7 +265,7 @@ Will ignore the `userPoolClient` prop when using an existing UserPoolClient
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:124](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cognito/CognitoConstruct.ts#L124)
+[src/stacks/cognito/CognitoConstruct.ts:124](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cognito/CognitoConstruct.ts#L124)
 
 ___
 
@@ -281,7 +281,7 @@ Full configuration of the UserPoolDomain that will be created
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:135](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cognito/CognitoConstruct.ts#L135)
+[src/stacks/cognito/CognitoConstruct.ts:135](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cognito/CognitoConstruct.ts#L135)
 
 ___
 
@@ -298,7 +298,7 @@ ignore the `userPool` prop when using an existing UserPool
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:112](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cognito/CognitoConstruct.ts#L112)
+[src/stacks/cognito/CognitoConstruct.ts:112](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cognito/CognitoConstruct.ts#L112)
 
 ___
 
@@ -315,4 +315,4 @@ and optionally attaches the user to any number of groups
 
 #### Defined in
 
-[src/stacks/cognito/CognitoConstruct.ts:167](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cognito/CognitoConstruct.ts#L167)
+[src/stacks/cognito/CognitoConstruct.ts:167](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cognito/CognitoConstruct.ts#L167)

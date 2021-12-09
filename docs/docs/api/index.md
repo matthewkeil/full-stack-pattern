@@ -7,9 +7,10 @@ sidebar_position: 0
 custom_edit_url: null
 ---
 
-# FullNestedStack
+# full-stack-pattern
 
-Check out our full docs site hosted at [https://full-stack-pattern.matthewkeil.com](https://full-stack-pattern.matthewkeil.com). That site was hosted with this library.
+####[https://full-stack-pattern.matthewkeil.com](https://full-stack-pattern.matthewkeil.com). That site was hosted with this library.
+Check out our full docs site hosted at 
 
 FullNestedStack is a cdk Construct that will stand a single stack with up to 4 NestedStacks of resources, and optionally a [Custom::ConfigFile](/docs/constructs/configFile).
 

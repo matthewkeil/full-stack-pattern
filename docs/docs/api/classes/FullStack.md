@@ -32,7 +32,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[src/patterns/FullStack.ts:5](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/patterns/FullStack.ts#L5)
+[src/patterns/FullStack.ts:5](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStack.ts#L5)
 
 ## Properties
 
@@ -46,7 +46,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:221](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/patterns/FullStackConstruct.ts#L221)
+[src/patterns/FullStackConstruct.ts:237](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStackConstruct.ts#L237)
 
 ___
 
@@ -60,7 +60,7 @@ ___
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:222](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/patterns/FullStackConstruct.ts#L222)
+[src/patterns/FullStackConstruct.ts:238](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStackConstruct.ts#L238)
 
 ___
 
@@ -74,7 +74,7 @@ ___
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:220](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/patterns/FullStackConstruct.ts#L220)
+[src/patterns/FullStackConstruct.ts:236](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStackConstruct.ts#L236)
 
 ___
 
@@ -88,7 +88,7 @@ ___
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:224](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/patterns/FullStackConstruct.ts#L224)
+[src/patterns/FullStackConstruct.ts:240](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStackConstruct.ts#L240)
 
 ___
 
@@ -120,7 +120,7 @@ ___
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:223](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/patterns/FullStackConstruct.ts#L223)
+[src/patterns/FullStackConstruct.ts:239](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStackConstruct.ts#L239)
 
 ## Methods
 
@@ -148,7 +148,7 @@ See [ConfigFile](https://full-stack-pattern.matthewkeil.com/docs/constructs/conf
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:361](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/patterns/FullStackConstruct.ts#L361)
+[src/patterns/FullStackConstruct.ts:380](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStackConstruct.ts#L380)
 
 ___
 
@@ -366,7 +366,7 @@ ___
 
 #### Defined in
 
-[src/patterns/FullStack.ts:12](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/patterns/FullStack.ts#L12)
+[src/patterns/FullStack.ts:12](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStack.ts#L12)
 
 ___
 
@@ -425,4 +425,4 @@ see the docs for each stack
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:179](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/patterns/FullStackConstruct.ts#L179)
+[src/patterns/FullStackConstruct.ts:179](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStackConstruct.ts#L179)

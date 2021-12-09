@@ -32,7 +32,7 @@ Stack.constructor
 
 #### Defined in
 
-[src/patterns/FullNestedStack.ts:12](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/patterns/FullNestedStack.ts#L12)
+[src/patterns/FullNestedStack.ts:12](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullNestedStack.ts#L12)
 
 ## Properties
 
@@ -115,7 +115,7 @@ See [ConfigFile](https://full-stack-pattern.matthewkeil.com/docs/constructs/conf
 
 #### Defined in
 
-[src/patterns/FullNestedStack.ts:10](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/patterns/FullNestedStack.ts#L10)
+[src/patterns/FullNestedStack.ts:10](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullNestedStack.ts#L10)
 
 ___
 
@@ -143,7 +143,7 @@ ___
 
 #### Defined in
 
-[src/patterns/FullNestedStack.ts:8](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/patterns/FullNestedStack.ts#L8)
+[src/patterns/FullNestedStack.ts:8](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullNestedStack.ts#L8)
 
 ___
 
@@ -153,7 +153,7 @@ ___
 
 #### Defined in
 
-[src/patterns/FullNestedStack.ts:9](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/patterns/FullNestedStack.ts#L9)
+[src/patterns/FullNestedStack.ts:9](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullNestedStack.ts#L9)
 
 ___
 
@@ -163,7 +163,7 @@ ___
 
 #### Defined in
 
-[src/patterns/FullNestedStack.ts:7](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/patterns/FullNestedStack.ts#L7)
+[src/patterns/FullNestedStack.ts:7](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullNestedStack.ts#L7)
 
 ___
 
@@ -173,7 +173,7 @@ ___
 
 #### Defined in
 
-[src/patterns/FullNestedStack.ts:6](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/patterns/FullNestedStack.ts#L6)
+[src/patterns/FullNestedStack.ts:6](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullNestedStack.ts#L6)
 
 ___
 
@@ -1583,7 +1583,7 @@ ___
 
 #### Defined in
 
-[src/patterns/FullNestedStack.ts:29](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/patterns/FullNestedStack.ts#L29)
+[src/patterns/FullNestedStack.ts:29](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullNestedStack.ts#L29)
 
 ___
 

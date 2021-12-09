@@ -22,7 +22,7 @@ The bucketName of where to upload the file
 
 #### Defined in
 
-[providers/configFileProvider/index.ts:20](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/providers/configFileProvider/index.ts#L20)
+[providers/configFileProvider/index.ts:20](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/providers/configFileProvider/index.ts#L20)
 
 ___
 
@@ -41,7 +41,7 @@ The actual configuration that will get turned into the file.  Library
 
 #### Defined in
 
-[providers/configFileProvider/index.ts:46](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/providers/configFileProvider/index.ts#L46)
+[providers/configFileProvider/index.ts:46](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/providers/configFileProvider/index.ts#L46)
 
 ___
 
@@ -54,7 +54,7 @@ extensions.
 
 #### Defined in
 
-[providers/configFileProvider/index.ts:26](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/providers/configFileProvider/index.ts#L26)
+[providers/configFileProvider/index.ts:26](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/providers/configFileProvider/index.ts#L26)
 
 ___
 
@@ -69,4 +69,4 @@ and complex
 
 #### Defined in
 
-[providers/configFileProvider/index.ts:34](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/providers/configFileProvider/index.ts#L34)
+[providers/configFileProvider/index.ts:34](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/providers/configFileProvider/index.ts#L34)

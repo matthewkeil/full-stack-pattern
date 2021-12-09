@@ -32,7 +32,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:259](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cdn/CDNConstruct.ts#L259)
+[src/stacks/cdn/CDNConstruct.ts:278](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L278)
 
 ## Properties
 
@@ -42,7 +42,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:253](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cdn/CDNConstruct.ts#L253)
+[src/stacks/cdn/CDNConstruct.ts:272](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L272)
 
 ___
 
@@ -52,7 +52,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:254](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cdn/CDNConstruct.ts#L254)
+[src/stacks/cdn/CDNConstruct.ts:273](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L273)
 
 ___
 
@@ -80,7 +80,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:257](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cdn/CDNConstruct.ts#L257)
+[src/stacks/cdn/CDNConstruct.ts:276](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L276)
 
 ___
 
@@ -90,7 +90,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:255](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cdn/CDNConstruct.ts#L255)
+[src/stacks/cdn/CDNConstruct.ts:274](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L274)
 
 ## Methods
 
@@ -104,7 +104,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:291](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cdn/CDNConstruct.ts#L291)
+[src/stacks/cdn/CDNConstruct.ts:310](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L310)
 
 ___
 
@@ -118,7 +118,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:525](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cdn/CDNConstruct.ts#L525)
+[src/stacks/cdn/CDNConstruct.ts:544](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L544)
 
 ___
 
@@ -132,7 +132,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:335](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cdn/CDNConstruct.ts#L335)
+[src/stacks/cdn/CDNConstruct.ts:354](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L354)
 
 ___
 
@@ -334,7 +334,7 @@ ___
 
 ### buildUrls
 
-▸ `Static` `Private` **buildUrls**(`__namedParameters`): `string`[]
+▸ `Static` **buildUrls**(`__namedParameters`): `string`[]
 
 #### Parameters
 
@@ -348,13 +348,13 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:173](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cdn/CDNConstruct.ts#L173)
+[src/stacks/cdn/CDNConstruct.ts:188](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L188)
 
 ___
 
 ### getBucketName
 
-▸ `Static` **getBucketName**(`__namedParameters`): `string`
+▸ `Static` **getBucketName**(`props`): `string`
 
 Exposes the algorithm that is used to generate the bucket name from the
 construct `props`.  Useful if you need to know the bucket name for other
@@ -365,7 +365,7 @@ IBucket.  Gotta love chicken and the egg ala cdk.
 
 | Name | Type |
 | :------ | :------ |
-| `__namedParameters` | `GetBucketNameProps` |
+| `props` | `GetBucketNameProps` |
 
 #### Returns
 
@@ -373,7 +373,7 @@ IBucket.  Gotta love chicken and the egg ala cdk.
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:193](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cdn/CDNConstruct.ts#L193)
+[src/stacks/cdn/CDNConstruct.ts:210](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L210)
 
 ___
 
@@ -427,7 +427,7 @@ returns the full props object to be used with `new CDNConstruct()`
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:229](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cdn/CDNConstruct.ts#L229)
+[src/stacks/cdn/CDNConstruct.ts:243](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L243)
 
 ___
 
@@ -447,4 +447,4 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:169](https://github.com/matthewkeil/full-stack-pattern/blob/47d5e8c/src/stacks/cdn/CDNConstruct.ts#L169)
+[src/stacks/cdn/CDNConstruct.ts:184](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L184)
