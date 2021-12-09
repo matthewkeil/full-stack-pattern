@@ -18,15 +18,21 @@ jobs:
 
       - name: Check out repository code
         uses: actions/checkout@v2
+
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+
+      - name: Install node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - run: which node
+      - run: pwd
+      - run: ls
+      - run: npm ci
 
   SetupPhase:
     runs-on: ubuntu-latest
     needs: [CheckoutPhase]
-    steps:
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '14'
 
   BuildPhase:
     runs-on: ubuntu-latest
@@ -45,7 +51,6 @@ jobs:
     needs: [LintPhase]
     steps:
       - run: npm run test --if-present
-
   # PublishPhase:
   #   runs-on: ubuntu-latest
   #   needs: [TestPhase]
