@@ -42,4 +42,4 @@ jobs:
 
       - name: Publish on tags that start with refs/tags/v*
         if: steps.tagged.outputs.tagged == 0
-        run: npm run publish
+        run: npm publish
