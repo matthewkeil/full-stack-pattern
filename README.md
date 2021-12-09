@@ -266,4 +266,5 @@ type Cognito = Omit<CognitoConstructProps, 'prefix'> & {
    */
   logoutCallbackPath?: string;
 };
+
 ```
