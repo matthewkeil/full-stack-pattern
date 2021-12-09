@@ -1,12 +1,10 @@
 ---
-name: Publish
+name: OnPushToMaster
 
 on:
   push:
     branches:
       - master
-    tags:
-      - 'v*.*.*'
 
 jobs:
   CheckoutPhase:
@@ -17,39 +15,31 @@ jobs:
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+
       - name: Check out repository code
         uses: actions/checkout@v2
+
       - name: Install node.js
         uses: actions/setup-node@v2
         with:
           node-version: '14'
-      - run: which node
-      - run: pwd
-      - run: ls
+
       - run: npm ci
       - run: npm run build
       - run: npm run lint --if-present
 
-      # Fetches all tags for the repo
       - name: Fetch tags
         run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
 
-      # Reads the app's version
-      #   In my case, I have a nodejs project, so I read the app's version
-      #   from package.json. You may need to find a different github action
-      #   module specific to your language to extract the app version
       - name: Read package.json
         id: package
         uses: gregoranders/nodejs-project-info@v0.0.1
 
-      # Check if the app version has a git tag
-      # If there is a git tag for the version set the variable 'tagged' to 0
-      # if there is NOT a git tag for the version set the variable 'tagged' to 1
       - name: 'Check: package version has corrosponding git tag'
         id: tagged
         shell: bash
         run: git show-ref --tags --verify --quiet -- "refs/tags/v${{ steps.package.outputs.version }}" && echo "::set-output name=tagged::0" || echo "::set-output name=tagged::1"
 
-      - name: Step to only run if there is no git-tag for the version
-        if: steps.tagged.outputs.tagged == 1
+      - name: Publish on tags that start with refs/tags/v*
+        if: steps.tagged.outputs.tagged == 0
         run: npm run publish
