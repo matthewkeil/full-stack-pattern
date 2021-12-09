@@ -23,7 +23,7 @@ jobs:
         with:
           node-version: '14'
       - run: which node
-      - run: pwd
+      - run: pwd 
       - run: ls
       - run: npm ci
       - run: npm run build
@@ -48,8 +48,7 @@ jobs:
 
   PublishPhase:
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/tags/v*' }}
-    # if: startsWith(github.ref, 'refs/tags/v*')
+    if: startsWith(github.ref, 'refs/tags/v')
     steps:
       - run: echo 'got here'
       - run: ls -l
