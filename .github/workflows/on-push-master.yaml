@@ -26,6 +26,12 @@ jobs:
           node-version: '16.x'
           registry-url: 'https://registry.npmjs.org'
 
-      # - run: npm ci
-      # - run: npm run build
-      # - run: npm run lint --if-present
+  Publish:
+    runs-on: ubuntu-latest
+    if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+    steps:
+      - run: ls
+      - run: echo 'got here'
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
