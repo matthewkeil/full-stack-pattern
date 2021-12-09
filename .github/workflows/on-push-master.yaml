@@ -30,9 +30,43 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - run: npm ci
-      - run: npm run build
-      - run: npm run lint --if-present
-      - run: npm publish
-        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+      # - run: npm run build
+      # - run: npm run lint --if-present
+
+      # - name: publish
+      #   run: npm publish
+      #   if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+
+      - name: build docs
+        run: npm run build --prefix docs
+        # if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+
+      - name: synth docs infra
+        run: npm run synth
+        # if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+
+        # if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+      - name: cdk diff
+        uses: youyo/aws-cdk-github-actions@v2
+        # if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        with:
+          cdk_subcommand: 'diff'
+          actions_comment: true
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.REGION }}
+
+      - name: cdk synth
+        uses: youyo/aws-cdk-github-actions@v2
+        # if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        with:
+          cdk_subcommand: 'synth'
+          cdk_version: '1.134.0'
+          working_dir: '.'
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.REGION }}
