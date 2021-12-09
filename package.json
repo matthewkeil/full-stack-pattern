@@ -1,6 +1,6 @@
 {
   "name": "full-stack-pattern",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "license": "MIT",
   "author": "Matthew Keil",
   "description": "A set of useful constructs, stacks, applications and patterns to help ease your journey with cdk",
@@ -13,8 +13,8 @@
     "build:ts": "tsc --project tsconfig.build.json",
     "build:providers": "webpack",
     "build": "cross-env-shell \"rm -rf dist && npm run build:ts && npm run build:providers\"",
-    "preversion": "npm run build && npm run lint",
-    "postversion": "git push && git push --tags",
+    "preversion": "echo $npm_package_version",
+    "postversion": "echo $npm_package_version",
     "ts-node": "ts-node",
     "node": "node",
     "ts": "npm run node -- -r ts-node/register"
@@ -100,7 +100,7 @@
     "l3",
     "l3 constructs",
     "l3 patterns",
-    "l4", 
+    "l4",
     "l4 constructs",
     "l4 patterns",
     "advanced cdk",
