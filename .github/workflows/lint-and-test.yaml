@@ -10,6 +10,7 @@ on:
 jobs:
   CheckoutPhase:
     runs-on: ubuntu-latest
+    if: ${{ github.ref != 'refs/tags/*' }}
     steps:
       - run: echo ${{ github }}
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
