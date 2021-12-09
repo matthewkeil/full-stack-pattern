@@ -40,11 +40,13 @@ jobs:
       #     NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
 
       - name: build docs
-        if: ${{ startsWith(github.ref, 'refs/tags/v') }} && success()
+        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        # if: success()
         run: npm run build:docs
 
       - name: cdk synth
-        if: ${{ startsWith(github.ref, 'refs/tags/v') }} && success()
+        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        # if: success()
         run: npm run synth
         env:
           BRANCH: ${{ secrets.BRANCH }}
@@ -55,7 +57,8 @@ jobs:
           AWS_REGION: ${{ secrets.REGION }}
 
       - name: cdk diff
-        if: ${{ startsWith(github.ref, 'refs/tags/v') }} && success()
+        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        # if: success()
         run: npm run diff
         env:
           BRANCH: ${{ secrets.BRANCH }}
@@ -66,7 +69,8 @@ jobs:
           AWS_REGION: ${{ secrets.REGION }}
 
       - name: cdk deploy
-        if: ${{ startsWith(github.ref, 'refs/tags/v') }} && success()
+        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        # if: success()
         run: npm run deploy
         env:
           BRANCH: ${{ secrets.BRANCH }}
