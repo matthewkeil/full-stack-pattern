@@ -32,7 +32,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:278](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L278)
+[src/stacks/cdn/CDNConstruct.ts:278](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/cdn/CDNConstruct.ts#L278)
 
 ## Properties
 
@@ -42,7 +42,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:272](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L272)
+[src/stacks/cdn/CDNConstruct.ts:272](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/cdn/CDNConstruct.ts#L272)
 
 ___
 
@@ -52,7 +52,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:273](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L273)
+[src/stacks/cdn/CDNConstruct.ts:273](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/cdn/CDNConstruct.ts#L273)
 
 ___
 
@@ -80,7 +80,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:276](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L276)
+[src/stacks/cdn/CDNConstruct.ts:276](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/cdn/CDNConstruct.ts#L276)
 
 ___
 
@@ -90,7 +90,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:274](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L274)
+[src/stacks/cdn/CDNConstruct.ts:274](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/cdn/CDNConstruct.ts#L274)
 
 ## Methods
 
@@ -104,7 +104,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:310](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L310)
+[src/stacks/cdn/CDNConstruct.ts:310](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/cdn/CDNConstruct.ts#L310)
 
 ___
 
@@ -118,7 +118,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:544](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L544)
+[src/stacks/cdn/CDNConstruct.ts:544](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/cdn/CDNConstruct.ts#L544)
 
 ___
 
@@ -132,7 +132,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:354](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L354)
+[src/stacks/cdn/CDNConstruct.ts:354](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/cdn/CDNConstruct.ts#L354)
 
 ___
 
@@ -348,7 +348,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:188](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L188)
+[src/stacks/cdn/CDNConstruct.ts:188](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/cdn/CDNConstruct.ts#L188)
 
 ___
 
@@ -373,7 +373,7 @@ IBucket.  Gotta love chicken and the egg ala cdk.
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:210](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L210)
+[src/stacks/cdn/CDNConstruct.ts:210](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/cdn/CDNConstruct.ts#L210)
 
 ___
 
@@ -427,7 +427,7 @@ returns the full props object to be used with `new CDNConstruct()`
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:243](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L243)
+[src/stacks/cdn/CDNConstruct.ts:243](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/cdn/CDNConstruct.ts#L243)
 
 ___
 
@@ -447,4 +447,4 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:184](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L184)
+[src/stacks/cdn/CDNConstruct.ts:184](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/cdn/CDNConstruct.ts#L184)

@@ -57,7 +57,7 @@ Omit.cdn
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:143](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStackConstruct.ts#L143)
+[src/patterns/FullStackConstruct.ts:143](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/patterns/FullStackConstruct.ts#L143)
 
 ___
 
@@ -77,7 +77,7 @@ Omit.cognito
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:163](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStackConstruct.ts#L163)
+[src/patterns/FullStackConstruct.ts:163](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/patterns/FullStackConstruct.ts#L163)
 
 ___
 
@@ -101,7 +101,7 @@ Omit.core
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:131](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStackConstruct.ts#L131)
+[src/patterns/FullStackConstruct.ts:131](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/patterns/FullStackConstruct.ts#L131)
 
 ___
 
@@ -137,7 +137,7 @@ Omit.env
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:46](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStackConstruct.ts#L46)
+[src/patterns/FullStackConstruct.ts:46](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/patterns/FullStackConstruct.ts#L46)
 
 ___
 
@@ -153,7 +153,7 @@ Omit.noCognito
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:119](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStackConstruct.ts#L119)
+[src/patterns/FullStackConstruct.ts:119](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/patterns/FullStackConstruct.ts#L119)
 
 ___
 
@@ -172,7 +172,7 @@ Omit.prefix
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:60](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStackConstruct.ts#L60)
+[src/patterns/FullStackConstruct.ts:60](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/patterns/FullStackConstruct.ts#L60)
 
 ___
 
@@ -190,7 +190,7 @@ Omit.removalPolicy
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:108](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStackConstruct.ts#L108)
+[src/patterns/FullStackConstruct.ts:108](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/patterns/FullStackConstruct.ts#L108)
 
 ___
 
@@ -212,7 +212,7 @@ Omit.rootDomain
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:71](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStackConstruct.ts#L71)
+[src/patterns/FullStackConstruct.ts:71](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/patterns/FullStackConstruct.ts#L71)
 
 ___
 
@@ -236,7 +236,7 @@ Omit.serverless
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:155](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStackConstruct.ts#L155)
+[src/patterns/FullStackConstruct.ts:155](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/patterns/FullStackConstruct.ts#L155)
 
 ___
 
@@ -274,7 +274,7 @@ Omit.stage
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:52](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStackConstruct.ts#L52)
+[src/patterns/FullStackConstruct.ts:52](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/patterns/FullStackConstruct.ts#L52)
 
 ___
 
@@ -304,7 +304,7 @@ Omit.subDomain
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:90](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStackConstruct.ts#L90)
+[src/patterns/FullStackConstruct.ts:90](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/patterns/FullStackConstruct.ts#L90)
 
 ___
 
@@ -386,4 +386,4 @@ Omit.uiDevPort
 
 #### Defined in
 
-[src/patterns/FullStackConstruct.ts:114](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/patterns/FullStackConstruct.ts#L114)
+[src/patterns/FullStackConstruct.ts:114](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/patterns/FullStackConstruct.ts#L114)

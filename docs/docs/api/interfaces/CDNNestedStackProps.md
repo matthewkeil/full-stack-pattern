@@ -34,7 +34,7 @@ custom_edit_url: null
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:128](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L128)
+[src/stacks/cdn/CDNConstruct.ts:128](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/cdn/CDNConstruct.ts#L128)
 
 ___
 
@@ -50,7 +50,7 @@ Set the bucketName
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:69](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L69)
+[src/stacks/cdn/CDNConstruct.ts:69](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/cdn/CDNConstruct.ts#L69)
 
 ___
 
@@ -69,7 +69,7 @@ which is the default behavior, autoDeleteObjects will be enabled.
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:126](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L126)
+[src/stacks/cdn/CDNConstruct.ts:126](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/cdn/CDNConstruct.ts#L126)
 
 ___
 
@@ -88,7 +88,7 @@ to the naked rootDomain. For non-production stages, this is a no-op.
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:108](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L108)
+[src/stacks/cdn/CDNConstruct.ts:108](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/cdn/CDNConstruct.ts#L108)
 
 ___
 
@@ -104,7 +104,7 @@ The TLS/SSL certificate to use for the distribution.
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:118](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L118)
+[src/stacks/cdn/CDNConstruct.ts:118](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/cdn/CDNConstruct.ts#L118)
 
 ___
 
@@ -121,7 +121,7 @@ hosted via S3/CloudFront.
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:49](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L49)
+[src/stacks/cdn/CDNConstruct.ts:49](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/cdn/CDNConstruct.ts#L49)
 
 ___
 
@@ -137,7 +137,7 @@ Deployment role to use when publishing files to S3.
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:150](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L150)
+[src/stacks/cdn/CDNConstruct.ts:150](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/cdn/CDNConstruct.ts#L150)
 
 ___
 
@@ -154,7 +154,7 @@ info, see [Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:43](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L43)
+[src/stacks/cdn/CDNConstruct.ts:43](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/cdn/CDNConstruct.ts#L43)
 
 ___
 
@@ -170,7 +170,7 @@ HostedZone to add Distribution AliasRecords to.
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:113](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L113)
+[src/stacks/cdn/CDNConstruct.ts:113](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/cdn/CDNConstruct.ts#L113)
 
 ___
 
@@ -187,7 +187,7 @@ bucket policies. Has no effect unless `props.useExistingBucket = true`
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:64](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L64)
+[src/stacks/cdn/CDNConstruct.ts:64](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/cdn/CDNConstruct.ts#L64)
 
 ___
 
@@ -255,7 +255,7 @@ The prefix to use for the resources.  Will prefix all resource names with this v
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:37](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L37)
+[src/stacks/cdn/CDNConstruct.ts:37](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/cdn/CDNConstruct.ts#L37)
 
 ___
 
@@ -269,7 +269,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:31](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L31)
+[src/stacks/cdn/CDNConstruct.ts:31](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/cdn/CDNConstruct.ts#L31)
 
 ___
 
@@ -287,7 +287,7 @@ If provided, must also provide a value for `stage`, `hostedZone` and `certificat
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:76](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L76)
+[src/stacks/cdn/CDNConstruct.ts:76](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/cdn/CDNConstruct.ts#L76)
 
 ___
 
@@ -297,7 +297,7 @@ ___
 
 #### Defined in
 
-[src/stacks/cdn/CDNNestedStack.ts:9](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNNestedStack.ts#L9)
+[src/stacks/cdn/CDNNestedStack.ts:9](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/cdn/CDNNestedStack.ts#L9)
 
 ___
 
@@ -317,7 +317,7 @@ ex. `www.example.com` and `example.com` will both be valid.
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:100](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L100)
+[src/stacks/cdn/CDNConstruct.ts:100](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/cdn/CDNConstruct.ts#L100)
 
 ___
 
@@ -343,7 +343,7 @@ This subDomain is the new "default" root of the application
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:91](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L91)
+[src/stacks/cdn/CDNConstruct.ts:91](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/cdn/CDNConstruct.ts#L91)
 
 ___
 
@@ -363,4 +363,4 @@ the `bucketName`
 
 #### Defined in
 
-[src/stacks/cdn/CDNConstruct.ts:58](https://github.com/matthewkeil/full-stack-pattern/blob/faec2ba/src/stacks/cdn/CDNConstruct.ts#L58)
+[src/stacks/cdn/CDNConstruct.ts:58](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/cdn/CDNConstruct.ts#L58)
