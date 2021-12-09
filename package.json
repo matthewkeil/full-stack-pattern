@@ -1,6 +1,6 @@
 {
   "name": "full-stack-pattern",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "MIT",
   "author": "Matthew Keil",
   "description": "A set of useful constructs, stacks, applications and patterns to help ease your journey with cdk",
@@ -87,6 +87,32 @@
       "git add"
     ]
   },
+  "keywords": [
+    "best practices",
+    "aws",
+    "cdk",
+    "aws-cdk",
+    "constructs",
+    "constructs library",
+    "patterns",
+    "construct patterns",
+    "patterns library",
+    "l3",
+    "l3 constructs",
+    "l3 patterns",
+    "l4", 
+    "l4 constructs",
+    "l4 patterns",
+    "advanced cdk",
+    "serverless",
+    "serverless application",
+    "full-stack",
+    "full stack",
+    "full stack application",
+    "full stack pattern",
+    "full stack construct",
+    "well architected"
+  ],
   "files": [
     "dist"
   ],
