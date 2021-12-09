@@ -3,10 +3,10 @@ import { CDNNestedStack, CognitoNestedStack, CoreNestedStack, ServerlessNestedSt
 import { FullStackConstruct, FullStackProps } from './FullStackConstruct';
 
 export class FullNestedStack extends Stack {
-  public core: CoreNestedStack;
-  public cdn: CDNNestedStack;
-  public auth: CognitoNestedStack;
-  public backend: ServerlessNestedStack;
+  public core?: CoreNestedStack;
+  public cdn?: CDNNestedStack;
+  public auth?: CognitoNestedStack;
+  public backend?: ServerlessNestedStack;
   public addConfigFile: FullStackConstruct['addConfigFile'];
 
   private constructor(scope: Construct, id: string, props: FullStackProps) {
@@ -19,10 +19,10 @@ export class FullNestedStack extends Stack {
       nested: true
     });
     const { core, serverless: backend, cognito: auth, cdn, addConfigFile } = construct;
-    this.core = core as CoreNestedStack;
-    this.backend = backend as ServerlessNestedStack;
-    this.auth = auth as CognitoNestedStack;
-    this.cdn = cdn as CDNNestedStack;
+    this.core = core as CoreNestedStack | undefined;
+    this.backend = backend as ServerlessNestedStack | undefined;
+    this.auth = auth as CognitoNestedStack | undefined;
+    this.cdn = cdn as CDNNestedStack | undefined;
     this.addConfigFile = addConfigFile.bind(construct);
   }
 

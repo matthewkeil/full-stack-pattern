@@ -1,4 +1,4 @@
-import { Duration, Construct, Environment, RemovalPolicy, StackProps, Stack } from '@aws-cdk/core';
+import { Duration, Construct, Environment, RemovalPolicy, StackProps } from '@aws-cdk/core';
 
 import { CoreConstruct, CoreConstructProps } from '../stacks/core/CoreConstruct';
 import { CoreStack } from '../stacks/core/CoreStack';

@@ -5,8 +5,7 @@ import { Api, ApiProps } from '../../constructs/Api';
 import { ICertificate } from '@aws-cdk/aws-certificatemanager';
 import { Tables, TablesProps } from '../../constructs/Tables';
 import { Lambdas, LambdasProps } from '../../constructs/Lambdas';
-import { ARecord, CnameRecord, IHostedZone, RecordTarget } from '@aws-cdk/aws-route53';
-import { CloudFrontTarget, ApiGateway } from '@aws-cdk/aws-route53-targets';
+import { CnameRecord, IHostedZone } from '@aws-cdk/aws-route53';
 import { BasePathMapping, DomainName, EndpointType } from '@aws-cdk/aws-apigateway';
 
 export interface ServerlessConstructProps

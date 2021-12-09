@@ -118,31 +118,9 @@ import { FullStack, FullStackProps } from 'full-stack-construct';
 })();
 ```
 
-## FullNestedStackProps
+## FullStackConstructProps
 
 ```typescript
-export interface FullNestedStackProps extends Omit<FullStackConstructProps, 'nested'>, StackProps {}
-
-type Cognito = Omit<CognitoConstructProps, 'prefix'> & {
-  /**
-   * The login path to append to all urls.
-   *
-   * ex. a value of '/auth/login' will result in a cognito callback url of
-   * 'http://localhost:3000/auth/login' and the cloudfront cognito url will be
-   * 'https://d1mkdh3z21t61o24eles.cloudfront.net/auth/login'
-   */
-  loginCallbackPath?: string;
-
-  /**
-   * The logout path to append to all urls.
-   *
-   * ex. a value of '/auth/logout' will result in a cognito callback url of
-   * 'http://localhost:3000/auth/logout' and the cloudfront cognito url will be
-   * 'https://d1mkdh3z21t61o24eles.cloudfront.net/auth/logout'
-   */
-  logoutCallbackPath?: string;
-};
-
 export interface FullStackConstructProps {
   /**
    * The env for the stacks
@@ -267,4 +245,24 @@ export interface FullStackConstructProps {
    */
   cognito?: Cognito;
 }
+
+type Cognito = Omit<CognitoConstructProps, 'prefix'> & {
+  /**
+   * The login path to append to all urls.
+   *
+   * ex. a value of '/auth/login' will result in a cognito callback url of
+   * 'http://localhost:3000/auth/login' and the cloudfront cognito url will be
+   * 'https://d1mkdh3z21t61o24eles.cloudfront.net/auth/login'
+   */
+  loginCallbackPath?: string;
+
+  /**
+   * The logout path to append to all urls.
+   *
+   * ex. a value of '/auth/logout' will result in a cognito callback url of
+   * 'http://localhost:3000/auth/logout' and the cloudfront cognito url will be
+   * 'https://d1mkdh3z21t61o24eles.cloudfront.net/auth/logout'
+   */
+  logoutCallbackPath?: string;
+};
 ```
