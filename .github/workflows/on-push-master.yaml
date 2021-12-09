@@ -44,6 +44,7 @@ jobs:
 
         # if: ${{ startsWith(github.ref, 'refs/tags/v') }}
       - name: cdk synth
+        if: success()
         uses: youyo/aws-cdk-github-actions@v2
         # if: ${{ startsWith(github.ref, 'refs/tags/v') }}
         with:
