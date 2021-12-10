@@ -67,7 +67,7 @@ for more information about how to use this feature.
 
 #### Defined in
 
-[src/constructs/Api.ts:71](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/constructs/Api.ts#L71)
+[src/constructs/Api.ts:71](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/constructs/Api.ts#L71)
 
 ___
 
@@ -305,7 +305,7 @@ info, see [Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
 
 #### Defined in
 
-[src/constructs/Api.ts:83](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/constructs/Api.ts#L83)
+[src/constructs/Api.ts:83](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/constructs/Api.ts#L83)
 
 ___
 
@@ -406,7 +406,7 @@ Gateway responses to add to the api. By default the following responses are adde
 
 #### Defined in
 
-[src/constructs/Api.ts:61](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/constructs/Api.ts#L61)
+[src/constructs/Api.ts:61](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/constructs/Api.ts#L61)
 
 ___
 
@@ -419,7 +419,7 @@ info, see [Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
 
 #### Defined in
 
-[src/constructs/Api.ts:77](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/constructs/Api.ts#L77)
+[src/constructs/Api.ts:77](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/constructs/Api.ts#L77)
 
 ___
 
@@ -458,7 +458,7 @@ the apiName will be `name`
 
 #### Defined in
 
-[src/constructs/Api.ts:37](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/constructs/Api.ts#L37)
+[src/constructs/Api.ts:37](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/constructs/Api.ts#L37)
 
 ___
 
@@ -519,7 +519,7 @@ is provided then the apiName will be `prefix`. For more info, see
 
 #### Defined in
 
-[src/constructs/Api.ts:45](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/constructs/Api.ts#L45)
+[src/constructs/Api.ts:45](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/constructs/Api.ts#L45)
 
 ___
 
@@ -557,7 +557,7 @@ The api stage name. This is an alias to the deployOptions.stageName.
 
 #### Defined in
 
-[src/constructs/Api.ts:30](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/constructs/Api.ts#L30)
+[src/constructs/Api.ts:30](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/constructs/Api.ts#L30)
 
 ___
 
@@ -571,4 +571,4 @@ the api.attachCognitoAuthorizer() method
 
 #### Defined in
 
-[src/constructs/Api.ts:52](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/constructs/Api.ts#L52)
+[src/constructs/Api.ts:52](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/constructs/Api.ts#L52)

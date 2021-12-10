@@ -1,13 +1,11 @@
 ---
-name: OnPushToMaster
+name: On Push
 
 on:
-  push:
-    tags:
-      - 'v*'
-    branches:
-      - master
-      - release
+  pull_request:
+    types:
+      - opened
+      - edited
 
 jobs:
   BuildLintAndTest:
@@ -32,53 +30,3 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: npm run lint --if-present
-
-      - name: publish
-        run: npm publish
-        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
-
-      - name: build docs
-        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-        # if: success()
-        run: npm run build:docs
-
-      - name: cdk synth
-        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-        # if: success()
-        run: npm run synth
-        env:
-          CICD: 'true'
-          BRANCH: ${{ secrets.BRANCH }}
-          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ secrets.REGION }}
-          AWS_REGION: ${{ secrets.REGION }}
-
-      - name: cdk diff
-        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-        # if: success()
-        run: npm run diff
-        env:
-          CICD: 'true'
-          BRANCH: ${{ secrets.BRANCH }}
-          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ secrets.REGION }}
-          AWS_REGION: ${{ secrets.REGION }}
-
-      - name: cdk deploy
-        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-        # if: success()
-        run: npm run deploy
-        env:
-          CICD: 'true'
-          BRANCH: ${{ secrets.BRANCH }}
-          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ secrets.REGION }}
-          AWS_REGION: ${{ secrets.REGION }}

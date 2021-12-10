@@ -26,7 +26,7 @@ Option to use an existing certificate for TLS/SSL
 
 #### Defined in
 
-[src/stacks/core/CoreConstruct.ts:44](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/core/CoreConstruct.ts#L44)
+[src/stacks/core/CoreConstruct.ts:44](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/stacks/core/CoreConstruct.ts#L44)
 
 ___
 
@@ -63,7 +63,7 @@ info, see [Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
 
 #### Defined in
 
-[src/stacks/core/CoreConstruct.ts:50](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/core/CoreConstruct.ts#L50)
+[src/stacks/core/CoreConstruct.ts:50](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/stacks/core/CoreConstruct.ts#L50)
 
 ___
 
@@ -73,7 +73,7 @@ ___
 
 #### Defined in
 
-[src/stacks/core/CoreNestedStack.ts:14](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/core/CoreNestedStack.ts#L14)
+[src/stacks/core/CoreNestedStack.ts:14](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/stacks/core/CoreNestedStack.ts#L14)
 
 ___
 
@@ -90,7 +90,7 @@ and records for all the other stacks will get added to the targeted zone
 
 #### Defined in
 
-[src/stacks/core/CoreConstruct.ts:19](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/core/CoreConstruct.ts#L19)
+[src/stacks/core/CoreConstruct.ts:19](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/stacks/core/CoreConstruct.ts#L19)
 
 ___
 
@@ -111,7 +111,7 @@ this will be ignored.
 
 #### Defined in
 
-[src/stacks/core/CoreConstruct.ts:39](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/core/CoreConstruct.ts#L39)
+[src/stacks/core/CoreConstruct.ts:39](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/stacks/core/CoreConstruct.ts#L39)
 
 ___
 
@@ -172,7 +172,7 @@ ___
 
 #### Defined in
 
-[src/stacks/core/CoreNestedStack.ts:13](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/core/CoreNestedStack.ts#L13)
+[src/stacks/core/CoreNestedStack.ts:13](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/stacks/core/CoreNestedStack.ts#L13)
 
 ___
 
@@ -210,7 +210,7 @@ override this value
 
 #### Defined in
 
-[src/stacks/core/CoreConstruct.ts:57](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/core/CoreConstruct.ts#L57)
+[src/stacks/core/CoreConstruct.ts:57](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/stacks/core/CoreConstruct.ts#L57)
 
 ___
 
@@ -231,7 +231,7 @@ similar for branches, such as `dev.api.example.com` and
 
 #### Defined in
 
-[src/stacks/core/CoreConstruct.ts:29](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/core/CoreConstruct.ts#L29)
+[src/stacks/core/CoreConstruct.ts:29](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/stacks/core/CoreConstruct.ts#L29)
 
 ___
 
@@ -245,7 +245,7 @@ ___
 
 #### Defined in
 
-[src/stacks/core/CoreNestedStack.ts:10](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/core/CoreNestedStack.ts#L10)
+[src/stacks/core/CoreNestedStack.ts:10](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/stacks/core/CoreNestedStack.ts#L10)
 
 ___
 

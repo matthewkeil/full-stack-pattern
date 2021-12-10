@@ -79,7 +79,7 @@ be built so all subsequent Lambdas will be able to find and use the same api.
 
 #### Defined in
 
-[src/constructs/Lambda.ts:146](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/constructs/Lambda.ts#L146)
+[src/constructs/Lambda.ts:146](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/constructs/Lambda.ts#L146)
 
 ___
 
@@ -200,7 +200,7 @@ for more information about how to use this feature.
 
 #### Defined in
 
-[src/constructs/Api.ts:71](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/constructs/Api.ts#L71)
+[src/constructs/Api.ts:71](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/constructs/Api.ts#L71)
 
 ___
 
@@ -217,7 +217,7 @@ and will create the AWS::Lambda::Permission for you.
 
 #### Defined in
 
-[src/constructs/Lambda.ts:111](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/constructs/Lambda.ts#L111)
+[src/constructs/Lambda.ts:111](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/constructs/Lambda.ts#L111)
 
 ___
 
@@ -233,7 +233,7 @@ For custom domain names. Required when using a rootDomain.
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessConstruct.ts:36](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/serverless/ServerlessConstruct.ts#L36)
+[src/stacks/serverless/ServerlessConstruct.ts:36](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/stacks/serverless/ServerlessConstruct.ts#L36)
 
 ___
 
@@ -292,7 +292,7 @@ InlineCode, AssetCode, S3Code, etc.
 
 #### Defined in
 
-[src/constructs/Lambdas.ts:56](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/constructs/Lambdas.ts#L56)
+[src/constructs/Lambdas.ts:56](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/constructs/Lambdas.ts#L56)
 
 ___
 
@@ -581,7 +581,7 @@ info, see [Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
 
 #### Defined in
 
-[src/constructs/Api.ts:83](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/constructs/Api.ts#L83)
+[src/constructs/Api.ts:83](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/constructs/Api.ts#L83)
 
 ___
 
@@ -762,7 +762,7 @@ how to use this feature.
 
 #### Defined in
 
-[src/constructs/Lambda.ts:137](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/constructs/Lambda.ts#L137)
+[src/constructs/Lambda.ts:137](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/constructs/Lambda.ts#L137)
 
 ___
 
@@ -781,7 +781,7 @@ log groups that exist
 
 #### Defined in
 
-[src/constructs/Lambda.ts:154](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/constructs/Lambda.ts#L154)
+[src/constructs/Lambda.ts:154](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/constructs/Lambda.ts#L154)
 
 ___
 
@@ -916,7 +916,7 @@ Gateway responses to add to the api. By default the following responses are adde
 
 #### Defined in
 
-[src/constructs/Api.ts:61](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/constructs/Api.ts#L61)
+[src/constructs/Api.ts:61](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/constructs/Api.ts#L61)
 
 ___
 
@@ -952,7 +952,7 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessConstruct.ts:38](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/serverless/ServerlessConstruct.ts#L38)
+[src/stacks/serverless/ServerlessConstruct.ts:38](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/stacks/serverless/ServerlessConstruct.ts#L38)
 
 ___
 
@@ -1063,7 +1063,7 @@ that will get merged with each set of individual props and creation time.
 
 #### Defined in
 
-[src/constructs/Lambdas.ts:43](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/constructs/Lambdas.ts#L43)
+[src/constructs/Lambdas.ts:43](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/constructs/Lambdas.ts#L43)
 
 ___
 
@@ -1080,7 +1080,7 @@ and the AssetCode will be made for the directory.  Can also pass in an array of 
 
 #### Defined in
 
-[src/constructs/Lambda.ts:100](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/constructs/Lambda.ts#L100)
+[src/constructs/Lambda.ts:100](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/constructs/Lambda.ts#L100)
 
 ___
 
@@ -1163,7 +1163,7 @@ Adds process.env.LOGGING_LEVEL to the lambda environment. Can be set to:
 
 #### Defined in
 
-[src/constructs/Lambda.ts:125](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/constructs/Lambda.ts#L125)
+[src/constructs/Lambda.ts:125](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/constructs/Lambda.ts#L125)
 
 ___
 
@@ -1180,7 +1180,7 @@ info, see [Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
 
 #### Defined in
 
-[src/constructs/Api.ts:77](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/constructs/Api.ts#L77)
+[src/constructs/Api.ts:77](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/constructs/Api.ts#L77)
 
 ___
 
@@ -1328,7 +1328,7 @@ the apiName will be `name`
 
 #### Defined in
 
-[src/constructs/Api.ts:37](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/constructs/Api.ts#L37)
+[src/constructs/Api.ts:37](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/constructs/Api.ts#L37)
 
 ___
 
@@ -1524,7 +1524,7 @@ is provided then the apiName will be `prefix`. For more info, see
 
 #### Defined in
 
-[src/constructs/Api.ts:45](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/constructs/Api.ts#L45)
+[src/constructs/Api.ts:45](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/constructs/Api.ts#L45)
 
 ___
 
@@ -1760,7 +1760,7 @@ The IRole or arn of the service role. If a LambdaProps.role is passed no IAM wil
 
 #### Defined in
 
-[src/constructs/Lambda.ts:105](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/constructs/Lambda.ts#L105)
+[src/constructs/Lambda.ts:105](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/constructs/Lambda.ts#L105)
 
 ___
 
@@ -1782,7 +1782,7 @@ similar for branches, such as `dev.api.example.com` and
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessConstruct.ts:24](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/serverless/ServerlessConstruct.ts#L24)
+[src/stacks/serverless/ServerlessConstruct.ts:24](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/stacks/serverless/ServerlessConstruct.ts#L24)
 
 ___
 
@@ -1798,7 +1798,7 @@ Runtime to use with all lambdas in this group.
 
 #### Defined in
 
-[src/constructs/Lambdas.ts:48](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/constructs/Lambdas.ts#L48)
+[src/constructs/Lambdas.ts:48](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/constructs/Lambdas.ts#L48)
 
 ___
 
@@ -1882,7 +1882,7 @@ ___
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessNestedStack.ts:10](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/serverless/ServerlessNestedStack.ts#L10)
+[src/stacks/serverless/ServerlessNestedStack.ts:10](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/stacks/serverless/ServerlessNestedStack.ts#L10)
 
 ___
 
@@ -1900,7 +1900,7 @@ The api stage name. This is an alias to the deployOptions.stageName.
 
 #### Defined in
 
-[src/constructs/Api.ts:30](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/constructs/Api.ts#L30)
+[src/constructs/Api.ts:30](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/constructs/Api.ts#L30)
 
 ___
 
@@ -1960,7 +1960,7 @@ The api subDomain
 
 #### Defined in
 
-[src/stacks/serverless/ServerlessConstruct.ts:31](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/stacks/serverless/ServerlessConstruct.ts#L31)
+[src/stacks/serverless/ServerlessConstruct.ts:31](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/stacks/serverless/ServerlessConstruct.ts#L31)
 
 ___
 
@@ -1980,7 +1980,7 @@ the LambdasProps.tables for more information.
 
 #### Defined in
 
-[src/constructs/Lambda.ts:163](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/constructs/Lambda.ts#L163)
+[src/constructs/Lambda.ts:163](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/constructs/Lambda.ts#L163)
 
 ___
 
@@ -2005,7 +2005,7 @@ environment variables as:
 
 #### Defined in
 
-[src/constructs/Lambda.ts:184](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/constructs/Lambda.ts#L184)
+[src/constructs/Lambda.ts:184](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/constructs/Lambda.ts#L184)
 
 ___
 
@@ -2021,7 +2021,7 @@ Array of tablesProps to use for creation of multiple tables.
 
 #### Defined in
 
-[src/constructs/Tables.ts:25](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/constructs/Tables.ts#L25)
+[src/constructs/Tables.ts:25](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/constructs/Tables.ts#L25)
 
 ___
 
@@ -2102,7 +2102,7 @@ the api.attachCognitoAuthorizer() method
 
 #### Defined in
 
-[src/constructs/Api.ts:52](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/constructs/Api.ts#L52)
+[src/constructs/Api.ts:52](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/constructs/Api.ts#L52)
 
 ___
 
@@ -2219,7 +2219,7 @@ code can easily check for warming event and return early
 
 #### Defined in
 
-[src/constructs/Lambda.ts:119](https://github.com/matthewkeil/full-stack-pattern/blob/47a3018/src/constructs/Lambda.ts#L119)
+[src/constructs/Lambda.ts:119](https://github.com/matthewkeil/full-stack-pattern/blob/cd5f871/src/constructs/Lambda.ts#L119)
 
 ___
 
