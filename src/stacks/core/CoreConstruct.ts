@@ -56,7 +56,7 @@ export interface CoreConstructProps
    * passing in the certificateArn a certificate will not be created and
    * this will be ignored.
    */
-  includeSubdomains?: boolean;
+  includeStarSubdomain?: boolean;
 
   /**
    * Option to use an existing certificate for TLS/SSL
@@ -112,6 +112,7 @@ export class CoreConstruct extends Construct {
         console.log(`Found certificate for ${props.rootDomain}, using ${_props.certificateArn}`);
       }
     }
+
     if (!props.hostedZoneId) {
       _props.hostedZoneId = await getHostedZoneIdForDomain({
         profile: props.profile,
@@ -122,62 +123,84 @@ export class CoreConstruct extends Construct {
         console.log(`Found hostedZone for ${props.rootDomain}, using ${_props.hostedZoneId}`);
       }
     }
+
     return _props;
   }
 
   public hostedZone: IHostedZone;
   public certificate: ICertificate;
+  public baseDomain: string;
 
-  constructor(scope: Construct, id: string, props: CoreConstructProps) {
+  constructor(scope: Construct, id: string, private props: CoreConstructProps) {
     super(scope, id);
+    this.hostedZone = this.buildHostedZone(this.props.rootDomain);
+    this.baseDomain = CoreConstruct.getBaseDomain(this.props);
+    this.certificate = this.buildCertificate(this.baseDomain);
+  }
 
-    if (props.hostedZoneId) {
-      this.hostedZone = HostedZone.fromHostedZoneAttributes(this, 'HostedZone', {
-        hostedZoneId: props.hostedZoneId,
-        zoneName: props.rootDomain
+  private buildHostedZone(zoneName: string) {
+    let hostedZone: IHostedZone;
+
+    if (this.props.hostedZoneId) {
+      hostedZone = HostedZone.fromHostedZoneAttributes(this, 'HostedZone', {
+        hostedZoneId: this.props.hostedZoneId,
+        zoneName
       });
     } else {
-      this.hostedZone = new HostedZone(this, 'HostedZone', {
-        ...props,
-        zoneName: props.rootDomain
+      hostedZone = new HostedZone(this, 'HostedZone', {
+        ...this.props,
+        zoneName
       });
-      (this.hostedZone.node.defaultChild as CfnHostedZone).applyRemovalPolicy(props.removalPolicy);
-      if (!props.dontOverrideLogicalId) {
-        (this.hostedZone.node.defaultChild as CfnHostedZone).overrideLogicalId('HostedZone');
+
+      (hostedZone.node.defaultChild as CfnHostedZone).applyRemovalPolicy(this.props.removalPolicy);
+      if (!this.props.dontOverrideLogicalId) {
+        (hostedZone.node.defaultChild as CfnHostedZone).overrideLogicalId('HostedZone');
       }
       new CfnOutput(this, 'NameServers', {
-        value: this.hostedZone.hostedZoneNameServers
-          ? Fn.join(', ', this.hostedZone.hostedZoneNameServers)
+        value: hostedZone.hostedZoneNameServers
+          ? Fn.join(', ', hostedZone.hostedZoneNameServers)
           : 'private hosted zone'
       });
     }
+
     new CfnOutput(this, 'HostedZoneId', {
-      value: this.hostedZone.hostedZoneId
+      value: hostedZone.hostedZoneId
     });
 
-    if (props.certificateArn) {
-      this.certificate = Certificate.fromCertificateArn(this, 'Certificate', props.certificateArn);
+    return hostedZone;
+  }
+
+  private buildCertificate(baseDomain: string) {
+    let certificate: ICertificate;
+
+    if (this.props.certificateArn) {
+      certificate = Certificate.fromCertificateArn(this, 'Certificate', this.props.certificateArn);
     } else {
-      const subjectAlternativeNames = props.subjectAlternativeNames ?? [];
-      if (props.includeSubdomains) {
-        subjectAlternativeNames.push(`*.${props.rootDomain}`);
+      const subjectAlternativeNames = this.props.subjectAlternativeNames ?? [];
+      
+      if (this.props.includeStarSubdomain ?? true) {
+        subjectAlternativeNames.push(`*.${baseDomain}`);
       }
 
-      this.certificate = new Certificate(this, 'Certificate', {
-        ...props,
-        domainName: props.rootDomain,
+      certificate = new Certificate(this, 'Certificate', {
+        ...this.props,
+        domainName: baseDomain,
         subjectAlternativeNames,
         validation: CertificateValidation.fromDns(this.hostedZone)
       });
-      (this.certificate.node.defaultChild as CfnCertificate).applyRemovalPolicy(
-        props.removalPolicy
+
+      (certificate.node.defaultChild as CfnCertificate).applyRemovalPolicy(
+        this.props.removalPolicy
       );
-      if (!props.dontOverrideLogicalId) {
-        (this.certificate.node.defaultChild as CfnCertificate).overrideLogicalId('Certificate');
+      if (!this.props.dontOverrideLogicalId) {
+        (certificate.node.defaultChild as CfnCertificate).overrideLogicalId('Certificate');
       }
     }
+
     new CfnOutput(this, 'CertificateArn', {
-      value: this.certificate.certificateArn
+      value: certificate.certificateArn
     });
+
+    return certificate;
   }
 }

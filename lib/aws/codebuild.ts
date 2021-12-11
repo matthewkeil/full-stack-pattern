@@ -2,7 +2,7 @@ import {SharedIniFileCredentials, CodeBuild} from 'aws-sdk';
 
 type source = 'GITHUB' | 'GITHUB_ENTERPRISE' | 'BITBUCKET';
 
-export const areCodeBuildCredentials = async ({
+export const codeBuildHasCredentials = async ({
   profile,
   region,
   sourceType
