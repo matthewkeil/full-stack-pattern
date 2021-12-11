@@ -59,6 +59,7 @@
     "aws-cdk": "1.134.0",
     "aws-sdk": "^2.773.0",
     "cross-env": "^7.0.3",
+    "dotenv": "^10.0.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
