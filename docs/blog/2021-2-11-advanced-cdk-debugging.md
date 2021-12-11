@@ -1,12 +1,12 @@
 ---
 slug: advanced-cdk-debugging
-title: First Blog Post
+title: Advanced CDK Debugging
 authors:
-  name: Gao Wei
-  title: Docusaurus Core Team
-  url: https://github.com/wgao19
-  image_url: https://github.com/wgao19.png
-tags: [hola, docusaurus]
+  name: Matthew Keil
+  title: Advanced CDK Debugging
+  url: https://github.com/matthewkeil
+  image_url: https://avatars.githubusercontent.com/u/18608739?v=4
+tags: [aws, cdk, debugging]
 ---
 
 ```bash
