@@ -1,6 +1,7 @@
 import { StackProps, Stack, Construct } from '@aws-cdk/core';
 import { CloudFrontWebDistribution } from '@aws-cdk/aws-cloudfront';
 import { IBucket } from '@aws-cdk/aws-s3';
+
 import { CDNConstruct, CDNConstructProps } from './CDNConstruct';
 
 export interface CDNStackProps extends StackProps, CDNConstructProps {}

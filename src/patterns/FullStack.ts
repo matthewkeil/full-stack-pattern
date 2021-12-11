@@ -1,5 +1,6 @@
 import { Construct } from '@aws-cdk/core';
-import { FullStackConstruct, FullStackProps } from './FullStackConstruct';
+import { FullStackProps } from './FullStackProps';
+import { FullStackConstruct } from './FullStackConstruct';
 
 export class FullStack extends FullStackConstruct {
   private constructor(scope: Construct, id: string, props: FullStackProps) {
@@ -13,7 +14,7 @@ export class FullStack extends FullStackConstruct {
     scope: Construct,
     id: string,
     props: FullStackProps & {
-      profile: string;
+      profile?: string;
     }
   ) {
     const _props = await FullStackConstruct.lookupExistingResources(props);

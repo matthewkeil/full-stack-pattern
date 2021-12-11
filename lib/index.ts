@@ -1,4 +1,5 @@
 export * from './buildLayer';
+export * from './buildUrls';
 export * from './changeCase';
 export * from './exec';
 export * from './getConfig';
@@ -8,9 +9,4 @@ export * from './Logger';
 export * from './mergeProps';
 export * from './Mutable';
 export * from './normalizeDomain';
-export * from './aws/apiGateway';
-export * from './aws/certificateManager';
-export * from './aws/cwLogs';
-export * from './aws/dynamodb';
-export * from './aws/route53';
-export * from './aws/s3';
+export * from './aws';

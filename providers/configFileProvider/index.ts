@@ -13,7 +13,7 @@ const s3 = new S3();
 
 type FileType = 'js' | 'json' | 'yaml';
 
-export interface ConfigFileProps<T extends Record<string, unknown>> {
+export interface ConfigFileProviderProps<T extends Record<string, unknown>> {
   /**
    * The bucketName of where to upload the file
    */
@@ -46,7 +46,7 @@ export interface ConfigFileProps<T extends Record<string, unknown>> {
   config: T;
 }
 
-interface PrivateConfigFileProps extends ConfigFileProps<any> {
+interface PrivateConfigFileProps extends ConfigFileProviderProps<any> {
   IDEMOPOTENCY_TOKEN: string;
 }
 
@@ -54,7 +54,7 @@ function buildUpload({
   config,
   fileType
 }: {
-  config: ConfigFileProps<any>['config'];
+  config: ConfigFileProviderProps<any>['config'];
   fileType: FileType;
 }) {
   const stringified =
@@ -84,7 +84,7 @@ async function buildAndUploadFile({
   config,
   bucketName,
   mergeExisting
-}: Required<ConfigFileProps<any>> & { fileType: FileType }) {
+}: Required<ConfigFileProviderProps<any>> & { fileType: FileType }) {
   let merged: Record<string, unknown>;
   if (!mergeExisting) {
     merged = config;

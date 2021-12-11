@@ -1,0 +1,69 @@
+---
+name: Publish Version
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - 'v*'
+
+jobs:
+  BuildLintAndTest:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{ github }}
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - run: echo ${{ github.ref }}
+
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - name: Install node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+          registry-url: 'https://registry.npmjs.org'
+
+      - run: npm ci
+      - run: npm run build
+      - run: npm run lint --if-present
+
+      - name: publish
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+
+      - run: npm install --prefix docs
+      - name: build docs
+        run: npm run build:docs
+
+      - name: cdk synth
+        run: npm run cdk -- synth
+        env:
+          BRANCH: ${{ secrets.BRANCH }}
+          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.REGION }}
+
+      - name: cdk diff
+        run: npm run cdk -- diff
+        env:
+          BRANCH: ${{ secrets.BRANCH }}
+          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.REGION }}
+
+      - name: cdk deploy
+        run: npm run cdk -- deploy
+        env:
+          BRANCH: ${{ secrets.BRANCH }}
+          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.REGION }}

@@ -1,12 +1,14 @@
 import { nanoid } from 'nanoid';
 import { Construct } from '@aws-cdk/core';
 import { AssetCode, LayerVersion } from '@aws-cdk/aws-lambda';
-import { Api, ApiProps } from '../../constructs/Api';
+import { CnameRecord, IHostedZone } from '@aws-cdk/aws-route53';
 import { ICertificate } from '@aws-cdk/aws-certificatemanager';
+import { BasePathMapping, DomainName, EndpointType } from '@aws-cdk/aws-apigateway';
+
+import { buildUrls } from '../../../lib/buildUrls';
+import { Api, ApiProps } from '../../constructs/Api';
 import { Tables, TablesProps } from '../../constructs/Tables';
 import { Lambdas, LambdasProps } from '../../constructs/Lambdas';
-import { CnameRecord, IHostedZone } from '@aws-cdk/aws-route53';
-import { BasePathMapping, DomainName, EndpointType } from '@aws-cdk/aws-apigateway';
 
 export interface ServerlessConstructProps
   extends Omit<ApiProps, 'description' | 'domainName'>,
@@ -21,7 +23,7 @@ export interface ServerlessConstructProps
    * similar for branches, such as `dev.api.example.com` and
    * `dev.example.com`.  The rootDomain will still be `example.com`.
    */
-  rootDomain?: string;
+  baseDomain?: string;
 
   /**
    * The api subDomain
@@ -50,16 +52,22 @@ export class ServerlessConstruct extends Construct {
   constructor(scope: Construct, id: string, private props: ServerlessConstructProps) {
     super(scope, id);
 
-    if (this.props.rootDomain) {
-      const stage = this.props.stage && this.props.stage !== 'prod' ? `${this.props.stage}.` : '';
-      this.subDomain = `${stage}${this.props.subDomain ?? 'api'}`;
-      this.domainUrl = `${this.subDomain}.${this.props.rootDomain}`;
+    if (this.props.baseDomain) {
+      const [url] = buildUrls({
+        subDomain: this.props.subDomain ?? 'api',
+        stage: this.props.stage,
+        baseDomain: this.props.baseDomain
+      });
+      this.domainUrl = url;
+      // const stage = this.props.stage && this.props.stage !== 'prod' ? `${this.props.stage}.` : '';
+      // this.subDomain = `${stage}${this.props.subDomain ?? 'api'}`;
+      // this.domainUrl = `${this.subDomain}.${this.props.rootDomain}`;
     }
 
     this.api = new Api(this, 'Api', {
       ...this.props,
       domainName:
-        this.props.rootDomain && this.props.certificate
+        this.props.baseDomain && this.props.certificate
           ? {
               domainName: this.domainUrl as string,
               certificate: this.props.certificate
@@ -122,7 +130,7 @@ export class ServerlessConstruct extends Construct {
 
       new CnameRecord(this, 'ApiGatewayRecordSet', {
         zone: this.props.hostedZone,
-        recordName: this.subDomain,
+        recordName: this.domainUrl.replace(new RegExp(`.${this.props.baseDomain}$`, 'i'), ''),
         domainName: domainName.domainNameAliasDomainName
       });
     }

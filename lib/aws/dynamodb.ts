@@ -1,17 +1,16 @@
 import { config, DynamoDB, SharedIniFileCredentials } from 'aws-sdk';
+import { getCredentials } from './getCredentials';
 export const listTableNames = async ({
+  prefix,
   profile,
-  region,
-  prefix
+  region = process.env.REGION ?? 'us-east-1'
 }: {
-  profile?: string;
   region?: string;
+  profile?: string;
   prefix?: string;
 }): Promise<string[]> => {
-  if (profile) {
-    config.credentials = new SharedIniFileCredentials({ profile });
-  }
-  const dynamo = new DynamoDB({ region });
+  const credentials = await getCredentials({ profile });
+  const dynamo = new DynamoDB({ region, credentials });
   try {
     const tables: string[] = [];
     let ExclusiveStartTableName: string | undefined;

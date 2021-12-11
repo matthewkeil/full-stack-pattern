@@ -30,7 +30,11 @@ import {
   LayerVersion
 } from '@aws-cdk/aws-lambda';
 
-import { HttpMethod, isHttpMethod, LogLevel, Mutable, toKebab, toPascal, toEnv } from '../../lib';
+import { LogLevel } from '../../lib/Logger';
+import { Mutable } from '../../lib/Mutable';
+import { HttpMethod, isHttpMethod } from '../../lib/HttpMethod';
+import { toKebab, toPascal, toEnv } from '../../lib/changeCase';
+
 import { Api } from './Api';
 import { Tables } from './Tables';
 

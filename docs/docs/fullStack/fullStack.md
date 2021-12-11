@@ -36,7 +36,7 @@ More information about what each does can be found by following the links below:
 
 ```typescript
 import { App } from '@aws-cdk/core';
-import { FullStack, FullStackProps } from 'full-stack-construct';
+import { FullStack, FullStackProps } from 'full-stack-pattern';
 
 (async function() {
   const app = new App();

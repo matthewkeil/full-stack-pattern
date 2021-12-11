@@ -1,12 +1,16 @@
 import { Construct, Stack } from '@aws-cdk/core';
-import { CDNNestedStack, CognitoNestedStack, CoreNestedStack, ServerlessNestedStack } from '../..';
-import { FullStackConstruct, FullStackProps } from './FullStackConstruct';
+import { CoreNestedStack } from '../stacks/core/CoreNestedStack';
+import { CDNNestedStack } from '../stacks/cdn/CDNNestedStack';
+import { CognitoNestedStack } from '../stacks/cognito/CognitoNestedStack';
+import { ServerlessNestedStack } from '../stacks/serverless/ServerlessNestedStack';
+import { FullStackProps } from './FullStackProps';
+import { FullStackConstruct } from './FullStackConstruct';
 
 export class FullNestedStack extends Stack {
   public core?: CoreNestedStack;
   public cdn?: CDNNestedStack;
-  public auth?: CognitoNestedStack;
-  public backend?: ServerlessNestedStack;
+  public cognito?: CognitoNestedStack;
+  public serverless?: ServerlessNestedStack;
   public addConfigFile: FullStackConstruct['addConfigFile'];
 
   private constructor(scope: Construct, id: string, props: FullStackProps) {
@@ -18,19 +22,18 @@ export class FullNestedStack extends Stack {
       ...props,
       nested: true
     });
-    const { core, serverless: backend, cognito: auth, cdn, addConfigFile } = construct;
-    this.core = core as CoreNestedStack | undefined;
-    this.backend = backend as ServerlessNestedStack | undefined;
-    this.auth = auth as CognitoNestedStack | undefined;
-    this.cdn = cdn as CDNNestedStack | undefined;
-    this.addConfigFile = addConfigFile.bind(construct);
+    this.core = construct.core as CoreNestedStack | undefined;
+    this.cdn = construct.cdn as CDNNestedStack | undefined;
+    this.cognito = construct.cognito as CognitoNestedStack | undefined;
+    this.serverless = construct.serverless as ServerlessNestedStack | undefined;
+    this.addConfigFile = construct.addConfigFile.bind(construct);
   }
 
   static async create(
     scope: Construct,
     id: string,
     props: FullStackProps & {
-      profile: string;
+      profile?: string;
     }
   ) {
     const _props = await FullStackConstruct.lookupExistingResources(props);

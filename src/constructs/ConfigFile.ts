@@ -1,14 +1,18 @@
-import { Effect, IRole, PolicyStatement } from '@aws-cdk/aws-iam';
-import { AssetCode, Runtime } from '@aws-cdk/aws-lambda';
-import { IBucket } from '@aws-cdk/aws-s3';
-import { Environment, Construct, CustomResource, Stack } from '@aws-cdk/core';
-import { nanoid } from 'nanoid';
 import { resolve } from 'path';
+import { nanoid } from 'nanoid';
+import { IBucket } from '@aws-cdk/aws-s3';
+import { AssetCode, Runtime } from '@aws-cdk/aws-lambda';
+import { Effect, IRole, PolicyStatement } from '@aws-cdk/aws-iam';
+import { Environment, Construct, CustomResource, Stack } from '@aws-cdk/core';
+
 import { Mutable } from '../../lib';
-import { ConfigFileProps as BaseConfigFileProps } from '../../providers/configFileProvider';
+import { ConfigFileProviderProps } from '../../providers/configFileProvider';
 import { Lambda, LambdaProps } from './Lambda';
 
-export type ConfigFileProps<T extends Record<string, unknown>> = Omit<BaseConfigFileProps<T>, 'bucketName'> & {
+export type ConfigFileProps<T extends Record<string, unknown>> = Omit<
+  ConfigFileProviderProps<T>,
+  'bucketName'
+> & {
   /**
    * The Bucket to upload the file to
    */

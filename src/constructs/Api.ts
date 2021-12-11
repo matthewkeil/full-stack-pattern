@@ -18,7 +18,9 @@ import { ServicePrincipal } from '@aws-cdk/aws-iam';
 import { AssetCode } from '@aws-cdk/aws-lambda';
 import { addToDevServer } from 'convert-lambda-to-express';
 
-import { Mutable, toPascal, toKebab, HttpMethod } from '../../lib';
+import { Mutable } from '../../lib/Mutable';
+import { HttpMethod } from '../../lib/HttpMethod';
+import { toPascal, toKebab } from '../../lib/changeCase';
 import { Lambda } from './Lambda';
 
 export interface ApiProps extends Mutable<Omit<RestApiProps, 'restApiName'>> {

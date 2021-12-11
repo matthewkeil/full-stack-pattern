@@ -35,7 +35,7 @@ Based on whether you are using the FullStack or FullNestedStack will determine w
 
 ```typescript
 import { App } from '@aws-cdk/core';
-import { FullStack, FullStackProps } from 'full-stack-construct';
+import { FullStack, FullStackProps } from 'full-stack-pattern';
 
 // this is almost the exact code in the FullStack Construct.  If you want
 // a stack use FullStack but enjoy the example none the less
@@ -119,7 +119,7 @@ app.synth();
 For more information on building the ConfigFile, check out this [link](/docs/constructs/configFile)
 
 ```typescript
-import { FullStack } from 'full-stack-construct';
+import { FullStack } from 'full-stack-pattern';
 
 const profile = 'best-client'; // profile in your `~aws/credentials` file
 const fullStackProps = {

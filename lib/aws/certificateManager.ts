@@ -1,19 +1,18 @@
-import { config, ACM, SharedIniFileCredentials } from 'aws-sdk';
+import { ACM } from 'aws-sdk';
 import { normalizeDomain } from '../normalizeDomain';
+import { getCredentials } from './getCredentials';
 
 export async function getCertArnForDomain({
+  baseDomain,
   profile,
-  region,
-  domain
+  region
 }: {
   region: string;
   profile?: string;
-  domain: string;
+  baseDomain: string;
 }) {
-  if (profile) {
-    config.credentials = new SharedIniFileCredentials({ profile });
-  }
-  const acm = new ACM({ region });
+  const credentials = await getCredentials({ profile });
+  const acm = new ACM({ region, credentials });
   let Token: string | undefined;
   const certList = [];
   do {
@@ -31,9 +30,9 @@ export async function getCertArnForDomain({
   } while (Token);
 
   const certInfo = certList.find(
-    ({ DomainName }) =>
-      normalizeDomain(DomainName).includes(normalizeDomain(domain)) ||
-      normalizeDomain(domain).includes(normalizeDomain(DomainName))
+    ({ DomainName }) => normalizeDomain(DomainName) === normalizeDomain(baseDomain)
+    // normalizeDomain(DomainName).includes(normalizeDomain(domain)) ||
+    // normalizeDomain(domain).includes(normalizeDomain(DomainName))
   );
 
   return certInfo?.CertificateArn;

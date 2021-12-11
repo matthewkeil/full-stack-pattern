@@ -1,17 +1,17 @@
-import { config, CloudWatchLogs, SharedIniFileCredentials } from 'aws-sdk';
+import { CloudWatchLogs } from 'aws-sdk';
+import { getCredentials } from './getCredentials';
+
 export const existingLogGroups = async ({
+  prefix,
   profile,
-  region,
-  prefix
+  region = process.env.REGION ?? 'us-east-1'
 }: {
-  profile?: string;
   region?: string;
+  profile?: string;
   prefix?: string;
 }): Promise<string[]> => {
-  if (profile) {
-    config.credentials = new SharedIniFileCredentials({ profile });
-  }
-  const cw = new CloudWatchLogs({ region });
+  const credentials = await getCredentials({ profile });
+  const cw = new CloudWatchLogs({ region, credentials });
   try {
     const logGroupNames: string[] = [];
     let token: string | undefined;

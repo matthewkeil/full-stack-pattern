@@ -1,7 +1,8 @@
 import { exec } from '../lib/exec';
-import { getConfig } from '../config';
+import { getConfig } from './config';
 
-export async function synth(): Promise<void> {
+export async function deploy(): Promise<void> {
+  const stackName: string = process.env.STACK || '--all';
   const { profile, branch } = await getConfig();
 
   let _profile = ` --profile ${profile}`;
@@ -15,9 +16,11 @@ export async function synth(): Promise<void> {
 >>> Using profile ${_profile === '' ? 'default' : profile}
 >>>\n\n`);
 
-  await exec(`npm run cdk -- synth${_profile} --quiet`);
+  await exec(
+    `npm run cdk -- deploy ${stackName} --no-rollback --require-approval never${_profile}`
+  );
 }
 
 if (require.main === module) {
-  synth();
+  deploy();
 }

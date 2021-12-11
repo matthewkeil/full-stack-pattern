@@ -1,5 +1,6 @@
 import { config, SharedIniFileCredentials, Route53 } from 'aws-sdk';
 import { normalizeDomain } from '../normalizeDomain';
+import { getCredentials } from './getCredentials';
 
 export const getHostedZoneIdForDomain = async ({
   profile,
@@ -10,10 +11,8 @@ export const getHostedZoneIdForDomain = async ({
   region?: string;
   rootDomain: string;
 }): Promise<string | undefined> => {
-  if (profile) {
-    config.credentials = new SharedIniFileCredentials({ profile });
-  }
-  const route53 = new Route53({ region });
+  const credentials = await getCredentials({ profile });
+  const route53 = new Route53({ region, credentials });
   const hostedZone = await route53.listHostedZonesByName({ DNSName: rootDomain }).promise();
   const { Id } =
     hostedZone.HostedZones.find(

@@ -1,17 +1,16 @@
-import { config, S3, SharedIniFileCredentials } from 'aws-sdk';
+import { S3 } from 'aws-sdk';
+import { getCredentials } from './getCredentials';
 export const bucketExists = async ({
+  bucketName,
   profile,
-  region,
-  bucketName
+  region = process.env.REGION ?? 'us-east-1'
 }: {
   profile?: string;
   region?: string;
   bucketName: string;
 }): Promise<boolean> => {
-  if (profile) {
-    config.credentials = new SharedIniFileCredentials({ profile });
-  }
-  const s3 = new S3({ region });
+  const credentials = await getCredentials({ profile });
+  const s3 = new S3({ region, credentials });
   try {
     await s3.headBucket({ Bucket: bucketName }).promise();
     return true;

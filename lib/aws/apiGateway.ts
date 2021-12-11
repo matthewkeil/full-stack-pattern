@@ -1,10 +1,17 @@
 import { APIGateway, AWSError } from 'aws-sdk';
+import { getCredentials } from './getCredentials';
 
-const apiGateway = new APIGateway({ region: process.env.REGION || 'us-east-1' });
-
-export const getApiGatewayAccountRole = async (): Promise<string | undefined> => {
+export const getApiGatewayAccountRole = async ({
+  profile,
+  region = process.env.REGION ?? 'us-east-1'
+}: {
+  region: string;
+  profile?: string;
+}): Promise<string | undefined> => {
+  const credentials = await getCredentials({ profile });
+  const apiGateway = new APIGateway({ region, credentials });
   try {
-    const { cloudwatchRoleArn } = await apiGateway.getAccount().promise();
+    const { cloudwatchRoleArn } = await apiGateway.getAccount({ region }).promise();
     return cloudwatchRoleArn;
   } catch (err) {
     if (err instanceof Error && (err as AWSError).code === 'NoSuchEntity') {

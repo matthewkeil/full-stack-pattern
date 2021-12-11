@@ -11,7 +11,8 @@ import {
 } from '@aws-cdk/aws-dynamodb';
 import { Construct, RemovalPolicy } from '@aws-cdk/core';
 
-import { Mutable, toPascal } from '../../lib';
+import { Mutable } from '../../lib/Mutable';
+import { toPascal } from '../../lib/changeCase';
 
 const dynamoAttributeTypes = ['string', 'number', 'boolean'] as const;
 type AttributeType = typeof dynamoAttributeTypes[number];
@@ -92,7 +93,7 @@ export interface TableProps extends Mutable<Omit<BaseTableProps, OmittedIndexPro
    * but use this constructs syntax for the sortKey.
    */
   lsi?: LsiProps[];
-  
+
   /**
    * Array of Local Secondary Indexes. LsiProps extend LocalSecondaryIndexProps
    * but use this constructs syntax for the partitionKey and sortKey.

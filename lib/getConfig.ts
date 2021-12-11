@@ -7,11 +7,21 @@ function getStageName(branch: string): string {
   );
 }
 
-export function getConfig<S extends { branch: string }, T>(stages: S[], staticConfig: T = {} as T) {
-  return async (branch?: string): Promise<S & T & { stage: string }> => {
+interface BaseStaticConfig {
+  client: string;
+  project: string;
+}
+interface BaseStageConfig {
+  branch: string;
+}
+
+export function getConfig<S extends BaseStageConfig, T extends BaseStaticConfig>(
+  stages: S[] = [],
+  staticConfig: T = {} as T
+) {
+  return async (branch?: string): Promise<S & T & { stage: string; prefix: string }> => {
     let _branch = branch;
     if (!_branch) {
-      // pipeline deploys don't have git command available
       if (process.env.BRANCH) {
         _branch = process.env.BRANCH;
       } else {
@@ -22,11 +32,18 @@ export function getConfig<S extends { branch: string }, T>(stages: S[], staticCo
       throw new Error('could not determine what branch to deploy');
     }
 
-    const stageConfig = stages.find(stage => stage.branch === _branch) || stages[0];
+    const stage = getStageName(_branch);
+    let stageConfig = stages.find(stage => stage.branch === _branch);
+    if (!stageConfig) {
+      stageConfig = stages[0] ?? {};
+      stageConfig.branch = _branch;
+    }
+
     return {
       ...staticConfig,
       ...stageConfig,
-      stage: getStageName(_branch)
+      stage,
+      prefix: `${staticConfig.client}-${staticConfig.project}-${stage}`
     };
   };
 }

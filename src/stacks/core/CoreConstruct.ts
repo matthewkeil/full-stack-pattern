@@ -1,4 +1,4 @@
-import { Construct, RemovalPolicy, CfnOutput } from '@aws-cdk/core';
+import { Construct, RemovalPolicy, CfnOutput, Fn } from '@aws-cdk/core';
 import { CfnHostedZone, HostedZone, HostedZoneProps, IHostedZone } from '@aws-cdk/aws-route53';
 import {
   Certificate,
@@ -8,7 +8,8 @@ import {
   ICertificate
 } from '@aws-cdk/aws-certificatemanager';
 
-import { getHostedZoneIdForDomain, getCertArnForDomain } from '../../../lib';
+import { getCertArnForDomain } from '../../../lib/aws/certificateManager';
+import { getHostedZoneIdForDomain } from '../../../lib/aws/route53';
 export interface CoreConstructProps
   extends Partial<Omit<HostedZoneProps, 'zoneName'>>,
     Partial<Omit<CertificateProps, 'domainName' | 'validation'>> {
@@ -27,6 +28,25 @@ export interface CoreConstructProps
    * `dev.example.com`.  The rootDomain will still be `example.com`.
    */
   rootDomain: string;
+
+  /**
+   * Optional: A url subDomain to host the application at. Will still use the
+   * HostedZone at rootDomain but all of this application will be hosted at
+   * the subDomain
+   *
+   * Assume your HostedZone is at `rootDomain: "example.com"` and you want to
+   * host at `subDomain: "best-app"`
+   *
+   * This subDomain is the new "default" root of the application
+   * - the UI will be at `best-app.example.com` and the
+   *   dev branch will be at `dev.best-app.example.com`.
+   *   Optionally you can build `www.best-app.example.com`
+   *
+   * - The Api will be at
+   *   `api.best-app.example.com` and the dev api will be at
+   *   `dev.api.best-app.example.com`
+   */
+  subDomain?: string;
 
   /**
    * When building the certificate this will add a wildcard subDomain to
@@ -58,6 +78,10 @@ export interface CoreConstructProps
 }
 
 export class CoreConstruct extends Construct {
+  public static getBaseDomain(props: { rootDomain: string; subDomain?: string }): string {
+    return props.subDomain ? `${props.subDomain}.${props.rootDomain}` : props.rootDomain;
+  }
+
   /**
    * Will lookup the hostedZoneId and the certificateArn for the provided
    * rootDomain.  If a HostedZone is found for rootDomain the id is added
@@ -78,12 +102,15 @@ export class CoreConstruct extends Construct {
     const _props = { ...props, region: undefined, profile: undefined };
 
     if (!props.certificateArn) {
+      const baseDomain = CoreConstruct.getBaseDomain(props);
       _props.certificateArn = await getCertArnForDomain({
         profile: props.profile,
-        domain: props.rootDomain,
+        baseDomain: baseDomain,
         region: props.region
       });
-      console.log(`Found certificate for ${props.rootDomain}, using ${_props.certificateArn}`);
+      if (_props.certificateArn) {
+        console.log(`Found certificate for ${props.rootDomain}, using ${_props.certificateArn}`);
+      }
     }
     if (!props.hostedZoneId) {
       _props.hostedZoneId = await getHostedZoneIdForDomain({
@@ -91,7 +118,9 @@ export class CoreConstruct extends Construct {
         rootDomain: props.rootDomain,
         region: props.region
       });
-      console.log(`Found hostedZone for ${props.rootDomain}, using ${_props.hostedZoneId}`);
+      if (_props.hostedZoneId) {
+        console.log(`Found hostedZone for ${props.rootDomain}, using ${_props.hostedZoneId}`);
+      }
     }
     return _props;
   }
@@ -117,13 +146,15 @@ export class CoreConstruct extends Construct {
         (this.hostedZone.node.defaultChild as CfnHostedZone).overrideLogicalId('HostedZone');
       }
       new CfnOutput(this, 'NameServers', {
-        value: this.hostedZone.hostedZoneNameServers?.join(', ') ?? 'private hosted zone'
+        value: this.hostedZone.hostedZoneNameServers
+          ? Fn.join(', ', this.hostedZone.hostedZoneNameServers)
+          : 'private hosted zone'
       });
     }
     new CfnOutput(this, 'HostedZoneId', {
       value: this.hostedZone.hostedZoneId
     });
-    
+
     if (props.certificateArn) {
       this.certificate = Certificate.fromCertificateArn(this, 'Certificate', props.certificateArn);
     } else {

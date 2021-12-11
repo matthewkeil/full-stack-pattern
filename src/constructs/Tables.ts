@@ -1,6 +1,6 @@
 import { Construct } from '@aws-cdk/core';
 
-import { mergeProps } from '../../lib';
+import { mergeProps } from '../../lib/mergeProps';
 import { OmittedIndexProps, TableProps, Table } from './Table';
 
 type OmittedTablesProps = OmittedIndexProps | 'tableName' | 'name' | 'logicalId' | 'lsi' | 'gsi';

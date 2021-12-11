@@ -1,7 +1,8 @@
 import { AssetCode, Code, Runtime } from '@aws-cdk/aws-lambda';
 import { Construct, Duration } from '@aws-cdk/core';
 
-import { mergeProps, toPascal } from '../../lib';
+import { mergeProps } from '../../lib/mergeProps';
+import { toPascal } from '../../lib/changeCase';
 import { Lambda, LambdaProps } from './Lambda';
 import { Tables } from './Tables';
 import { Api } from './Api';
