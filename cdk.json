@@ -1,5 +1,5 @@
 {
-  "app": "npm run ts docs/infra.ts",
+  "app": "npm run ts infrastructure/buildCdk.ts",
   "context": {
     "@aws-cdk/core:newStyleStackSynthesis": true,
     "@aws-cdk/aws-apigateway:usagePlanKeyOrderInsensitiveId": true,

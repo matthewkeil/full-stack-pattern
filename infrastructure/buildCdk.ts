@@ -1,20 +1,15 @@
 import { App, RemovalPolicy } from '@aws-cdk/core';
 import { resolve } from 'path';
 import { FullNestedStack } from '../src/patterns/FullNestedStack';
-import { getConfig } from '../config';
+import { getConfig } from './config';
 
-(async function buildInfra() {
-  const {
-    client,
-    project,
-    stage,
-    profile,
-    env,
-    subDomain,
-    rootDomain
-  } = await getConfig();
-  const prefix = `${client}-${project}-${stage}`;
+(async function buildCdk() {
+  const config = await getConfig();
+  console.log({ config });
+
+  const { env, stage, prefix, profile, subDomain, rootDomain } = config;
   const app = new App();
+
   await FullNestedStack.create(app, 'FullStackPatternDocs', {
     env,
     stage,
@@ -23,12 +18,10 @@ import { getConfig } from '../config';
     subDomain,
     rootDomain,
     stackName: prefix,
-    uiDevPort: 3000,
     noCognito: true,
     removalPolicy: RemovalPolicy.DESTROY,
     cdn: {
-      codePaths: [resolve(__dirname, 'build')],
-      buildWwwSubdomain: false
+      codePaths: [resolve(__dirname, '..', 'docs', 'build')],
     }
   });
 

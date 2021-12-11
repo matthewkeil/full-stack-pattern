@@ -6,10 +6,9 @@
   "description": "A set of useful constructs, stacks, applications and patterns to help ease your journey with cdk",
   "scripts": {
     "cdk": "cdk",
-    "synth": "npm run ts bin/synth",
+    "synth": "npm run ts infrastructure/synth",
     "diff": "cdk diff",
-    "deploy": "npm run ts bin/deploy",
-    "destroy": "npm run ts bin/destroy",
+    "deploy": "npm run ts infrastructure/deploy",
     "lint": "eslint --fix --ext .ts .",
     "build:ts": "tsc --project tsconfig.build.json",
     "prebuild:docs": "cd docs && npm ci",

@@ -16,7 +16,7 @@ import { ServerlessConstructProps } from '../stacks/serverless/ServerlessConstru
 import { ServerlessNestedStack } from '../stacks/serverless/ServerlessNestedStack';
 import { ServerlessStack } from '../stacks/serverless/ServerlessStack';
 
-import { existingLogGroups } from '../../lib/aws/cwLogs';
+import { existingLogGroups } from '../../lib';
 import { ConfigFile, ConfigFileProps } from '../constructs/ConfigFile';
 
 export type FullStackCognitoProp = Omit<CognitoConstructProps, 'prefix'> & {
@@ -189,17 +189,13 @@ export class FullStackConstruct extends Construct {
       if (!props.stage) {
         throw new Error('stage is required when rootDomain is provided');
       }
-      baseDomain = CDNConstruct.buildUrls({
-        rootDomain: props.rootDomain,
-        subDomain: props.subDomain,
-        stage: props.stage,
-        buildWwwSubdomain: false
-      })[0];
+      baseDomain = `${props.subDomain}.${props.rootDomain}`;
       core = await CoreConstruct.lookupExistingResources({
         ...(props.core ?? {}),
         region: props.env.region,
         profile: props.profile,
-        rootDomain: props.rootDomain
+        rootDomain: props.rootDomain,
+        subDomain: props.subDomain
       });
     } else {
       if (props.core) {
@@ -211,7 +207,7 @@ export class FullStackConstruct extends Construct {
       ? undefined
       : await CDNConstruct.lookupExistingResources({
           ...props.cdn,
-          rootDomain: baseDomain,
+          baseDomain,
           stage: props.stage,
           region: props.env.region,
           profile: props.profile
@@ -237,27 +233,19 @@ export class FullStackConstruct extends Construct {
   public cdn?: CDNStack | CDNNestedStack;
   public cognito?: CognitoStack | CognitoNestedStack;
   public serverless?: ServerlessStack | ServerlessNestedStack;
-  public domain?: string;
+  public baseDomain?: string;
 
   constructor(scope: Construct, id: string, private props: FullStackConstructProps) {
     super(scope, id);
-    const { env, subDomain, stackTimeout, uiDevPort = 3000 } = props;
+    const { env, stackTimeout, uiDevPort = 3000 } = props;
     const stage = props.stage ?? 'prod';
     const prefix = props.prefix ?? stage;
 
     if (this.props.rootDomain) {
-      let domain = this.props.rootDomain;
-      if (subDomain) {
-        domain = `${subDomain}.${domain}`;
-      }
-      if (stage !== 'prod') {
-        domain = `${stage}.${domain}`;
-      }
-      this.domain = domain;
-
       const _coreProps: CoreConstructProps = {
         ...(this.props.core ?? {}),
         rootDomain: this.props.rootDomain,
+        subDomain: this.props.subDomain,
         removalPolicy:
           this.props.core?.removalPolicy ?? this.props.removalPolicy ?? RemovalPolicy.RETAIN
       };
@@ -271,6 +259,10 @@ export class FullStackConstruct extends Construct {
             stackName: `${props.prefix}-core`,
             env
           });
+      this.baseDomain = CoreConstruct.getBaseDomain({
+        rootDomain: this.props.rootDomain,
+        subDomain: this.props.subDomain
+      });
     }
 
     if (this.props.cdn) {
@@ -278,7 +270,7 @@ export class FullStackConstruct extends Construct {
         ...this.props.cdn,
         prefix,
         stage,
-        rootDomain: this.domain,
+        baseDomain: this.baseDomain,
         certificate: this.core?.certificate,
         hostedZone: this.core?.hostedZone,
         removalPolicy:
@@ -306,7 +298,8 @@ export class FullStackConstruct extends Construct {
         ...(this.props.cognito ?? {}),
         userPoolDomain: {
           ...(this.props.cognito?.userPoolDomain ?? {}),
-          rootDomain: this.domain,
+          baseDomain: this.baseDomain,
+          stage: this.props.stage,
           certificateArn: this.core?.certificate?.certificateArn
         },
         prefix,
@@ -344,7 +337,7 @@ export class FullStackConstruct extends Construct {
         ...this.props.serverless,
         prefix,
         stage,
-        rootDomain: this.domain,
+        baseDomain: this.baseDomain,
         certificate: this.core?.certificate,
         hostedZone: this.core?.hostedZone,
         removalPolicy:

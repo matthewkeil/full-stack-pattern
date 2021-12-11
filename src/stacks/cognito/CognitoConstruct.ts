@@ -27,7 +27,7 @@ import {
   CfnUserPoolUser,
   CfnUserPoolUserToGroupAttachment
 } from '@aws-cdk/aws-cognito';
-import { toKebab, toPascal, Mutable } from '../../../lib';
+import { toKebab, toPascal, Mutable, buildUrls } from '../../../lib';
 import { nanoid } from 'nanoid';
 
 interface GroupConfig {
@@ -75,14 +75,31 @@ interface UserPoolDomainProps extends WithLogicalId {
    * The root domain to use for the UserPoolDomain
    * @example 'example.com'
    */
-  rootDomain?: string;
+  baseDomain?: string;
 
   /**
-   * The subDomain to user for the UserPoolDomain
-   * @example 'auth' will create UserPoolDomain at 'auth.example.com'
-   * @default 'auth'
+   * The subDomain to user for the UserPoolDomain. Does one of two things.
+   *
+   * 1) When not using a customDomain this is the prefix for the url that
+   * gets assigned by cognito.  Usually in the format of:
+   * `https://${subDomain}.auth.${region}.amazoncognito.com`
+   *
+   * 2) Optionally, when using a custom rootDomain, this is the subDomain
+   * that you want to host the login page at. default is 'auth'
+   * ex. `auth.example.com` and `dev.auth.example.com`
    */
   subDomain?: string;
+
+  /**
+   * The stage of the website that is being hosted. ex. Using `qa` as the
+   * stage will host the site at the sub-domain `qa.example.com`.  This also
+   * applies to the login page that is hosted by cognito when using your
+   * own domain.  Auth will be hosted at `auth.example.com` for prod and
+   * `qa.auth.example.com` for qa.
+   *
+   * @default 'prod'
+   */
+  stage?: string;
 
   /**
    * ACM Certificate to use for the UserPoolDomain TLS/SSL
@@ -285,10 +302,12 @@ export class CognitoConstruct extends Construct {
 
     if (this.userPool instanceof UserPool) {
       let domain: string;
-      if (this.props.userPoolDomain?.rootDomain) {
-        domain = this.props.userPoolDomain.subDomain
-          ? `${this.props.userPoolDomain.subDomain}.${this.props.userPoolDomain.rootDomain}`
-          : `auth.${this.props.userPoolDomain.rootDomain}`;
+      if (this.props.userPoolDomain?.baseDomain) {
+        [domain] = buildUrls({
+          baseDomain: this.props.userPoolDomain?.baseDomain,
+          subDomain: this.props.userPoolDomain?.subDomain ?? 'auth',
+          stage: this.props.userPoolDomain?.stage
+        });
       } else {
         if (!this.props.userPoolDomain?.subDomain) {
           throw new Error(

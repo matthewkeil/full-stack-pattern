@@ -1,4 +1,5 @@
 export * from './buildLayer';
+export * from './buildUrls';
 export * from './changeCase';
 export * from './exec';
 export * from './getConfig';

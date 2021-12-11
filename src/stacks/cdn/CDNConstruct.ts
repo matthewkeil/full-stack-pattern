@@ -25,7 +25,7 @@ import {
   CfnBucket
 } from '@aws-cdk/aws-s3';
 
-import { Mutable, toKebab, toPascal, bucketExists } from '../../../lib';
+import { Mutable, buildUrls, toPascal, bucketExists } from '../../../lib';
 
 export interface CDNConstructProps {
   removalPolicy?: RemovalPolicy;
@@ -73,22 +73,7 @@ export interface CDNConstructProps {
    * of the website that is being hosted without the sub-domain. ie. `example.com`.
    * If provided, must also provide a value for `stage`, `hostedZone` and `certificate`.
    */
-  rootDomain?: string;
-
-  /**
-   * Optional: A url subDomain to host the application at. Will still use the
-   * HostedZone at rootDomain but all of this application will be hosted at
-   * the subDomain
-   *
-   * Assume your HostedZone is at `rootDomain: "example.com"` and you want to
-   * host at `subDomain: "best-app"`
-   *
-   * This subDomain is the new "default" root of the application
-   * - the UI will be at `best-app.example.com` and the
-   *   dev branch will be at `dev.best-app.example.com`.
-   *   Optionally you can build `www.best-app.example.com`
-   */
-  subDomain?: string;
+  baseDomain?: string;
 
   /**
    * The stage of the website that is being hosted. ex. Using `qa`
@@ -171,36 +156,16 @@ export interface CDNConstructProps {
   // >;
 }
 
-type BuildUrlsProps = Required<Pick<CDNConstructProps, 'stage' | 'rootDomain'>> &
-  Pick<CDNConstructProps, 'buildWwwSubdomain' | 'subDomain'>;
+type BuildUrlsProps = Required<Pick<CDNConstructProps, 'stage' | 'baseDomain'>> &
+  Pick<CDNConstructProps, 'buildWwwSubdomain'>;
 interface GetBucketNameProps
   extends Partial<
-    Pick<CDNConstructProps, 'bucketName' | 'prefix' | 'stage' | 'rootDomain' | 'buildWwwSubdomain'>
+    Pick<CDNConstructProps, 'bucketName' | 'prefix' | 'stage' | 'baseDomain' | 'buildWwwSubdomain'>
   > {
   // used internally by the Construct. list of target urls for stage
   urls?: string[];
 }
 export class CDNConstruct extends Construct {
-  private static urlSafe(stage: string): string {
-    return toKebab(stage.replace(/[^a-zA-Z0-9_-]*/g, ''));
-  }
-
-  public static buildUrls({
-    stage,
-    subDomain,
-    rootDomain,
-    buildWwwSubdomain = true
-  }: BuildUrlsProps): string[] {
-    const baseDomain = subDomain ? `${subDomain}.${rootDomain}` : rootDomain;
-    if (stage === 'prod') {
-      if (buildWwwSubdomain) {
-        return [`www.${baseDomain}`, baseDomain];
-      }
-      return [baseDomain];
-    }
-    return [`${CDNConstruct.urlSafe(stage)}.${baseDomain}`];
-  }
-
   /**
    * Exposes the algorithm that is used to generate the bucket name from the
    * construct `props`.  Useful if you need to know the bucket name for other
@@ -218,11 +183,12 @@ export class CDNConstruct extends Construct {
       return urls[0];
     }
 
-    if (buildUrlProps.stage && buildUrlProps.rootDomain) {
-      const urls = CDNConstruct.buildUrls({
+    if (buildUrlProps.stage && buildUrlProps.baseDomain) {
+      const urls = buildUrls({
+        subDomain: 'www',
+        buildWwwSubdomain: buildUrlProps.buildWwwSubdomain,
         stage: buildUrlProps.stage,
-        rootDomain: buildUrlProps.rootDomain,
-        buildWwwSubdomain: buildUrlProps.buildWwwSubdomain
+        baseDomain: buildUrlProps.baseDomain
       });
       return urls[0];
     }
@@ -250,12 +216,12 @@ export class CDNConstruct extends Construct {
     };
 
     let urls: string[] | undefined;
-    if (props.rootDomain && props.stage) {
-      urls = CDNConstruct.buildUrls({
-        rootDomain: props.rootDomain,
+    if (props.baseDomain && props.stage) {
+      urls = buildUrls({
+        subDomain: 'wwww',
+        buildWwwSubdomain: props.buildWwwSubdomain,
         stage: props.stage,
-        subDomain: props.subDomain,
-        buildWwwSubdomain: props.buildWwwSubdomain
+        baseDomain: props.baseDomain
       });
     }
     const bucketName = CDNConstruct.getBucketName({
@@ -277,14 +243,15 @@ export class CDNConstruct extends Construct {
 
   constructor(scope: Construct, id: string, private props: CDNConstructProps) {
     super(scope, id);
-    if (props.rootDomain) {
+    if (props.baseDomain) {
       if (!props.stage) {
         throw new Error('CDNConstruct requires a stage when rootDomain is provided');
       }
-      this.urls = CDNConstruct.buildUrls({
-        rootDomain: props.rootDomain,
+      this.urls = buildUrls({
+        subDomain: 'www',
+        buildWwwSubdomain: props.buildWwwSubdomain,
         stage: props.stage,
-        buildWwwSubdomain: props.buildWwwSubdomain
+        baseDomain: props.baseDomain
       });
     }
 
