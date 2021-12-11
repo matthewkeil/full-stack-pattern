@@ -53,7 +53,7 @@ jobs:
       - name: cdk synth
         if: ${{ startsWith(github.ref, 'refs/tags/v') }}
         # if: success()
-        run: npm run synth
+        run: npm run cdk -- synth
         env:
           CICD: 'true'
           BRANCH: ${{ secrets.BRANCH }}
@@ -66,7 +66,7 @@ jobs:
       - name: cdk diff
         if: ${{ startsWith(github.ref, 'refs/tags/v') }}
         # if: success()
-        run: npm run diff
+        run: npm run cdk -- diff
         env:
           CICD: 'true'
           BRANCH: ${{ secrets.BRANCH }}
@@ -79,7 +79,7 @@ jobs:
       - name: cdk deploy
         if: ${{ startsWith(github.ref, 'refs/tags/v') }}
         # if: success()
-        run: npm run deploy
+        run: npm run cdk -- deploy
         env:
           CICD: 'true'
           BRANCH: ${{ secrets.BRANCH }}
