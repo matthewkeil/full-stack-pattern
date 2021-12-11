@@ -5,8 +5,8 @@ on:
   push:
     branches:
       - master
-    tags:
-      - 'v*'
+    # tags:
+    #   - 'v*'
 
 jobs:
   BuildLintAndTest:
@@ -29,13 +29,13 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - run: npm ci
-      - run: npm run build
-      - run: npm run lint --if-present
+      # - run: npm run build
+      # - run: npm run lint --if-present
 
-      - name: publish
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+      # - name: publish
+      #   run: npm publish
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
 
       - run: npm install --prefix docs
       - name: build docs
