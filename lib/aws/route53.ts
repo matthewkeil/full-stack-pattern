@@ -1,4 +1,4 @@
-import { config, SharedIniFileCredentials, Route53 } from 'aws-sdk';
+import { Route53 } from 'aws-sdk';
 import { normalizeDomain } from '../normalizeDomain';
 import { getCredentials } from './getCredentials';
 

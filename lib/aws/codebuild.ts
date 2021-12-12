@@ -1,4 +1,5 @@
-import {SharedIniFileCredentials, CodeBuild} from 'aws-sdk';
+import { CodeBuild } from 'aws-sdk';
+import { getCredentials } from './getCredentials';
 
 type source = 'GITHUB' | 'GITHUB_ENTERPRISE' | 'BITBUCKET';
 
@@ -11,13 +12,8 @@ export const codeBuildHasCredentials = async ({
   region: string;
   sourceType: source;
 }) => {
-  let codebuild: CodeBuild;
-  if (profile && !process.env.CICD) {
-    const credentials = new SharedIniFileCredentials({profile});
-    codebuild = new CodeBuild({region, credentials});
-  } else {
-    codebuild = new CodeBuild({region});
-  }
+  const credentials = await getCredentials({ profile });
+  const codebuild = new CodeBuild({ region, credentials });
   try {
     const res = await codebuild.listSourceCredentials().promise();
     const sourceCredentials = res.sourceCredentialsInfos;

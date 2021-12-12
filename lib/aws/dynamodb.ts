@@ -1,4 +1,4 @@
-import { config, DynamoDB, SharedIniFileCredentials } from 'aws-sdk';
+import { DynamoDB } from 'aws-sdk';
 import { getCredentials } from './getCredentials';
 export const listTableNames = async ({
   prefix,
