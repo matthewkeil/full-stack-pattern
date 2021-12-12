@@ -21,16 +21,6 @@
     "ts": "npm run node -- -r ts-node/register"
   },
   "dependencies": {
-    "convert-lambda-to-express": "^1.1.2",
-    "cors": "^2.8.5",
-    "custom-resource-provider": "0.0.5",
-    "express": "^4.17.1",
-    "helmet": "^4.6.0",
-    "morgan": "^1.10.0",
-    "nanoid": "^3.1.30",
-    "yaml": "^1.10.2"
-  },
-  "devDependencies": {
     "@aws-cdk/aws-apigateway": "1.134.0",
     "@aws-cdk/aws-certificatemanager": "1.134.0",
     "@aws-cdk/aws-cloudfront": "1.134.0",
@@ -46,6 +36,16 @@
     "@aws-cdk/aws-s3": "1.134.0",
     "@aws-cdk/aws-s3-deployment": "1.134.0",
     "@aws-cdk/core": "1.134.0",
+    "convert-lambda-to-express": "^1.1.2",
+    "cors": "^2.8.5",
+    "custom-resource-provider": "0.0.5",
+    "express": "^4.17.1",
+    "helmet": "^4.6.0",
+    "morgan": "^1.10.0",
+    "nanoid": "^3.1.30",
+    "yaml": "^1.10.2"
+  },
+  "devDependencies": {
     "@tsconfig/docusaurus": "^1.0.4",
     "@types/aws-lambda": "^8.10.76",
     "@types/cors": "^2.8.10",
