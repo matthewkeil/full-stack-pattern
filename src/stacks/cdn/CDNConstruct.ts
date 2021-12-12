@@ -51,6 +51,11 @@ export interface CDNConstructProps {
    */
   codePaths: string[];
 
+  codeDeploymentProps?: Omit<
+    BucketDeploymentProps,
+    'sources' | 'destinationBucket' | 'distribution'
+  >;
+
   /**
    * This is for accounts/clients that have high security and restrict making
    * buckets.  Also helpful during development and forget to delete a bucket.
@@ -136,12 +141,6 @@ export interface CDNConstructProps {
      */
     apiPathPattern?: string;
   };
-
-  /**
-   * Deployment role to use when publishing files to S3.
-   */
-  deploymentRole?: IRole;
-
   // /**
   //  * @param {boolean} [includeSecurityHeaders]
   //  * @description Optional. Apply security response headers.  The defaults when
@@ -312,7 +311,7 @@ export class CDNConstruct extends Construct {
     const bucketName = CDNConstruct.getBucketName({ ...this.props, urls: this.urls });
     const removalPolicy = this.props.removalPolicy ?? RemovalPolicy.DESTROY;
     const autoDeleteObjects = removalPolicy === RemovalPolicy.DESTROY;
-    
+
     const bucket = new Bucket(this, 'Bucket', {
       encryption: BucketEncryption.S3_MANAGED,
       blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
@@ -525,16 +524,13 @@ export class CDNConstruct extends Construct {
 
   private buildCodeDeployment() {
     const baseBucketDeploymentProps: Mutable<BucketDeploymentProps> = {
-      sources: this.props.codePaths.map(source => Source.asset(source)),
+      distributionPaths: ['/*'],
+      prune: true,
+      ...this.props.codeDeploymentProps,
       destinationBucket: this.bucket,
       distribution: this.distribution,
-      distributionPaths: ['/*'],
-      prune: true
+      sources: this.props.codePaths.map(source => Source.asset(source))
     };
-
-    if (this.props.deploymentRole) {
-      baseBucketDeploymentProps.role = this.props.deploymentRole;
-    }
 
     new BucketDeployment(this, 'BucketDeployment', baseBucketDeploymentProps);
   }

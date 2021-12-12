@@ -23,7 +23,10 @@ import { getConfig } from './config';
     removalPolicy: RemovalPolicy.DESTROY,
     cdn: {
       codePaths: [resolve(__dirname, '..', 'docs', 'build')],
-      buildWwwSubdomain: false
+      buildWwwSubdomain: false,
+      codeDeploymentProps: {
+        prune: false
+      }
     }
   });
 
