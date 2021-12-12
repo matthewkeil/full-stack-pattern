@@ -111,7 +111,12 @@ export interface CDNConstructProps {
    * `CDNConstructProps.removalPolicy`.  When removalPolicy is set to DESTROY,
    * which is the default behavior, autoDeleteObjects will be enabled.
    */
-  bucketProps?: Omit<BucketProps, 'removalPolicy' | 'autoDeleteObjects'>;
+  bucketProps?: Omit<Mutable<BucketProps>, 'removalPolicy' | 'autoDeleteObjects'>;
+
+  /**
+   * Optional. Props that will get passed to the WebDistribution construct.
+   */
+  distributionProps?: Mutable<CloudFrontWebDistributionProps> & { logicalId?: string };
 
   api?: {
     /**
@@ -159,14 +164,12 @@ export interface CDNConstructProps {
   // >;
 }
 
-type BuildUrlsProps = Required<Pick<CDNConstructProps, 'stage' | 'baseDomain'>> &
-  Pick<CDNConstructProps, 'buildWwwSubdomain'>;
 interface GetBucketNameProps
   extends Partial<
     Pick<CDNConstructProps, 'bucketName' | 'prefix' | 'stage' | 'baseDomain' | 'buildWwwSubdomain'>
   > {
   // used internally by the Construct. list of target urls for stage
-  urls?: string[];
+  urls?: ReturnType<typeof buildUrls>;
 }
 export class CDNConstruct extends Construct {
   /**
@@ -177,13 +180,15 @@ export class CDNConstruct extends Construct {
    */
   public static getBucketName = (props: GetBucketNameProps) => {
     const { bucketName, prefix, urls, ...buildUrlProps } = props;
-
     if (bucketName) {
       return bucketName;
     }
 
+    function getFromUrls(urls: ReturnType<typeof buildUrls>) {
+      return urls[1] ? urls[1] : urls[0];
+    }
     if (urls) {
-      return urls[0];
+      return getFromUrls(urls);
     }
 
     if (buildUrlProps.stage && buildUrlProps.baseDomain) {
@@ -193,7 +198,7 @@ export class CDNConstruct extends Construct {
         stage: buildUrlProps.stage,
         baseDomain: buildUrlProps.baseDomain
       });
-      return urls[0];
+      return getFromUrls(urls);
     }
 
     if (!prefix) {
@@ -218,7 +223,7 @@ export class CDNConstruct extends Construct {
       profile: undefined
     };
 
-    let urls: string[] | undefined;
+    let urls: ReturnType<typeof buildUrls> | undefined;
     if (props.baseDomain && props.stage) {
       urls = buildUrls({
         subDomain: 'wwww',
@@ -240,7 +245,7 @@ export class CDNConstruct extends Construct {
 
   public bucket: IBucket;
   public distribution: CloudFrontWebDistribution;
-  public urls?: string[];
+  public urls?: ReturnType<typeof buildUrls>;
 
   private originAccessIdentity: OriginAccessIdentity;
 
@@ -307,6 +312,7 @@ export class CDNConstruct extends Construct {
     const bucketName = CDNConstruct.getBucketName({ ...this.props, urls: this.urls });
     const removalPolicy = this.props.removalPolicy ?? RemovalPolicy.DESTROY;
     const autoDeleteObjects = removalPolicy === RemovalPolicy.DESTROY;
+    
     const bucket = new Bucket(this, 'Bucket', {
       encryption: BucketEncryption.S3_MANAGED,
       blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
@@ -334,7 +340,8 @@ export class CDNConstruct extends Construct {
           s3BucketSource: this.bucket,
           originAccessIdentity: this.originAccessIdentity
         }
-      }
+      },
+      ...(this.props.distributionProps?.originConfigs ?? [])
     ];
 
     if (this.props.api) {
@@ -375,8 +382,9 @@ export class CDNConstruct extends Construct {
     }
 
     const distributionConfig: Mutable<CloudFrontWebDistributionProps> = {
-      originConfigs,
       defaultRootObject: 'index.html',
+      ...this.props.distributionProps,
+      originConfigs,
       errorConfigurations: [
         {
           errorCode: 403,
@@ -389,7 +397,8 @@ export class CDNConstruct extends Construct {
           responseCode: 200,
           responsePagePath: '/index.html',
           errorCachingMinTtl: 0
-        }
+        },
+        ...(this.props.distributionProps?.errorConfigurations ?? [])
       ]
     };
 
@@ -398,11 +407,12 @@ export class CDNConstruct extends Construct {
         throw new Error('CDNConstructProps.certificate required when building custom domains');
       }
       distributionConfig.viewerCertificate = {
-        aliases: this.urls,
+        aliases: (this.props.distributionProps?.viewerCertificate?.aliases ?? []).concat(this.urls),
         props: {
           acmCertificateArn: this.props.certificate.certificateArn,
           sslSupportMethod: 'sni-only',
-          minimumProtocolVersion: 'TLSv1.2_2018'
+          minimumProtocolVersion: 'TLSv1.2_2021',
+          ...(this.props.distributionProps?.viewerCertificate?.props ?? {})
         }
       };
     }
@@ -410,7 +420,9 @@ export class CDNConstruct extends Construct {
     const distribution = new CloudFrontWebDistribution(this, 'Distribution', distributionConfig);
 
     if (this.props.dontOverrideLogicalId !== true) {
-      (distribution.node.defaultChild as CfnDistribution).overrideLogicalId('Distribution');
+      (distribution.node.defaultChild as CfnDistribution).overrideLogicalId(
+        this.props.distributionProps?.logicalId ?? 'Distribution'
+      );
     }
 
     return distribution;

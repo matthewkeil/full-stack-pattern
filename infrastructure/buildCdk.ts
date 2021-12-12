@@ -22,7 +22,8 @@ import { getConfig } from './config';
     noCognito: true,
     removalPolicy: RemovalPolicy.DESTROY,
     cdn: {
-      codePaths: [resolve(__dirname, '..', 'docs', 'build')]
+      codePaths: [resolve(__dirname, '..', 'docs', 'build')],
+      buildWwwSubdomain: false
     }
   });
 
