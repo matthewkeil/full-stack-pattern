@@ -1,6 +1,6 @@
 {
   "name": "full-stack-pattern",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "license": "MIT",
   "author": "Matthew Keil",
   "description": "A set of useful constructs, stacks, applications and patterns to help ease your journey with cdk",
