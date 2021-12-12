@@ -8,13 +8,9 @@ This construct takes a lot of the complexity of aws away but cdk is not for the 
 
 ## tl;dr
 
-Install `full-stack-pattern` from npm:
-
 ```bash
 npm i -D full-stack-pattern
 ```
-
-Keep reading to find out more information on how to use this library.
 
 Then use it in your project like this:
 
