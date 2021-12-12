@@ -1,3 +1,12 @@
+import {
+  HandlerConfig,
+  DevServerConfig,
+  addToDevServer,
+  getDevServer,
+  startDevServer
+} from 'convert-lambda-to-express';
+export { HandlerConfig, DevServerConfig, addToDevServer, getDevServer, startDevServer };
+
 export * from './lib';
 export * from './providers/configFileProvider';
 
