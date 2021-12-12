@@ -38,24 +38,28 @@ jobs:
       - run: npm run build
       - run: npm run lint --if-present
 
-      - name: publish
-        run: npm publish
+      - run: npm publish
+        if: startsWith(github.ref, 'refs/tags/v')
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
 
       - run: npm install --prefix docs
-      - name: build docs
-        run: npm run build:docs
+        if: startsWith(github.ref, 'refs/tags/v')
+
+      - run: npm run build:docs
+        if: startsWith(github.ref, 'refs/tags/v')
 
       - name: cdk synth
+        if: startsWith(github.ref, 'refs/tags/v')
         run: BRANCH=${{steps.extract_branch.outputs.branch}} npm run cdk -- synth
         env:
           AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.REGION }}
-      
+
       - name: cdk deploy
+        if: startsWith(github.ref, 'refs/tags/v')
         run: BRANCH=${{steps.extract_branch.outputs.branch}} npm run cdk -- deploy
         env:
           BRANCH: ${{ secrets.BRANCH }}
