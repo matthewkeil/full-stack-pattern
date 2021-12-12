@@ -3,13 +3,7 @@ import { getLocalGitBranch } from './getLocalGitBranch';
 
 function getStageName(branch: string): string {
   return toKebab(
-    branch === 'main' || branch === 'master'
-      ? 'prod'
-      : branch === 'develop'
-      ? 'dev'
-      : branch
-      ? branch
-      : 'master'
+    branch === 'main' || branch === 'master' ? 'prod' : branch === 'develop' ? 'dev' : branch
   );
 }
 
@@ -33,6 +27,9 @@ export function getConfig<S extends BaseStageConfig, T extends BaseStaticConfig>
       } else {
         _branch = await getLocalGitBranch();
       }
+    }
+    if (!_branch) {
+      throw new Error('could not determine what branch to deploy');
     }
 
     const stage = getStageName(_branch);

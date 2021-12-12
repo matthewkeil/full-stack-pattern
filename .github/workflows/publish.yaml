@@ -3,8 +3,8 @@ name: Publish Version
 
 on:
   push:
-    # tags:
-    #   - 'v*'
+    tags:
+      - 'v*'
     branches:
       - master
 
@@ -35,13 +35,13 @@ jobs:
       - run: echo ${{steps.extract_branch.outputs.branch}}
 
       - run: npm ci
-      # - run: npm run build
-      # - run: npm run lint --if-present
+      - run: npm run build
+      - run: npm run lint --if-present
 
-      # - name: publish
-      #   run: npm publish
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+      - name: publish
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
 
       - run: npm install --prefix docs
       - name: build docs
@@ -54,11 +54,12 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.REGION }}
-      # - name: cdk deploy
-      #   run: npm run cdk -- deploy
-      #   env:
-      #     BRANCH: ${{ secrets.BRANCH }}
-      #     AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     AWS_REGION: ${{ secrets.REGION }}
+      
+      - name: cdk deploy
+        run: BRANCH=${{steps.extract_branch.outputs.branch}} npm run cdk -- deploy
+        env:
+          BRANCH: ${{ secrets.BRANCH }}
+          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.REGION }}
