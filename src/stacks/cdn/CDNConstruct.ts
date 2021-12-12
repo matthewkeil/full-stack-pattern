@@ -1,5 +1,4 @@
 import { Construct, Duration, RemovalPolicy, Stack } from '@aws-cdk/core';
-import { IRole } from '@aws-cdk/aws-iam';
 import { IRestApi } from '@aws-cdk/aws-apigateway';
 import { ICertificate } from '@aws-cdk/aws-certificatemanager';
 import { CloudFrontTarget } from '@aws-cdk/aws-route53-targets';
