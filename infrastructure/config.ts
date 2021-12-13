@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-require('dotenv').config();
 import { getConfig as GET_CONFIG } from '../lib';
+/* eslint-disable @typescript-eslint/no-var-requires */
+require('dotenv').config();
 
 const staticProps = {
   client: 'mk',
