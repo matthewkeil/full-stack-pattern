@@ -339,7 +339,7 @@ export class CognitoConstruct extends Construct {
             : 'UserPoolDomain'
         );
       }
-      new CfnOutput(this, 'UserPoolDomain', {
+      new CfnOutput(this, 'UserPoolDomainUrl', {
         value: this.userPoolDomain.domain
       });
     }
