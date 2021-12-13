@@ -1,4 +1,4 @@
-import { Duration, Environment, RemovalPolicy, StackProps } from '@aws-cdk/core';
+import { Duration, Environment, NestedStackProps, RemovalPolicy, StackProps } from '@aws-cdk/core';
 
 import { CoreConstructProps } from '../stacks/core/CoreConstruct';
 import { CDNConstructProps } from '../stacks/cdn/CDNConstruct';
@@ -152,3 +152,7 @@ export interface FullStackConstructProps {
 export interface FullStackProps
   extends Omit<FullStackConstructProps, 'nested' | 'stackTimeout'>,
     Omit<StackProps, 'env'> {}
+
+export interface FullNestedStackProps
+  extends Omit<FullStackConstructProps, 'nested'>,
+    Omit<NestedStackProps, 'timeout' | 'removalPolicy'> {}

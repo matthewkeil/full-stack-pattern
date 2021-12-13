@@ -13,7 +13,7 @@ export class FullNestedStack extends Stack {
   public serverless?: ServerlessNestedStack;
   public addConfigFile: FullStackConstruct['addConfigFile'];
 
-  private constructor(scope: Construct, id: string, props: FullStackProps) {
+  private constructor(scope: Construct, id: string, props: Omit<FullStackProps, 'nested'>) {
     super(scope, id, {
       ...props,
       stackName: props.prefix

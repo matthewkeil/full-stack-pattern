@@ -13,7 +13,7 @@ const DEFAULT_PROPS = {
   loggingLevel: 'INFO'
 } as LambdasProps;
 
-type LambdasPropsOptionalRuntimeAndCode = Omit<LambdaProps, 'runtime' | 'code'> & {
+export type LambdasPropsOptionalRuntimeAndCode = Omit<LambdaProps, 'runtime' | 'code'> & {
   code?: Code;
   runtime?: Runtime;
 };

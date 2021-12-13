@@ -167,19 +167,21 @@ export class Api extends Construct {
     lambda: Lambda;
     options?: Mutable<IntegrationOptions & MethodOptions>;
   }) {
+    const _method = method.toUpperCase() as Uppercase<HttpMethod>;
     const resource = this.api.root.resourceForPath(path.startsWith('/') ? path : `/${path}`);
 
     const _options = options;
-    if (this.authorizer && method !== 'OPTIONS') {
+    if (this.authorizer && _method !== 'OPTIONS') {
       _options.authorizer = this.authorizer;
     }
+
     const integration = new AwsIntegration({
       proxy: true,
       service: 'lambda',
       path: `2015-03-31/functions/${lambda.function.functionArn}/invocations`,
       options
     });
-    resource.addMethod(method, integration, options);
+    resource.addMethod(_method, integration, options);
     lambda.function.grantInvoke(new ServicePrincipal('apigateway.amazonaws.com')); //Need to grant apigateway permission to invoke lambda when there are multiple stages
 
     try {
@@ -193,7 +195,7 @@ export class Api extends Construct {
         functionName: lambda.function.functionName,
         memorySize: lambda.props.memorySize,
         resourcePath: path,
-        method,
+        method: _method,
         handler: lambda.props.handler,
         timeoutInSeconds: lambda.props.timeout?.toSeconds(),
         region: Stack.of(this).region,

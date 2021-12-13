@@ -26,6 +26,18 @@ export interface ConfigFileProviderProps<T extends Record<string, unknown>> {
   fileName: string;
 
   /**
+   * When filename ends in .js a file is built to export the config object
+   * into the global js scope.  The sets the export name within the js file
+   *
+   * @default CONFIG_FILE
+   *
+   * @example `var CONFIG_FILE = JSON.parse('${stringified}');` but can be
+   * any value you would like
+   * `var MY_CUSTOM_EXPORT_NAME_IS_GUARANTEED_UNIQUE = JSON.parse(...);`
+   */
+  jsExportName?: string;
+
+  /**
    * Will go to the file in S3 and merge the passed configuration with the
    * existing configuration that is already in the file in S3.  Useful when
    * only part of the config changes by environment but the rest is fixed
@@ -52,10 +64,12 @@ interface PrivateConfigFileProps extends ConfigFileProviderProps<any> {
 
 function buildUpload({
   config,
-  fileType
+  fileType,
+  jsExportName
 }: {
   config: ConfigFileProviderProps<any>['config'];
   fileType: FileType;
+  jsExportName: string;
 }) {
   const stringified =
     fileType === 'yaml'
@@ -70,7 +84,7 @@ function buildUpload({
       return { Body: stringified, ContentType: 'text/yaml' };
     case 'js':
       return {
-        Body: `var CONFIG_FILE = JSON.parse('${stringified}');`,
+        Body: `var ${jsExportName} = JSON.parse('${stringified}');`,
         ContentType: 'text/javascript'
       };
     default:
@@ -83,6 +97,7 @@ async function buildAndUploadFile({
   fileType,
   config,
   bucketName,
+  jsExportName,
   mergeExisting
 }: Required<ConfigFileProviderProps<any>> & { fileType: FileType }) {
   let merged: Record<string, unknown>;
@@ -110,7 +125,7 @@ async function buildAndUploadFile({
     }
   }
 
-  const { Body, ContentType } = buildUpload({ config: merged, fileType });
+  const { Body, ContentType } = buildUpload({ jsExportName, config: merged, fileType });
   console.log({ Body });
 
   return s3
@@ -144,7 +159,13 @@ function getFileType(props: PrivateConfigFileProps): FileType {
 
 const upsertFile: UpdateEventHandler<PrivateConfigFileProps> = async event => {
   const { ResourceProperties } = event;
-  const { fileName, bucketName, config, mergeExisting = false } = ResourceProperties;
+  const {
+    config,
+    fileName,
+    bucketName,
+    mergeExisting = false,
+    jsExportName = 'CONFIG_FILE',
+  } = ResourceProperties;
   const fileType = getFileType(ResourceProperties);
 
   const PhysicalResourceId = event.PhysicalResourceId ?? toKebab(`${bucketName}-${fileName}`);
@@ -155,6 +176,7 @@ const upsertFile: UpdateEventHandler<PrivateConfigFileProps> = async event => {
     fileType,
     bucketName,
     config,
+    jsExportName,
     mergeExisting
   });
 
