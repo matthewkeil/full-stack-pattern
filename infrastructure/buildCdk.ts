@@ -6,19 +6,11 @@ import { getConfig } from './config';
 
 (async function buildCdk() {
   const config = await getConfig();
-  console.log({ config });
-
-  const { env, stage, prefix, profile, subDomain, rootDomain } = config;
   const app = new App();
 
   await FullNestedStack.create(app, 'FullStackPatternDocs', {
-    env,
-    stage,
-    prefix,
-    profile,
-    subDomain,
-    rootDomain,
-    stackName: prefix,
+    ...config,
+    stackName: config.prefix,
     noCognito: true,
     removalPolicy: RemovalPolicy.DESTROY,
     cdn: {
