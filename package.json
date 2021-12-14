@@ -6,6 +6,8 @@
   "description": "A set of useful constructs, stacks, applications and patterns to help ease your journey with cdk",
   "scripts": {
     "cdk": "cdk",
+    "api-extractor": "api-extractor run --local --verbose",
+    "api-md": "api-documenter markdown --input-folder dist --output-folder dist/docs",
     "synth": "npm run ts infrastructure/synth",
     "diff": "cdk diff",
     "deploy": "npm run ts infrastructure/deploy",
@@ -46,6 +48,8 @@
     "yaml": "^1.10.2"
   },
   "devDependencies": {
+    "@microsoft/api-documenter": "^7.13.76",
+    "@microsoft/api-extractor": "^7.19.2",
     "@tsconfig/docusaurus": "^1.0.4",
     "@types/aws-lambda": "^8.10.76",
     "@types/cors": "^2.8.10",
