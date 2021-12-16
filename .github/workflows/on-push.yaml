@@ -76,10 +76,11 @@ jobs:
           name: build artifacts
           path: dist
 
-      - run: |
+      - name: Install and Build Docs
+        run: |
           npm i
           npm i --prefix docs
-          npm build --prefix docs
+          npm run build --prefix docs
 
       - name: cdk synth
         run: BRANCH=master npm run cdk -- synth
