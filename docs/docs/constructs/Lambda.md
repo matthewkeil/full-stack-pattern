@@ -6,140 +6,33 @@ sidebar_position: 3
 
 Lambda is a higher order construct that handles some nuances of working with the AWS Lambda service. It builds a Function, LogGroup and Role with Policy similarly to the L2 Function construct but with a few notable exceptions. In particular when working in an environment where you do not have access to IAM you can prevent the creation of any.
 
-## LambdaProps
+## Lambda Construct Details
 
-Inherits all properties from all of the resources it creates. Can set any option from the following list with a few exceptions (noted in parentheses):
+The `constructor` props inherits all properties from the resources it creates. Meaning one can set any option from the following list with a few exceptions (noted in parentheses):
 
 - [FunctionProps](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-lambda.FunctionProps.html) <sub><sup>(`functionName`)</sup></sub>
 - [RoleProps](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-iam.RoleProps.html) <sub><sup>(`roleName`, `assumedBy`)</sup></sub>
 - [PolicyProps](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-iam.PolicyProps.html) <sub><sup>(`policyName`, `roles`)</sup></sub>
 - [LogGroupProps](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-logs.LogGroupProps.html) <sub><sup>(`logGroupName`)</sup></sub>
 
+This class enforces some best practices, like generating the `logGroup` with CloudFormation. This keeps you from clogging your dashboard with long-destroyed stacks worth of `logGroups`. By explicitly creating the `logGroup` it will be controlled by your template. Without this, the function will create it when necessary, using an api call. When the stack is deleted, it a resource is tracked it will be handled accordingly. When api calls generate services, they are ghost waiting to haunt you...
+
+The `function` instance gives access to all of the underlying resources.
+
 ```typescript
-export interface LambdaProps
-  extends Mutable<Omit<FunctionProps, 'functionName' | 'role' | 'code' | 'events' | 'layers'>>,
-    Mutable<Omit<RoleProps, 'roleName' | 'assumedBy'>>,
-    Mutable<Omit<PolicyProps, 'policyName' | 'roles'>>,
-    Mutable<Omit<LogGroupProps, 'logGroupName'>> {
-  /**
-   * Code to use with the lambda.  Can pass a string to the absolute path of the code folder and the AssetCode
-   * will be created for you.  You can also pass in any Construct that extends Code
-   * ie. InlineCode, AssetCode, S3Code, etc.
-   */
-  code: string | Code;
+import { IFunction } from '@aws-cdk/aws-lambda';
+import { ILogGroup } from '@aws-cdk/aws-logs';
+import { IRole, Policy } from '@aws-cdk/aws-iam';
 
-  /**
-   * The name of the resources to make.  Generally this is a few short words.  When passing `prefix` and
-   * `name` the physical name of resources will take the format of `${prefix}-${name}`.  If just name is passed
-   * they will just be the value of `name`
-   */
-  name: string;
+const lambda = new Lambda(this, 'Lambda1', {/* */});
 
-  /**
-   * The prefix to use for the resources.  Will prefix all resource names with this value. For more info, see
-   * [Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
-   */
+let function: IFunction;
+let logGroup: ILogGroup;
+let role: IRole;
+let policy: undefined | Policy;
 
-  prefix?: string;
+({function, logGroup, role, policy} = lambda.resource);
 
-  /**
-   * Option to not use fixed logicalId's for the RestApi resource. For more
-   * info, see [Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
-   *
-   * @default false (resources will have their logicalId's set by the library and not cdk)
-   */
-  dontOverrideLogicalId?: boolean;
-
-  /**
-   * LayerVersions to use with the lambda.  Can pass in a strings, that are absolute path to the layer folder,
-   * and the AssetCode will be made for the directory.  Can also pass in an array of LayerVersion constructs.
-   */
-  layers?: (LayerVersion | string)[];
-
-  /**
-   * The IRole or arn of the service role. If a LambdaProps.role is passed no IAM will be created
-   */
-  role?: IRole | string;
-
-  /**
-   * Array of principals that can invoke the lambda. Can pass a string arn, an IRole, or any Principal construct
-   * and will create the AWS::Lambda::Permission for you.
-   */
-  canInvoke?: (PrincipalBase | IRole | string)[];
-
-  /**
-   * simplifies warming the function. Timing will be base by the Rule that gets
-   * passed.  Event will emit the { warmer: true } object to the function
-   *
-   * code can easily check for warming event and return early
-   */
-  warmingEvent?: Rule;
-
-  /**
-   * Adds process.env.LOGGING_LEVEL to the lambda environment. Can be set to:
-   * 'DEBUG' | 'INFO' | 'WARNING' | 'ERROR' | 'CRITICAL'
-   */
-  loggingLevel?: LogLevel;
-
-  /**
-   * Similar to the underlying LambdaProps.events but adds support for the
-   * ApiEvent from this library.  Works in conjunction with the Api construct.
-   *
-   * ApiEvents will build a dev server that can be run locally through the use
-   * of [convert-lambda-to-express](https://www.npmjs.com/package/convert-lambda-to-express) library
-   *
-   * See [convert-lambda-to-express](https://www.npmjs.com/package/convert-lambda-to-express) for more information about
-   * how to use this feature.
-   */
-  events?: (IEventSource | ApiEvent)[];
-
-  /**
-   * The Api to use with all ApiEvents. If no api is passed it looks at
-   * Stack.of(this).node.tryFindChild('Api') base stack and will use the first
-   * RestApi it finds if one exists.  If no api is passed to the constructor,
-   * nor is there a RestApi resource in the stack, one will be created. It will
-   * be built so all subsequent Lambdas will be able to find and use the same api.
-   */
-  api?: Api;
-
-  /**
-   * Handy feature to plug into existing logGroups.  Pass an array of strings
-   * that are the logGroup names in the target account and any log groups that
-   * exist will not be created. ie no thrown errors, and stack rollbacks, for
-   * log groups that exist
-   */
-  existingLogGroups?: string[];
-
-  /**
-   * Associates a table with the lambda function.  Can be passed as a Table or
-   * a string. When using a string must also pass a Tables object to the
-   * `tables` prop.  This is mostly a convention for use with the Lambdas and
-   * Tables constructs so its easier to created the lambda definitions.  See
-   * the LambdasProps.tables for more information.
-   */
-  table?: ITable | string;
-
-  /**
-   * Tables construct to make use of LambdaProps.table as a string.  Will do
-   * a lookup to find the table from the tables object using the string as the
-   * name
-   */
-  tables?: Tables;
-
-  /**
-   * By default, this construct sets the tableName to the environment for you.
-   *
-   * If a name of 'good-stuff-table' is used, will set environment variables as:
-   *   - `process.env.TABLE_NAME = "full-table-name-for-sdk"`
-   *   - `process.env.GOOD_STUFF_TABLE = "full-table-name-for-sdk"`
-   *
-   * You can override this with `tableEnvKey: "SOME_ENV_KEY"` to create the
-   * environment variables as:
-   *   - `process.env.TABLE_NAME = "full-table-name-for-sdk"`
-   *   - `process.env.SOME_ENV_KEY = "full-table-name-for-sdk"`
-   */
-  tableEnvKey?: string;
-}
 ```
 
 ## Usage Example
@@ -281,5 +174,134 @@ class FancyStack extends Stack {
      *
      */
   }
+}
+```
+
+## LambdaProps
+
+```typescript
+export interface LambdaProps
+  extends Mutable<Omit<FunctionProps, 'functionName' | 'role' | 'code' | 'events' | 'layers'>>,
+    Mutable<Omit<RoleProps, 'roleName' | 'assumedBy'>>,
+    Mutable<Omit<PolicyProps, 'policyName' | 'roles'>>,
+    Mutable<Omit<LogGroupProps, 'logGroupName'>> {
+  /**
+   * Code to use with the lambda.  Can pass a string to the absolute path of the code folder and the AssetCode
+   * will be created for you.  You can also pass in any Construct that extends Code
+   * ie. InlineCode, AssetCode, S3Code, etc.
+   */
+  code: string | Code;
+
+  /**
+   * The name of the resources to make.  Generally this is a few short words.  When passing `prefix` and
+   * `name` the physical name of resources will take the format of `${prefix}-${name}`.  If just name is passed
+   * they will just be the value of `name`
+   */
+  name: string;
+
+  /**
+   * The prefix to use for the resources.  Will prefix all resource names with this value. For more info, see
+   * [Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
+   */
+
+  prefix?: string;
+
+  /**
+   * Option to not use fixed logicalId's for the RestApi resource. For more
+   * info, see [Naming](https://full-stack-pattern.matthewkeil.com/docs/naming)
+   *
+   * @default false (resources will have their logicalId's set by the library and not cdk)
+   */
+  dontOverrideLogicalId?: boolean;
+
+  /**
+   * LayerVersions to use with the lambda.  Can pass in a strings, that are absolute path to the layer folder,
+   * and the AssetCode will be made for the directory.  Can also pass in an array of LayerVersion constructs.
+   */
+  layers?: (LayerVersion | string)[];
+
+  /**
+   * The IRole or arn of the service role. If a LambdaProps.role is passed no IAM will be created
+   */
+  role?: IRole | string;
+
+  /**
+   * Array of principals that can invoke the lambda. Can pass a string arn, an IRole, or any Principal construct
+   * and will create the AWS::Lambda::Permission for you.
+   */
+  canInvoke?: (PrincipalBase | IRole | string)[];
+
+  /**
+   * simplifies warming the function. Timing will be base by the Rule that gets
+   * passed.  Event will emit the { warmer: true } object to the function
+   *
+   * code can easily check for warming event and return early
+   */
+  warmingEvent?: Rule;
+
+  /**
+   * Adds process.env.LOGGING_LEVEL to the lambda environment. Can be set to:
+   * 'DEBUG' | 'INFO' | 'WARNING' | 'ERROR' | 'CRITICAL'
+   */
+  loggingLevel?: LogLevel;
+
+  /**
+   * Similar to the underlying LambdaProps.events but adds support for the
+   * ApiEvent from this library.  Works in conjunction with the Api construct.
+   *
+   * ApiEvents will build a dev server that can be run locally through the use
+   * of [convert-lambda-to-express](https://www.npmjs.com/package/convert-lambda-to-express) library
+   *
+   * See [convert-lambda-to-express](https://www.npmjs.com/package/convert-lambda-to-express) for more information about
+   * how to use this feature.
+   */
+  events?: (IEventSource | ApiEvent)[];
+
+  /**
+   * The Api to use with all ApiEvents. If no api is passed it looks at
+   * Stack.of(this).node.tryFindChild('Api') base stack and will use the first
+   * RestApi it finds if one exists.  If no api is passed to the constructor,
+   * nor is there a RestApi resource in the stack, one will be created. It will
+   * be built so all subsequent Lambdas will be able to find and use the same api.
+   */
+  api?: Api;
+
+  /**
+   * Handy feature to plug into existing logGroups.  Pass an array of strings
+   * that are the logGroup names in the target account and any log groups that
+   * exist will not be created. ie no thrown errors, and stack rollbacks, for
+   * log groups that exist
+   */
+  existingLogGroups?: string[];
+
+  /**
+   * Associates a table with the lambda function.  Can be passed as a Table or
+   * a string. When using a string must also pass a Tables object to the
+   * `tables` prop.  This is mostly a convention for use with the Lambdas and
+   * Tables constructs so its easier to created the lambda definitions.  See
+   * the LambdasProps.tables for more information.
+   */
+  table?: ITable | string;
+
+  /**
+   * Tables construct to make use of LambdaProps.table as a string.  Will do
+   * a lookup to find the table from the tables object using the string as the
+   * name
+   */
+  tables?: Tables;
+
+  /**
+   * By default, this construct sets the tableName to the environment for you.
+   *
+   * If a name of 'good-stuff-table' is used, will set environment variables as:
+   *   - `process.env.TABLE_NAME = "full-table-name-for-sdk"`
+   *   - `process.env.GOOD_STUFF_TABLE = "full-table-name-for-sdk"`
+   *
+   * You can override this with `tableEnvKey: "SOME_ENV_KEY"` to create the
+   * environment variables as:
+   *   - `process.env.TABLE_NAME = "full-table-name-for-sdk"`
+   *   - `process.env.SOME_ENV_KEY = "full-table-name-for-sdk"`
+   */
+  tableEnvKey?: string;
 }
 ```

@@ -23,17 +23,17 @@ Check out the [docs](https://full-stack-pattern.matthewkeil.com/docs/intro) for 
 
 More information about what each does can be found by following the links below:
 
-- [FullStack or FullNestedStack](/docs/fullStack/FullStackConstruct)
-- [ServerlessStack or ServerlessNestedStack](/docs/serverless/serverlessConstruct)
-- [CognitoStack or CognitoNestedStack](/docs/cognito/cognitoConstruct)
-- [CoreStack or CoreNestedStack](/docs/core/CoreConstruct)
-- [CDNStack or CDNNestedStack](/docs/cdn/cdnConstruct)
-- [ConfigFile](/docs/constructs/configFile)
-- [Lambdas](/docs/constructs/Lambdas)
-- [Lambda](/docs/constructs/Lambda)
-- [Tables](/docs/constructs/configFile)
-- [Table](/docs/constructs/Table)
-- [Api](/docs/constructs/Api)
+- [FullStack or FullNestedStack](https://full-stack-pattern.matthewkeil.com/docs/fullStack/FullStackConstruct)
+- [ServerlessStack or ServerlessNestedStack](https://full-stack-pattern.matthewkeil.com/docs/serverless/serverlessConstruct)
+- [CognitoStack or CognitoNestedStack](https://full-stack-pattern.matthewkeil.com/docs/cognito/cognitoConstruct)
+- [CoreStack or CoreNestedStack](https://full-stack-pattern.matthewkeil.com/docs/core/CoreConstruct)
+- [CDNStack or CDNNestedStack](https://full-stack-pattern.matthewkeil.com/docs/cdn/cdnConstruct)
+- [ConfigFile](https://full-stack-pattern.matthewkeil.com/docs/constructs/configFile)
+- [Lambdas](https://full-stack-pattern.matthewkeil.com/docs/constructs/Lambdas)
+- [Lambda](https://full-stack-pattern.matthewkeil.com/docs/constructs/Lambda)
+- [Tables](https://full-stack-pattern.matthewkeil.com/docs/constructs/configFile)
+- [Table](https://full-stack-pattern.matthewkeil.com/docs/constructs/Table)
+- [Api](https://full-stack-pattern.matthewkeil.com/docs/constructs/Api)
 
 ## Usage Example
 
