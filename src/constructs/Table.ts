@@ -1,3 +1,4 @@
+import { CreateTableCommandInput } from '@aws-sdk/client-dynamodb';
 import {
   Table as BaseTable,
   TableEncryption,
@@ -10,6 +11,7 @@ import {
   BillingMode
 } from '@aws-cdk/aws-dynamodb';
 import { Construct, RemovalPolicy } from '@aws-cdk/core';
+import { addTableToDevServer } from '../../lib/devServer';
 
 import { Mutable } from '../../lib/Mutable';
 import { toPascal } from '../../lib/changeCase';
@@ -114,6 +116,101 @@ export interface TableProps extends Mutable<Omit<BaseTableProps, OmittedIndexPro
 }
 
 export class Table extends BaseTable {
+  public static constructPropsToSdkProps(table: TableProps): CreateTableCommandInput {
+    const partitionKey = Table.convertAttribute(table.partitionKey);
+    const KeySchema = [{ AttributeName: partitionKey.name, KeyType: 'HASH' }];
+    const AttributeDefinitions = [
+      { AttributeName: partitionKey.name, AttributeType: partitionKey.type }
+    ];
+    if (table.sortKey) {
+      const sortKey = Table.convertAttribute(table.sortKey);
+      KeySchema.push({ AttributeName: sortKey.name, KeyType: 'RANGE' });
+      AttributeDefinitions.push({
+        AttributeName: sortKey.name,
+        AttributeType: sortKey.type
+      });
+    }
+
+    const input: CreateTableCommandInput = {
+      TableClass: 'STANDARD',
+      TableName: table.prefix ? `${table.prefix}-${table.name}` : table.name,
+      KeySchema,
+      AttributeDefinitions,
+      BillingMode: table.billingMode
+    };
+
+    if (table.stream) {
+      input.StreamSpecification = {
+        StreamEnabled: true,
+        StreamViewType: table.stream
+      };
+    }
+
+    if (table.encryption || table.encryptionKey) {
+      input.SSESpecification = {
+        Enabled: true,
+        SSEType: table.encryption,
+        KMSMasterKeyId: table.encryptionKey?.keyId
+      };
+    }
+
+    if (table.readCapacity || table.writeCapacity) {
+      input.ProvisionedThroughput = {
+        ReadCapacityUnits: table.readCapacity,
+        WriteCapacityUnits: table.writeCapacity
+      };
+    }
+
+    if (table.lsi) {
+      input.LocalSecondaryIndexes = [];
+      for (const { indexName, sortKey, nonKeyAttributes, projectionType } of table.lsi) {
+        const _sortKey = Table.convertAttribute(sortKey);
+        input.LocalSecondaryIndexes.push({
+          IndexName: indexName,
+          KeySchema: [{ AttributeName: _sortKey.name, KeyType: _sortKey.type }],
+          Projection: {
+            NonKeyAttributes: nonKeyAttributes,
+            ProjectionType: projectionType
+          }
+        });
+      }
+    }
+
+    if (table.gsi) {
+      input.GlobalSecondaryIndexes = [];
+      for (const {
+        indexName,
+        partitionKey,
+        sortKey,
+        nonKeyAttributes,
+        projectionType,
+        readCapacity,
+        writeCapacity
+      } of table.gsi) {
+        const _partitionKey = Table.convertAttribute(partitionKey);
+        const KeySchema = [{ AttributeName: _partitionKey.name, KeyType: 'HASH' }];
+        if (sortKey) {
+          const _sortKey = Table.convertAttribute(sortKey);
+          KeySchema.push({ AttributeName: _sortKey.name, KeyType: 'RANGE' });
+        }
+        input.GlobalSecondaryIndexes.push({
+          IndexName: indexName,
+          KeySchema,
+          Projection: {
+            NonKeyAttributes: nonKeyAttributes,
+            ProjectionType: projectionType
+          },
+          ProvisionedThroughput: {
+            ReadCapacityUnits: readCapacity,
+            WriteCapacityUnits: writeCapacity
+          }
+        });
+      }
+    }
+
+    return input;
+  }
+
   public name: string;
 
   constructor(scope: Construct, id: string, props: TableProps) {
@@ -161,6 +258,8 @@ export class Table extends BaseTable {
         });
       }
     }
+
+    addTableToDevServer(Table.constructPropsToSdkProps(props));
   }
 
   private static convertAttribute(attribute: DynamoAttribute): BaseAttribute {

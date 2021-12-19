@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { resolve } from 'path';
 import { promises } from 'fs';
-import { exec } from './exec';
+import { exec } from '../lib/exec';
 
 async function buildFolders(folders: string[]): Promise<void> {
   for (const folder of folders) {

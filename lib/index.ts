@@ -1,6 +1,6 @@
-export * from './buildLayer';
 export * from './buildUrls';
 export * from './changeCase';
+export * from './devServer';
 export * from './exec';
 export * from './getConfig';
 export * from './getLocalGitBranch';
